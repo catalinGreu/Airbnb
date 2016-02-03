@@ -1,0 +1,48 @@
+﻿@using Proyecto_AirBnb.Models
+@model Proyecto_AirBnb.Models.Usuario
+@{
+    ViewBag.Title = "Index";
+    //Layout = null;
+}
+
+@section Navbar
+{
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header" style="position:relative">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class=" span6 pull-right">
+                    @{
+                        if (false)
+                        {
+                            @Html.ActionLink("AirBnb", "Index", "Inicio", new { area = "" }, new { @class = "navbar-brand" })
+
+                            @Html.ActionLink("Conviértete en Anfitrión", "Index", "Inicio", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
+                            @Html.ActionLink("Regístrate", "Index", "Inicio", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
+                            @Html.ActionLink(Model.Nombre, "Index", "Inicio", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
+                            //debería aparecer tb mensajes Y SI es anfitrion "Anfitrión...con sus mensajes"
+                        }
+                        else
+                        {
+                            @Html.ActionLink("AirBnb", "Index", "Inicio", new { area = "" }, new { @class = "navbar-brand" })
+
+                            @Html.ActionLink("Conviértete en Anfitrión", "Index", "Inicio", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
+                            @Html.ActionLink("Regístrate", "Registro", "Account", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
+                            @Html.ActionLink("Iniciar sesión", "Index", "Inicio", new { area = "" }, new { @class = "btn btn-default navbar-btn", @id = "btnLogin" })
+
+                        }
+                    }
+
+                </div>
+                
+            </div>
+            
+        </div>
+    </div>
+
+}
+
