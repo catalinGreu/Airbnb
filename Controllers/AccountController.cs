@@ -9,6 +9,7 @@ namespace Proyecto_AirBnb.Controllers
 {
     public class AccountController : Controller
     {
+        OperacionesBDController ope = new OperacionesBDController();
         // GET: Account
         public ActionResult Registro()
         {
@@ -20,10 +21,12 @@ namespace Proyecto_AirBnb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Registro(RegistroViewModel model) // va a tener que ser si o si un hilo TASK
         {
-            if (ModelState.IsValid)
+            if ( ModelState.IsValid )
             {
                 //hago algo y grabo el usuario
-
+                //LLamo controlador que graba user
+                Usuario u = new Usuario { Id = "3434543", Nombre = model.Nombre, Apellido = model.Apellido, Correo = model.Correo };
+                ope.GrabaUser(u);
                 return RedirectToAction("Index", "Inicio");
             }
             
