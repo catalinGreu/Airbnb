@@ -10,6 +10,7 @@ namespace Proyecto_AirBnb.Controllers
     public class AccountController : Controller
     {
         OperacionesBDController ope = new OperacionesBDController();
+        UsuarioController usucontr = new UsuarioController();
         // GET: Account
         public ActionResult Registro()
         {
@@ -19,18 +20,63 @@ namespace Proyecto_AirBnb.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Registro(RegistroViewModel model) // va a tener que ser si o si un hilo TASK
+        public ActionResult Registro(RegistroViewModel model)
         {
-            if ( ModelState.IsValid )
+            if (ModelState.IsValid)
             {
-                //hago algo y grabo el usuario
-                //LLamo controlador que graba user
-                Usuario u = new Usuario { Id = "3434543", Nombre = model.Nombre, Apellido = model.Apellido, Correo = model.Correo };
-                ope.GrabaUser(u);
-                return RedirectToAction("Index", "Inicio");
-            }
-            
+                int currentYear = DateTime.Now.Year;
+                int nacimiento = model.Nacimiento.Year;
+                int diferencia = currentYear - nacimiento;
 
+                if (diferencia >= 18)
+                {
+                    string salt = usucontr.GeneraID();
+                    string hash = usucontr.Hashea(salt, model.Password);
+
+                    //Construyo Usuario
+                    Usuario u = new Usuario { Id = salt, Nombre = model.Nombre, Apellido = model.Apellido, Correo = model.Correo, Hash = hash, Anfitrion = false, Nacimiento = model.Nacimiento };
+
+                    ope.GrabaUser(u);
+                    return RedirectToAction("Index", "Inicio");
+                }
+                else
+                {
+                    ViewBag.Menor = "Lo sentimos, no puedes registrarte siendo menor de edad";
+                }
+            }
+
+
+            return View(model);
+        }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(LoginViewModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+
+                string elID = ope.GetIdByCorreo(model.Email);
+                if (elID == null) //---> No existe ese correo
+                {
+                    ViewBag.ErrorUsuario = "El usuario no existe";
+                    return View(model);
+                }
+                string hash = usucontr.Hashea(elID, model.Password);
+
+                if (ope.ExisteUsuario(hash, model.Email))
+                {
+                    Usuario u = ope.GetUserById(elID);
+                    return RedirectToAction("Index", "Inicio", new { usuario = u });
+                }
+            }
             return View(model);
         }
     }

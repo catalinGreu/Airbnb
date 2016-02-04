@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "ErrrorView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Errror</h2>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header" style="position:relative">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class=" span6 pull-right">
+                @{
+
+
+
+                    @Html.ActionLink("AirBnb", "Index", "Inicio", new { area = "" }, new { @class = "navbar-brand" })
+
+                    @Html.ActionLink("Conviértete en Anfitrión", "Index", "Inicio", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
+                    @Html.ActionLink("Regístrate", "Registro", "Account", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
+                    @Html.ActionLink("Iniciar sesión", "Index", "Inicio", new { area = "" }, new { @class = "btn btn-default navbar-btn", @id = "btnLogin" })
+
+
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

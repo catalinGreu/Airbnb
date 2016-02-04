@@ -22,6 +22,10 @@ namespace Proyecto_AirBnb.Models
         [Display(Name = "Email")]
         public string Correo { get; set; }
         [Required]
+        [DataType(DataType.Date)]
+        [Display(Name ="Fecha de Nacimiento")]
+        public DateTime Nacimiento { get; set; }
+        [Required]
         [StringLength(100, ErrorMessage = "La {0} debe tener al menos {2} caracteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]

@@ -13,12 +13,9 @@ namespace Proyecto_AirBnb.Controllers
         MiDataBaseDataContext db = new MiDataBaseDataContext();
 
         // GET: Inicio
-        public ActionResult Index()
-        {
-             Usuario usu = (from user in db.Usuarios
-                      where user.Nombre == "Pepe"
-                      select user).Single();
-            return View(usu);
+        public ActionResult Index(Usuario u)
+        {             
+            return View(u);
         }
     }
 }

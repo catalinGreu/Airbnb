@@ -164,6 +164,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\InicioController.cs" />
     <Compile Include="Controllers\OperacionesBDController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -181,6 +182,8 @@
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\Shared\_LayoutRegistro.cshtml" />
     <Content Include="Views\Account\Registro.cshtml" />
+    <Content Include="Views\Shared\ErrrorView.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -193,6 +196,7 @@
     <Folder Include="Content\Imagenes\Anuncios\" />
     <Folder Include="Content\Imagenes\Perfil\" />
     <Folder Include="Views\OperacionesBD\" />
+    <Folder Include="Views\Usuario\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

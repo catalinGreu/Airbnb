@@ -6,8 +6,12 @@
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
-    @*@Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")*@
+    <link href="https://a0.muscache.com/airbnb/static/packages/common_o2.1-55963a131eb5480a933a106eb9ba3646.css" media="all" rel="stylesheet" type="text/css" />
+
+    <link href="https://a2.muscache.com/airbnb/static/p1/main-6d39f8939d26c85e68e231f4d6882bd3.css" media="screen" rel="stylesheet" type="text/css" />
+    <meta id="csrf-param-meta-tag" name="csrf-param" content="authenticity_token" />
+    <meta id="csrf-token-meta-tag" name="csrf-token" content="" />
+   
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -36,8 +40,7 @@
         </div>
     </div>
     @RenderBody()
-    @*@Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")*@
+    
     @RenderSection("scripts", required: false)
 </body>
 </html>
