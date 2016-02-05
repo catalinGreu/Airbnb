@@ -5,12 +5,12 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-
+using Proyecto_AirBnb.Models;
 namespace Proyecto_AirBnb.Controllers
 {
     public class UsuarioController : Controller
     {
-        
+
         public string GeneraID()
         {
             const int length = 20;
@@ -18,10 +18,20 @@ namespace Proyecto_AirBnb.Controllers
             var randNum = new Random();
             var chars = new char[length];
             var allowedCharCount = allowedChars.Length;
-            for (var i = 0; i <= length - 1; i++)
+            try
             {
-                chars[i] = allowedChars[Convert.ToInt32((allowedChars.Length) * randNum.NextDouble())];
+                for (var i = 0; i <= length - 1; i++)
+                {
+                    chars[i] = allowedChars[Convert.ToInt32((allowedCharCount) * randNum.NextDouble() - 1)];
+                }
+
             }
+            catch (IndexOutOfRangeException) //si salta excepcion devuelvo null y lo vuelvo a intentar
+            {
+
+                return null;
+            }
+
             return new string(chars);
         }
         public string Hashea(string salt, string pass) //---> EL SALT ES EL ID
@@ -48,6 +58,48 @@ namespace Proyecto_AirBnb.Controllers
 
             //Convert encoded bytes back to a 'readable' string    
             return BitConverter.ToString(encodedBytes);
+        }
+
+        public void GrabaUser(Usuario u)
+        {
+            using (OperacionesBDController db = new OperacionesBDController())
+            {
+                db.GrabaUser(u);
+            }
+        }
+
+        public string GetIdByCorreo(string email)
+        {
+            using (OperacionesBDController db = new OperacionesBDController())
+            {
+                return db.GetIdByCorreo(email);
+            }
+
+        }
+
+
+        public bool ExisteUsuario(string hash, string email)
+        {
+            using (OperacionesBDController db = new OperacionesBDController())
+            {
+                return db.ExisteUsuario(hash, email);
+            }
+
+        }
+        public Usuario GetUserById(string elID)
+        {
+            using (OperacionesBDController db = new OperacionesBDController())
+            {
+                return db.GetUserById(elID);
+            }
+        }
+        public void SetNombreFoto(string id, string ruta)
+        {
+            using (OperacionesBDController db = new OperacionesBDController())
+            {
+                db.SetNombreFoto(id, ruta);
+            }
+
         }
     }
 }

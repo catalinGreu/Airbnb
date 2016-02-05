@@ -53,5 +53,17 @@ namespace Proyecto_AirBnb.Controllers
                     select usu).Single();
         }
 
+        public void SetNombreFoto(string id, string path)
+        {
+            var query = db.Usuarios.Where(u => u.Id.Equals(id)).ToList();
+
+            foreach (Usuario user in query)
+            {
+                user.Foto = path;
+            }
+            
+            
+        }
+
     }
 }

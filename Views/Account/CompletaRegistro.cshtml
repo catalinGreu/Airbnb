@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "CompletaRegistro";
+    Layout = "~/Views/Shared/_LayoutRegistro.cshtml";
+}
+
+
+<h2>Completa tu Perfil</h2>
+@using (Html.BeginForm("Index", "Inicio", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+
+    <div class="form-group">
+
+        <label class="control-label col-md-2">Sácate una foto</label>
+        <div class="col-xs-1">
+
+            <div id="Camera" name="cajaCam">
+                <button class="btn btn-large btn-primary form-control col-xs-1" onclick="webcam.capture();">Dispara!</button>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-offset-2 col-md-10">
+        <input type="button" id="omitir" value="Omitir" class="btn btn-default" />
+    </div>
+
+}
+@using (Html.BeginForm("FileUpload", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-group">
+        <h2>O sube una foto</h2>
+        <label class="form-control">Sube una Imagen:</label>
+        <input class="form-control" type="file" name="file" id="file" style="width: 100%;" />
+        <input class="btn btn-danger"type="submit" value="Upload" />
+    </div>
+}
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/jquery.webcam.js")">
+
+    </script>
+    <script>
+        $("#Camera").webcam({
+            width: 320,
+            height: 240,
+            mode: "save",
+            swffile: "@Url.Content("~/Scripts/jscam.swf")",
+            onTick: function () { },
+            onSave: function () {
+            },
+            onCapture: function () {
+                webcam.save("@Url.Content("~/Account/Webcam")/");
+            },
+            debug: function () { },
+            onLoad: function () { }
+        });
+    </script>
+}

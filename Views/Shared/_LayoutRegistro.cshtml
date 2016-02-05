@@ -6,6 +6,7 @@
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/jquery-1.9.1.min.js" type="text/javascript"></script>
     <link href="https://a0.muscache.com/airbnb/static/packages/common_o2.1-55963a131eb5480a933a106eb9ba3646.css" media="all" rel="stylesheet" type="text/css" />
 
     <link href="https://a2.muscache.com/airbnb/static/p1/main-6d39f8939d26c85e68e231f4d6882bd3.css" media="screen" rel="stylesheet" type="text/css" />
@@ -29,7 +30,7 @@
 
                         @Html.ActionLink("Conviértete en Anfitrión", "Index", "Inicio", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
                         @Html.ActionLink("Regístrate", "Registro", "Account", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
-                        @Html.ActionLink("Iniciar sesión", "Index", "Inicio", new { area = "" }, new { @class = "btn btn-default navbar-btn", @id = "btnLogin" })
+                        @Html.ActionLink("Iniciar sesión", "Login", "Account", new { area = "" }, new { @class = "btn btn-default navbar-btn", @id = "btnLogin" })
 
                     }
 

@@ -24,6 +24,16 @@ namespace Proyecto_AirBnb
                url: "{controller}/{action}/{id}",
                defaults: new { controller = "Account", action = "Registro", id = UrlParameter.Optional }
            );
+            routes.MapRoute(
+              name: "RutaLogin",
+              url: "{controller}/{action}/{id}",
+              defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional }
+          );
+            routes.MapRoute(
+              name: "RutaRegistro2",
+              url: "{controller}/{action}/{id}",
+              defaults: new { controller = "Account", action = "CompletaRegistro", id = UrlParameter.Optional }
+          );
         }
     }
 }

@@ -4,6 +4,7 @@
     ViewBag.Title = "Index";
     //Layout = null;
 }
+@{ Usuario user = (Usuario)Session["usuario"];} <!-- Compruebo si está en la sesion -->
 
 @section Navbar
 {
@@ -17,13 +18,18 @@
                 </button>
                 <div class=" span6 pull-right">
                     @{
-                        if (Model.Nombre != null)
+
+                        if (user != null)
                         {
                             @Html.ActionLink("AirBnb", "Index", "Inicio", new { area = "" }, new { @class = "navbar-brand" })
 
                             @Html.ActionLink("Conviértete en Anfitrión", "Index", "Inicio", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
-                            @Html.ActionLink("Regístrate", "Index", "Inicio", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
-                            @Html.ActionLink(Model.Nombre, "Index", "Inicio", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
+                            @Html.ActionLink("Mensajes", "Index", "Inicio", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
+                            @Html.ActionLink(user.Nombre, "Index", "Inicio", new { area = "" }, new { @class = "btn btn-success navbar-btn" })
+                            @Html.ActionLink("Cerrar sesión", "Desconectar", "Account", new { area = "" }, new { @class = "btn btn-danger navbar-btn" })
+                            
+                            <img src="~/Content/Imagenes/Perfil/@user.Foto" style="width:65px; height:55px"/>
+                                                        
                             //debería aparecer tb mensajes Y SI es anfitrion "Anfitrión...con sus mensajes"
                         }
                         else
@@ -38,9 +44,18 @@
                     }
 
                 </div>
-                
+                <div>
+                    <center>
+                        @if (ViewBag.Birthday != null)
+                        {
+                            <h2>Felicidades! @user.Nombre</h2>
+                            <h3>Hoy es tu cumpleaños!! </h3>
+                        }
+                    </center>
+                </div>
+
             </div>
-            
+
         </div>
     </div>
 
