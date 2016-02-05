@@ -88,6 +88,11 @@ namespace Proyecto_AirBnb.Controllers
                     if ( CompruebaBirthday(u) ) ViewBag.Birthday = "IsBirthday";
                     return RedirectToAction("Index", "Inicio", new { usuario = u });
                 }
+                else
+                {
+                    ViewBag.ErrorUsuario = "Contraseña erronea";
+                    return View(model);
+                }
             }
             return View(model);
         }
@@ -110,21 +115,24 @@ namespace Proyecto_AirBnb.Controllers
 
         public ActionResult Webcam() //--> subo from webcam
         {
-            string idUser = ((Usuario)Session["usuario"]).Id;
+            Usuario u = (Usuario)Session["usuario"];
             var stream = Request.InputStream;
             string dump;
 
             using (var reader = new StreamReader(stream))
                 dump = reader.ReadToEnd();
 
-            var path = Server.MapPath("/Content/Imagenes/Perfil/"+idUser+".jpg");//--> Nombre foto = ID user
+            var path = Server.MapPath("/Content/Imagenes/Perfil/"+u.Id+".jpg");//--> Nombre foto = ID user
             System.IO.File.WriteAllBytes(path, String_To_Bytes2(dump));
 
-            controlUsu.SetNombreFoto(idUser, idUser+".jpg");
+            Session["usuario"] = null;
+            Usuario conFoto = controlUsu.SetNombreFoto(u.Id, u.Id+".jpg"); //---> escribo en sesion Objeto actualizado
+            Session["usuario"] = conFoto;
             return RedirectToAction("Index", "Inicio");
         }
         public ActionResult FileUpload(HttpPostedFileBase file) // ---> subo Upload
         {
+            Usuario u = (Usuario)Session["usuario"];
             if (file != null)
             {
                 string pic = System.IO.Path.GetFileName(file.FileName);
@@ -132,7 +140,9 @@ namespace Proyecto_AirBnb.Controllers
                 // file is uploaded
                 file.SaveAs(path);
                 string queID = ((Usuario)Session["usuario"]).Id;
-                controlUsu.SetNombreFoto(queID, pic);
+                Session["usuario"] = null;
+                u = controlUsu.SetNombreFoto(queID, pic);
+                Session["usuario"] = u;
             }
             return RedirectToAction("Index", "Inicio");
         }

@@ -93,11 +93,11 @@ namespace Proyecto_AirBnb.Controllers
                 return db.GetUserById(elID);
             }
         }
-        public void SetNombreFoto(string id, string ruta)
+        public Usuario SetNombreFoto(string id, string ruta)
         {
             using (OperacionesBDController db = new OperacionesBDController())
             {
-                db.SetNombreFoto(id, ruta);
+                return db.SetNombreFoto(id, ruta);
             }
 
         }
