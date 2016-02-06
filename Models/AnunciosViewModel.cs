@@ -27,5 +27,12 @@ namespace Proyecto_AirBnb.Models
     }
 
     //hacer otro que sea: Completa Anuncio
+    public class CompletaAnuncio
+    {
+        public string Titulo { get; set; }
+        public string Descripcion { get; set; }
+        public int Precio { get; set; }
+        public string Foto { get; set; }
+    }
 
 }

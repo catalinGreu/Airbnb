@@ -39,8 +39,15 @@ namespace Proyecto_AirBnb.Controllers
                     Session["anuncio"] = a;
                     // AUN NO GRABO EN BD, HASTA QUE NO SE REGISTRE O LOGGEE
                     // PERO METO EN SESSION EL Anuncio POR AHORA
+                    /*
+                        Le mando a registrarse.....o loggearse
+                        Pero tengo que ver como hago que vuelva a anuncios...desde Index, porq index es vista unica...
+                        no prevé que haya un anuncio en curso
+
+                    Y ADEMAS!!!! TANTO SI SE LOGGEA COMO REGISTRA, TENGO QUE SETTEAR ANFITRION = TRUE
+                    */
                     ViewBag.Warning = "Registrate o Inicia sesión para continuar";
-                    return RedirectToAction("NuevoAnuncio", "Anuncios");
+                    return RedirectToAction("NuevoAnuncio", "Anuncios",ViewBag.Warning);
                 }
             }
             return View();

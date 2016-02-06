@@ -6,11 +6,16 @@
 }
 
 <h2>Completa tu Anuncio</h2>
+@if (ViewBag.Warning != null)
+{
+    <h2 class="warning">@ViewBag.Warning</h2>
+}
 @using (Html.BeginForm("NuevoAnuncio", "Anuncios", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
 
+       
         <hr />
         <div class="form-group">
             <!-- NO LO HAGO DINAMICAMENTE POR EL ICONO DEL BOTON....Tiene un nombre concreto-->
