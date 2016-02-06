@@ -12,26 +12,26 @@
     <div class="form-group">
 
         <label class="control-label col-md-2">Sácate una foto</label>
-        <div class="col-xs-1">
+        <div class="col-md-3">
 
             <div id="Camera" name="cajaCam">
-                <button class="btn btn-large btn-primary form-control col-xs-1" onclick="webcam.capture();">Dispara!</button>
+                <button class="btn btn-large btn-primary form-control col-md-10" onclick="webcam.capture();">Dispara!</button>
             </div>
         </div>
 
     </div>
-    <div class="col-md-offset-2 col-md-10">
+    <div class="col-md-offset-2 col-md-10 form-horizontal">
         <input type="button" id="omitir" value="Omitir" class="btn btn-default" />
     </div>
-
+        <br /><br /><br />
 }
 @using (Html.BeginForm("FileUpload", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <div class="form-group">
+    <div class="form-group col-md-offset-2 col-md-10 form-horizontal">
         <h2>O sube una foto</h2>
-        <label class="form-control">Sube una Imagen:</label>
+        <label >Sube una Imagen:</label>
         <input class="form-control" type="file" name="file" id="file" style="width: 100%;" />
-        <input class="btn btn-danger"type="submit" value="Upload" />
+        <input class="btn btn-primary"type="submit" value="Subir" />
     </div>
 }
 @section scripts
@@ -55,7 +55,6 @@
 
         //cuando no quiere foto
         $('#omitir').click(function () {
-            alert("he pulsado hsotia");
             window.location.href = '@Url.Action("Index", "Inicio")';
         });
     </script>

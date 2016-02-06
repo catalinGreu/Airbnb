@@ -1,0 +1,124 @@
+﻿@using Proyecto_AirBnb.Models
+@model CreaAnuncioViewModel
+@{
+    ViewBag.Title = "NuevoAnuncio";
+    Layout = "~/Views/Shared/_LayoutRegistro.cshtml";
+}
+
+<h2>Completa tu Anuncio</h2>
+@using (Html.BeginForm("NuevoAnuncio", "Anuncios", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+
+        <hr />
+        <div class="form-group">
+            <!-- NO LO HAGO DINAMICAMENTE POR EL ICONO DEL BOTON....Tiene un nombre concreto-->
+
+            @Html.LabelFor(model => model.Alojamiento, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.ValidationMessageFor(model => model.Alojamiento, "", new { @class = "text-danger" })
+            <div class="col-md-10">
+
+                <div class="btn-group">
+                    <button class="btn btn-large type alert-highlighted-element hover-select-highlight" data-name="Apartamento" data-type-id="1" data-icon-class="icon-apartment" data-behavior="tooltip" type="button" data-position="bottom" aria-label="Tu espacio es un apartamento, piso o vivienda en un edificio de varias plantas.">
+                        <i class="icon icon-apartment h4 icon-kazan"></i>
+                        Apartamento
+                        <input type="radio" name="alojamiento" value="Apartamento" />
+                    </button>
+                    <button class="btn btn-large type alert-highlighted-element hover-select-highlight" data-name="Casa" data-type-id="2" data-icon-class="icon-home" data-behavior="tooltip" type="button" data-position="bottom" aria-label="Tu espacio es una casa individual o un adosado.">
+                        <i class="icon icon-home h4 icon-kazan"></i>
+                        Casa
+                        <input type="radio" name="alojamiento" value="Casa" />
+                    </button>
+                    <button class="btn btn-large type alert-highlighted-element hover-select-highlight" data-name="Bed &amp; Breakfast" data-type-id="3" data-icon-class="icon-cup" data-behavior="tooltip" type="button" data-position="bottom" aria-label="Alquilas varias habitaciones dentro de un mismo lugar. Tu servicio incluye desayuno.">
+                        <i class="icon icon-cup h4 icon-kazan"></i>
+                        Bed &amp; Breakfast
+                        <input type="radio" name="alojamiento" value="Bed&Breakfast" />
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Habitacion, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.ValidationMessageFor(model => model.Habitacion, "", new { @class = "text-danger" })
+
+            <div class="col-md-10">
+                <div class="btn-group">
+                    <button class="btn btn-large type alert-highlighted-element hover-select-highlight" data-name="Casa/apto. entero" data-slug="entire_home_apt" data-type="Entire home/apt" data-type-id="0" data-icon-class="icon-entire-place" data-behavior="tooltip" type="button" data-position="bottom" aria-label="Vas a alquilar la casa entera.">
+                        <i class="icon icon-entire-place h4 icon-kazan"></i>
+                        Casa/apto. entero
+                        <input type="radio" name="habitacion" value="Casa/apto. entero" />
+                    </button>
+
+                    <button class="btn btn-large type alert-highlighted-element hover-select-highlight" data-name="Habitación privada" data-slug="private_room" data-type="Private room" data-type-id="1" data-icon-class="icon-private-room" data-behavior="tooltip" type="button" data-position="bottom" aria-label="Vas a alquilar una habitación privada dentro de una casa.">
+                        <i class="icon icon-private-room h4 icon-kazan"></i>
+                        Habitación privada
+                        <input type="radio" name="habitacion" value="Habitacion privada" />
+                    </button>
+
+                    <button class="btn btn-large type alert-highlighted-element hover-select-highlight" data-name="Habitación compartida" data-slug="shared_room" data-type="Shared room" data-type-id="2" data-icon-class="icon-shared-room" data-behavior="tooltip" type="button" data-position="bottom" aria-label="Vas a alquilar una zona común como, por ejemplo, una cama hinchable en el salón.">
+                        <i class="icon icon-shared-room h4 icon-kazan"></i>
+                        Habitación compartida
+                        <input type="radio" name="habitacion" value="Habitacion compartida" />
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Capacidad, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.ValidationMessageFor(model => model.Capacidad, "", new { @class = "text-danger" })
+            <div class="row fieldset fieldset_person_capacity wmpw-spacing">
+                <div class="unselected row row-condensed">
+                    <div class="col-sm-3">
+                        <div class="panel accommodates-panel">
+                            <div class="panel-body panel-light alert-highlighted-element hover-select-highlight">
+                                <div class="row">
+                                    <div class="col-sm-offset-2 col-sm-2 va-container">
+                                        <i class="icon icon-group h4 icon-kazan va-middle icons-accommodates"></i>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <div class="select select-large hover-select-highlight">
+                                            <select id="capacidad" name="capacidad"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Ciudad, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.ValidationMessageFor(model => model.Ciudad, "", new { @class = "text-danger" })
+
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Ciudad, new { htmlAttributes = new { @class = "form-control" } })
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Continuar" class="btn btn-primary" />
+    </div>
+}
+@section scripts
+{
+    <script>
+        $select = $('#capacidad');
+        for (var i = 1  ; i <= 15; i++) {
+            $select.append(new Option(i));
+        }
+        $select.append(new Option("16+"));
+    </script>
+}
+
