@@ -85,7 +85,6 @@ namespace Proyecto_AirBnb.Controllers
                 {
                     Usuario u = controlUsu.GetUserById(elID);
                     Session["usuario"] = u;
-                    if ( CompruebaBirthday(u) ) ViewBag.Birthday = "IsBirthday";
                     return RedirectToAction("Index", "Inicio", new { usuario = u });
                 }
                 else
@@ -96,17 +95,7 @@ namespace Proyecto_AirBnb.Controllers
             }
             return View(model);
         }
-        public bool CompruebaBirthday(Usuario u)// creo que no chuta
-        {
-            int day = DateTime.Now.Day, day2 = u.Nacimiento.Value.Day;
-            int mes = DateTime.Now.Month, mes2 = u.Nacimiento.Value.Month;
-            if ( day == day2 && mes == mes2 )
-            {
-                return true;
-            }
-            return false;
-        }
-
+       
         public ActionResult Desconectar()
         {
             Session["usuario"] = null;
@@ -128,7 +117,7 @@ namespace Proyecto_AirBnb.Controllers
             Session["usuario"] = null;
             Usuario conFoto = controlUsu.SetNombreFoto(u.Id, u.Id+".jpg"); //---> escribo en sesion Objeto actualizado
             Session["usuario"] = conFoto;
-            return RedirectToAction("Index", "Inicio");
+            return RedirectToAction("Index", "Inicio", new { usuario = conFoto });
         }
         public ActionResult FileUpload(HttpPostedFileBase file) // ---> subo Upload
         {

@@ -191,6 +191,7 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\CompletaRegistro.cshtml" />
     <Content Include="Views\Anuncios\NuevoAnuncio.cshtml" />
+    <Content Include="Views\Anuncios\CompletaAnuncio.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

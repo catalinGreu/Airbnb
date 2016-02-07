@@ -1,0 +1,47 @@
+﻿
+@using Proyecto_AirBnb.Models
+@model CompletaAnuncioViewModel
+@{
+    ViewBag.Title = "CompletaAnuncio";
+    Layout = "~/Views/Shared/_LayoutRegistro.cshtml";
+}
+
+<h2>CompletaAnuncio</h2>
+
+@using (Html.BeginForm("CompletaAnuncio", "Anuncios", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+
+        <div class="form-group col-md-offset-2 col-md-10 form-horizontal">
+            @Html.LabelFor(model => model.Titulo, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "control-label" } })
+
+        </div>
+        <div class="form-group col-md-offset-2 col-md-10 form-horizontal">
+
+            @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+            <textarea name="descripcion" class="form-control" maxlength="200" rows="10" cols="20"></textarea>
+        </div>
+
+        <div class="form-group col-md-offset-2 col-md-10 form-horizontal">
+            @Html.LabelFor(model => model.Precio, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
+            <input id="precio" type="number" name="precio" class="input-addon" max="99999" min="0" />
+
+        </div>
+        <div class="form-group col-md-offset-2 col-md-10 form-horizontal">
+            @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.ValidationMessageFor(model => model.Foto, "", new { @class = "text-danger" })
+            <input class="form-control" type="file" name="foto" id="file" style="width: 100%;" />
+            
+        </div>
+
+    </div>
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Publicar" class="btn btn-primary" />
+    </div>
+}

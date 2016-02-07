@@ -63,5 +63,18 @@ namespace Proyecto_AirBnb.Controllers
             return ret;
         }
 
+        public void SetAnfitrion(string idUser)
+        {
+            db.Usuarios.Where(u => u.Id == idUser).ToList().ForEach(x => x.Anfitrion = true);
+            db.SubmitChanges();
+            
+            
+        }
+
+        public void GrabaAnuncio(Anuncio a)
+        {
+            db.Anuncios.InsertOnSubmit(a);
+            db.SubmitChanges();
+        }
     }
 }

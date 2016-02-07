@@ -25,15 +25,20 @@
 
                             if ((bool)user.Anfitrion)
                             {
-                                @Html.ActionLink("Ya eres Anfitrión", "Index", "Inicio", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
+                                @Html.ActionLink("Mis anuncios", "Index", "Inicio", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
+                                
                             }
-                            @Html.ActionLink("Conviértete en Anfitrión", "Index", "Inicio", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
+                            else
+                            {
+
+                                @Html.ActionLink("Conviértete en Anfitrión", "NuevoAnuncio", "Anuncios", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
+                            }
 
                             <a class="btn btn-primary navbar-btn" href="http://localhost:17204/Inicio/Index">Mensajes <span class="badge ">3</span></a>
-                            @*@Html.ActionLink("Mensajes", "Index", "Inicio", new { area = "" }, new { @class = "btn btn-default navbar-btn",  })*@
+                                    @*@Html.ActionLink("Mensajes", "Index", "Inicio", new { area = "" }, new { @class = "btn btn-default navbar-btn",  })*@
 
-                            @Html.ActionLink(user.Nombre, "Index", "Inicio", new { area = "" }, new { @class = "btn btn-danger navbar-btn" })
-                            @Html.ActionLink("Cerrar sesión", "Desconectar", "Account", new { area = "" }, new { @class = "btn btn-danger navbar-btn " })
+                                    @Html.ActionLink(user.Nombre, "Index", "Inicio", new { area = "" }, new { @class = "btn btn-danger navbar-btn" })
+                                    @Html.ActionLink("Cerrar sesión", "Desconectar", "Account", new { area = "" }, new { @class = "btn btn-danger navbar-btn " })
 
 
                             if (user.Foto != null)
@@ -56,15 +61,6 @@
                         }
                     }
 
-                </div>
-                <div>
-                    <center>
-                        @if (ViewBag.Birthday != null)
-                        {
-                            <h2>Felicidades! @user.Nombre</h2>
-                            <h3>Hoy es tu cumpleaños!! </h3>
-                        }
-                    </center>
                 </div>
 
             </div>

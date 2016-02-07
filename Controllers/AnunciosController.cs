@@ -8,13 +8,14 @@ namespace Proyecto_AirBnb.Controllers
 {
     public class AnunciosController : Controller
     {
+        UsuarioController controlUsu = new UsuarioController();
         // GET: Anuncios
         public ActionResult NuevoAnuncio()
         {
-            CreaAnuncioViewModel model = new CreaAnuncioViewModel();
-            model.Alojamientos = new List<string> { "Apartamento", "Casa", "Bed&Breakfast" };
-            model.Habitaciones = new List<string> { "Casa/Apto. Entero", "Habitacion privada", "Habitacion compartida" };
-            return View(model);
+            //CreaAnuncioViewModel model = new CreaAnuncioViewModel();
+            //model.Alojamientos = new List<string> { "Apartamento", "Casa", "Bed&Breakfast" };
+            //model.Habitaciones = new List<string> { "Casa/Apto. Entero", "Habitacion privada", "Habitacion compartida" };
+            return View();
         }
 
         [HttpPost]
@@ -26,11 +27,22 @@ namespace Proyecto_AirBnb.Controllers
 
             if (ModelState.IsValid)
             {
-                if (Session["usuario"] != null)
+                Usuario u = (Usuario)Session["usuario"];
+                if ( u != null)
                 {
+                    string idUser = ((Usuario) Session["usuario"]).Id;
                     //grabo el anuncio y voy a completar anuncio
+                    // ya es anfitrion
+                    Anuncio a = new Anuncio { Id_Anfitrion = idUser, Alojamiento = model.Alojamiento,
+                                            Habitacion = model.Habitacion,
+                                            Capacidad = model.Capacidad,
+                                            Localidad = model.Ciudad };
+                    controlUsu.SetAnfitrion(idUser); //-- > Au nno grabo en la BD
+                    u.Anfitrion = true;
+                    Session["usuario"] = u; //lo vuelvo a meter en session
+                    Session["anuncio"] = a; //----> LO meto en la sesion para leerlo en COmpletarAnuncio
 
-
+                    return RedirectToAction("CompletaAnuncio", "Anuncios");
                 }
                 else
                 {
@@ -53,23 +65,38 @@ namespace Proyecto_AirBnb.Controllers
             return View();
         }
 
+        public ActionResult CompletaAnuncio()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CompletaAnuncio(CompletaAnuncioViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Anuncio a = (Anuncio)Session["anuncio"];
+                a.Titulo = model.Titulo;
+                a.Precio = model.Precio;
+                a.Foto = model.Foto;
+                a.Descripcion = model.Descripcion;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                GrabaAnuncio(a);
+                return RedirectToAction("Index", "Inicio");
+                //hago algo....
+                //guardo foto...
+            }
+            return View(model);
+        }
 
         #region "Accesso a datos"
+        public void GrabaAnuncio(Anuncio a)
+        {
+            using (OperacionesBDController db = new OperacionesBDController() )
+            {
+                db.GrabaAnuncio(a);
+            }
+        }
         #endregion
 
 

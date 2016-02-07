@@ -46,6 +46,16 @@ namespace Proyecto_AirBnb.Controllers
 
             return EncodePasswordMd5(Convert.ToBase64String(inArray));
         }
+
+        public void SetAnfitrion(string idUser)
+        {
+            using (OperacionesBDController db = new OperacionesBDController())
+            {
+                db.SetAnfitrion(idUser);
+            }
+
+        }
+
         public static string EncodePasswordMd5(string pass) //Encrypt using MD5    
         {
             Byte[] originalBytes;

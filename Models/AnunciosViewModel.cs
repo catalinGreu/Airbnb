@@ -27,11 +27,19 @@ namespace Proyecto_AirBnb.Models
     }
 
     //hacer otro que sea: Completa Anuncio
-    public class CompletaAnuncio
+    public class CompletaAnuncioViewModel
     {
+        [Required(ErrorMessage = "Escribe un título")]
+        [Display(Name = "Titulo")]
         public string Titulo { get; set; }
+        [Required(ErrorMessage = "Describe tu anuncio")]
+        [Display(Name = "Descripción")]
         public string Descripcion { get; set; }
+        [Required(ErrorMessage = "Pónle precio a tu anuncio")]
+        [Display(Name = "Precio")]
         public int Precio { get; set; }
+        [Required(ErrorMessage = "Sube una foto")]
+        [Display(Name = "Foto")]
         public string Foto { get; set; }
     }
 
