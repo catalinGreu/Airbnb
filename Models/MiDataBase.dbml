@@ -10,43 +10,35 @@
       <Column Name="Anfitrion" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="Hash" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
       <Column Name="Foto" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Association Name="Usuario_Mensaje" Member="Mensajes" ThisKey="Id" OtherKey="Id_Destinatario" Type="Mensaje" />
-      <Association Name="Usuario_Anuncio" Member="Anuncios" ThisKey="Id" OtherKey="Id_Anfitrion" Type="Anuncio" />
-      <Association Name="Reserva_Usuario" Member="Reserva" ThisKey="Id" OtherKey="Id_Huesped" Type="Reserva" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Mensajes" Member="Mensajes">
     <Type Name="Mensaje">
-      <Column Name="Id_Destinatario" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id_Destinatario" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="Id_Remitente" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="Mensaje" Member="Mensaje1" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
       <Column Name="Fecha" Type="System.DateTime" DbType="Date" CanBeNull="true" />
-      <Association Name="Usuario_Mensaje" Member="Usuario" ThisKey="Id_Destinatario" OtherKey="Id" Type="Usuario" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Reservas" Member="Reservas">
+    <Type Name="Reserva">
+      <Column Name="Id_Huesped" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Id_Anuncio" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.Anuncios" Member="Anuncios">
     <Type Name="Anuncio">
       <Column Name="Id_Anfitrion" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Titulo" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Titulo" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="Descripcion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
       <Column Name="Alojamiento" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="Habitacion" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="Capacidad" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Pais" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Pais" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="Localidad" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="Precio" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Foto" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Id_Anuncio" AutoSync="Never" Type="System.Int32" DbType="Int" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="true" />
-      <Association Name="Anuncio_Reserva" Member="Reservas" ThisKey="Id_Anuncio" OtherKey="Id_Anuncio" Type="Reserva" />
-      <Association Name="Usuario_Anuncio" Member="Usuario" ThisKey="Id_Anfitrion" OtherKey="Id" Type="Usuario" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Reservas" Member="Reservas">
-    <Type Name="Reserva">
-      <Column Name="Id_Huesped" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Id_Anuncio" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="Reserva_Usuario" Member="Usuarios" ThisKey="Id_Huesped" OtherKey="Id" Type="Usuario" />
-      <Association Name="Anuncio_Reserva" Member="Anuncio" ThisKey="Id_Anuncio" OtherKey="Id_Anuncio" Type="Anuncio" IsForeignKey="true" />
+      <Column Name="Id_Anuncio" AutoSync="Never" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

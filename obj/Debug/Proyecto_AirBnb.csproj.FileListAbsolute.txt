@@ -41,3 +41,4 @@ C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_
 C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\bin\Antlr3.Runtime.pdb
 C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\bin\Newtonsoft.Json.xml
 C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\bin\System.Web.Optimization.xml
+C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\obj\Debug\Proyecto_AirBnb.csprojResolveAssemblyReference.cache

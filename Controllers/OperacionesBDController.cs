@@ -32,7 +32,7 @@ namespace Proyecto_AirBnb.Controllers
                         where user.Correo == email
                         select user.Id).Single();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return null;
             }

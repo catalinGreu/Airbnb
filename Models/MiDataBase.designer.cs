@@ -33,15 +33,9 @@ namespace Proyecto_AirBnb.Models
     partial void InsertUsuario(Usuario instance);
     partial void UpdateUsuario(Usuario instance);
     partial void DeleteUsuario(Usuario instance);
-    partial void InsertMensaje(Mensaje instance);
-    partial void UpdateMensaje(Mensaje instance);
-    partial void DeleteMensaje(Mensaje instance);
     partial void InsertAnuncio(Anuncio instance);
     partial void UpdateAnuncio(Anuncio instance);
     partial void DeleteAnuncio(Anuncio instance);
-    partial void InsertReserva(Reserva instance);
-    partial void UpdateReserva(Reserva instance);
-    partial void DeleteReserva(Reserva instance);
     #endregion
 		
 		public MiDataBaseDataContext() : 
@@ -90,19 +84,19 @@ namespace Proyecto_AirBnb.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<Anuncio> Anuncios
-		{
-			get
-			{
-				return this.GetTable<Anuncio>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Reserva> Reservas
 		{
 			get
 			{
 				return this.GetTable<Reserva>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Anuncio> Anuncios
+		{
+			get
+			{
+				return this.GetTable<Anuncio>();
 			}
 		}
 	}
@@ -129,12 +123,6 @@ namespace Proyecto_AirBnb.Models
 		
 		private string _Foto;
 		
-		private EntitySet<Mensaje> _Mensajes;
-		
-		private EntitySet<Anuncio> _Anuncios;
-		
-		private EntityRef<Reserva> _Reserva;
-		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -159,9 +147,6 @@ namespace Proyecto_AirBnb.Models
 		
 		public Usuario()
 		{
-			this._Mensajes = new EntitySet<Mensaje>(new Action<Mensaje>(this.attach_Mensajes), new Action<Mensaje>(this.detach_Mensajes));
-			this._Anuncios = new EntitySet<Anuncio>(new Action<Anuncio>(this.attach_Anuncios), new Action<Anuncio>(this.detach_Anuncios));
-			this._Reserva = default(EntityRef<Reserva>);
 			OnCreated();
 		}
 		
@@ -176,10 +161,6 @@ namespace Proyecto_AirBnb.Models
 			{
 				if ((this._Id != value))
 				{
-					if (this._Reserva.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnIdChanging(value);
 					this.SendPropertyChanging();
 					this._Id = value;
@@ -329,66 +310,6 @@ namespace Proyecto_AirBnb.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Usuario_Mensaje", Storage="_Mensajes", ThisKey="Id", OtherKey="Id_Destinatario")]
-		public EntitySet<Mensaje> Mensajes
-		{
-			get
-			{
-				return this._Mensajes;
-			}
-			set
-			{
-				this._Mensajes.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Usuario_Anuncio", Storage="_Anuncios", ThisKey="Id", OtherKey="Id_Anfitrion")]
-		public EntitySet<Anuncio> Anuncios
-		{
-			get
-			{
-				return this._Anuncios;
-			}
-			set
-			{
-				this._Anuncios.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Reserva_Usuario", Storage="_Reserva", ThisKey="Id", OtherKey="Id_Huesped", IsForeignKey=true)]
-		public Reserva Reserva
-		{
-			get
-			{
-				return this._Reserva.Entity;
-			}
-			set
-			{
-				Reserva previousValue = this._Reserva.Entity;
-				if (((previousValue != value) 
-							|| (this._Reserva.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Reserva.Entity = null;
-						previousValue.Usuarios.Remove(this);
-					}
-					this._Reserva.Entity = value;
-					if ((value != null))
-					{
-						value.Usuarios.Add(this);
-						this._Id = value.Id_Huesped;
-					}
-					else
-					{
-						this._Id = default(string);
-					}
-					this.SendPropertyChanged("Reserva");
-				}
-			}
-		}
-		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -408,37 +329,11 @@ namespace Proyecto_AirBnb.Models
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
-		
-		private void attach_Mensajes(Mensaje entity)
-		{
-			this.SendPropertyChanging();
-			entity.Usuario = this;
-		}
-		
-		private void detach_Mensajes(Mensaje entity)
-		{
-			this.SendPropertyChanging();
-			entity.Usuario = null;
-		}
-		
-		private void attach_Anuncios(Anuncio entity)
-		{
-			this.SendPropertyChanging();
-			entity.Usuario = this;
-		}
-		
-		private void detach_Anuncios(Anuncio entity)
-		{
-			this.SendPropertyChanging();
-			entity.Usuario = null;
-		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Mensajes")]
-	public partial class Mensaje : INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class Mensaje
 	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private string _Id_Destinatario;
 		
@@ -448,29 +343,11 @@ namespace Proyecto_AirBnb.Models
 		
 		private System.Nullable<System.DateTime> _Fecha;
 		
-		private EntityRef<Usuario> _Usuario;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnId_DestinatarioChanging(string value);
-    partial void OnId_DestinatarioChanged();
-    partial void OnId_RemitenteChanging(string value);
-    partial void OnId_RemitenteChanged();
-    partial void OnMensaje1Changing(string value);
-    partial void OnMensaje1Changed();
-    partial void OnFechaChanging(System.Nullable<System.DateTime> value);
-    partial void OnFechaChanged();
-    #endregion
-		
 		public Mensaje()
 		{
-			this._Usuario = default(EntityRef<Usuario>);
-			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Destinatario", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Destinatario", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
 		public string Id_Destinatario
 		{
 			get
@@ -481,15 +358,7 @@ namespace Proyecto_AirBnb.Models
 			{
 				if ((this._Id_Destinatario != value))
 				{
-					if (this._Usuario.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnId_DestinatarioChanging(value);
-					this.SendPropertyChanging();
 					this._Id_Destinatario = value;
-					this.SendPropertyChanged("Id_Destinatario");
-					this.OnId_DestinatarioChanged();
 				}
 			}
 		}
@@ -505,11 +374,7 @@ namespace Proyecto_AirBnb.Models
 			{
 				if ((this._Id_Remitente != value))
 				{
-					this.OnId_RemitenteChanging(value);
-					this.SendPropertyChanging();
 					this._Id_Remitente = value;
-					this.SendPropertyChanged("Id_Remitente");
-					this.OnId_RemitenteChanged();
 				}
 			}
 		}
@@ -525,11 +390,7 @@ namespace Proyecto_AirBnb.Models
 			{
 				if ((this._Mensaje1 != value))
 				{
-					this.OnMensaje1Changing(value);
-					this.SendPropertyChanging();
 					this._Mensaje1 = value;
-					this.SendPropertyChanged("Mensaje1");
-					this.OnMensaje1Changed();
 				}
 			}
 		}
@@ -545,66 +406,53 @@ namespace Proyecto_AirBnb.Models
 			{
 				if ((this._Fecha != value))
 				{
-					this.OnFechaChanging(value);
-					this.SendPropertyChanging();
 					this._Fecha = value;
-					this.SendPropertyChanged("Fecha");
-					this.OnFechaChanged();
 				}
 			}
 		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Reservas")]
+	public partial class Reserva
+	{
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Usuario_Mensaje", Storage="_Usuario", ThisKey="Id_Destinatario", OtherKey="Id", IsForeignKey=true)]
-		public Usuario Usuario
+		private string _Id_Huesped;
+		
+		private System.Nullable<int> _Id_Anuncio;
+		
+		public Reserva()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Huesped", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Id_Huesped
 		{
 			get
 			{
-				return this._Usuario.Entity;
+				return this._Id_Huesped;
 			}
 			set
 			{
-				Usuario previousValue = this._Usuario.Entity;
-				if (((previousValue != value) 
-							|| (this._Usuario.HasLoadedOrAssignedValue == false)))
+				if ((this._Id_Huesped != value))
 				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Usuario.Entity = null;
-						previousValue.Mensajes.Remove(this);
-					}
-					this._Usuario.Entity = value;
-					if ((value != null))
-					{
-						value.Mensajes.Add(this);
-						this._Id_Destinatario = value.Id;
-					}
-					else
-					{
-						this._Id_Destinatario = default(string);
-					}
-					this.SendPropertyChanged("Usuario");
+					this._Id_Huesped = value;
 				}
 			}
 		}
 		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Anuncio", DbType="Int")]
+		public System.Nullable<int> Id_Anuncio
 		{
-			if ((this.PropertyChanging != null))
+			get
 			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
+				return this._Id_Anuncio;
 			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
+			set
 			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+				if ((this._Id_Anuncio != value))
+				{
+					this._Id_Anuncio = value;
+				}
 			}
 		}
 	}
@@ -635,11 +483,7 @@ namespace Proyecto_AirBnb.Models
 		
 		private string _Foto;
 		
-		private System.Nullable<int> _Id_Anuncio;
-		
-		private EntitySet<Reserva> _Reservas;
-		
-		private EntityRef<Usuario> _Usuario;
+		private int _Id_Anuncio;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -665,14 +509,12 @@ namespace Proyecto_AirBnb.Models
     partial void OnPrecioChanged();
     partial void OnFotoChanging(string value);
     partial void OnFotoChanged();
-    partial void OnId_AnuncioChanging(System.Nullable<int> value);
+    partial void OnId_AnuncioChanging(int value);
     partial void OnId_AnuncioChanged();
     #endregion
 		
 		public Anuncio()
 		{
-			this._Reservas = new EntitySet<Reserva>(new Action<Reserva>(this.attach_Reservas), new Action<Reserva>(this.detach_Reservas));
-			this._Usuario = default(EntityRef<Usuario>);
 			OnCreated();
 		}
 		
@@ -687,10 +529,6 @@ namespace Proyecto_AirBnb.Models
 			{
 				if ((this._Id_Anfitrion != value))
 				{
-					if (this._Usuario.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnId_AnfitrionChanging(value);
 					this.SendPropertyChanging();
 					this._Id_Anfitrion = value;
@@ -700,7 +538,7 @@ namespace Proyecto_AirBnb.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Titulo", DbType="NVarChar(50)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Titulo", DbType="NVarChar(MAX)")]
 		public string Titulo
 		{
 			get
@@ -800,7 +638,7 @@ namespace Proyecto_AirBnb.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Pais", DbType="NVarChar(20)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Pais", DbType="NVarChar(50)")]
 		public string Pais
 		{
 			get
@@ -880,8 +718,8 @@ namespace Proyecto_AirBnb.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Anuncio", DbType="Int", IsPrimaryKey=true, IsDbGenerated=true)]
-		public System.Nullable<int> Id_Anuncio
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Anuncio", DbType="Int NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id_Anuncio
 		{
 			get
 			{
@@ -896,53 +734,6 @@ namespace Proyecto_AirBnb.Models
 					this._Id_Anuncio = value;
 					this.SendPropertyChanged("Id_Anuncio");
 					this.OnId_AnuncioChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Anuncio_Reserva", Storage="_Reservas", ThisKey="Id_Anuncio", OtherKey="Id_Anuncio")]
-		public EntitySet<Reserva> Reservas
-		{
-			get
-			{
-				return this._Reservas;
-			}
-			set
-			{
-				this._Reservas.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Usuario_Anuncio", Storage="_Usuario", ThisKey="Id_Anfitrion", OtherKey="Id", IsForeignKey=true)]
-		public Usuario Usuario
-		{
-			get
-			{
-				return this._Usuario.Entity;
-			}
-			set
-			{
-				Usuario previousValue = this._Usuario.Entity;
-				if (((previousValue != value) 
-							|| (this._Usuario.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Usuario.Entity = null;
-						previousValue.Anuncios.Remove(this);
-					}
-					this._Usuario.Entity = value;
-					if ((value != null))
-					{
-						value.Anuncios.Add(this);
-						this._Id_Anfitrion = value.Id;
-					}
-					else
-					{
-						this._Id_Anfitrion = default(string);
-					}
-					this.SendPropertyChanged("Usuario");
 				}
 			}
 		}
@@ -965,173 +756,6 @@ namespace Proyecto_AirBnb.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_Reservas(Reserva entity)
-		{
-			this.SendPropertyChanging();
-			entity.Anuncio = this;
-		}
-		
-		private void detach_Reservas(Reserva entity)
-		{
-			this.SendPropertyChanging();
-			entity.Anuncio = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Reservas")]
-	public partial class Reserva : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _Id_Huesped;
-		
-		private System.Nullable<int> _Id_Anuncio;
-		
-		private EntitySet<Usuario> _Usuarios;
-		
-		private EntityRef<Anuncio> _Anuncio;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnId_HuespedChanging(string value);
-    partial void OnId_HuespedChanged();
-    partial void OnId_AnuncioChanging(System.Nullable<int> value);
-    partial void OnId_AnuncioChanged();
-    #endregion
-		
-		public Reserva()
-		{
-			this._Usuarios = new EntitySet<Usuario>(new Action<Usuario>(this.attach_Usuarios), new Action<Usuario>(this.detach_Usuarios));
-			this._Anuncio = default(EntityRef<Anuncio>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Huesped", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string Id_Huesped
-		{
-			get
-			{
-				return this._Id_Huesped;
-			}
-			set
-			{
-				if ((this._Id_Huesped != value))
-				{
-					this.OnId_HuespedChanging(value);
-					this.SendPropertyChanging();
-					this._Id_Huesped = value;
-					this.SendPropertyChanged("Id_Huesped");
-					this.OnId_HuespedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Anuncio", DbType="Int")]
-		public System.Nullable<int> Id_Anuncio
-		{
-			get
-			{
-				return this._Id_Anuncio;
-			}
-			set
-			{
-				if ((this._Id_Anuncio != value))
-				{
-					if (this._Anuncio.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnId_AnuncioChanging(value);
-					this.SendPropertyChanging();
-					this._Id_Anuncio = value;
-					this.SendPropertyChanged("Id_Anuncio");
-					this.OnId_AnuncioChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Reserva_Usuario", Storage="_Usuarios", ThisKey="Id_Huesped", OtherKey="Id")]
-		public EntitySet<Usuario> Usuarios
-		{
-			get
-			{
-				return this._Usuarios;
-			}
-			set
-			{
-				this._Usuarios.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Anuncio_Reserva", Storage="_Anuncio", ThisKey="Id_Anuncio", OtherKey="Id_Anuncio", IsForeignKey=true)]
-		public Anuncio Anuncio
-		{
-			get
-			{
-				return this._Anuncio.Entity;
-			}
-			set
-			{
-				Anuncio previousValue = this._Anuncio.Entity;
-				if (((previousValue != value) 
-							|| (this._Anuncio.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Anuncio.Entity = null;
-						previousValue.Reservas.Remove(this);
-					}
-					this._Anuncio.Entity = value;
-					if ((value != null))
-					{
-						value.Reservas.Add(this);
-						this._Id_Anuncio = value.Id_Anuncio;
-					}
-					else
-					{
-						this._Id_Anuncio = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Anuncio");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Usuarios(Usuario entity)
-		{
-			this.SendPropertyChanging();
-			entity.Reserva = this;
-		}
-		
-		private void detach_Usuarios(Usuario entity)
-		{
-			this.SendPropertyChanging();
-			entity.Reserva = null;
 		}
 	}
 }
