@@ -13,15 +13,18 @@ namespace Proyecto_AirBnb.Controllers
     {
         UsuarioController controlUsu = new UsuarioController();
         // GET: Account
-        public ActionResult Registro()
+
+        public ActionResult Registro(bool? id)
         {
+            if (id == null) ViewBag.Anfitrion = false;
+            else ViewBag.Anfitrion = id;
             return View();
         }
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Registro(RegistroViewModel model)
+        public ActionResult Registro(RegistroViewModel model, bool? id) //el id me dice si será o no anfitrion
         {
             if (ModelState.IsValid)
             {
@@ -39,7 +42,8 @@ namespace Proyecto_AirBnb.Controllers
                     string hash = controlUsu.Hashea(salt, model.Password);
 
                     //Construyo Usuario
-                    Usuario u = new Usuario { Id = salt, Nombre = model.Nombre, Apellido = model.Apellido, Correo = model.Correo, Hash = hash, Anfitrion = false, Nacimiento = model.Nacimiento };
+                    if (id == null) id = false;
+                    Usuario u = new Usuario { Id = salt, Nombre = model.Nombre, Apellido = model.Apellido, Correo = model.Correo, Hash = hash, Anfitrion = id, Nacimiento = model.Nacimiento };
 
                     controlUsu.GrabaUser(u);
                     Session["usuario"] = u;
@@ -95,7 +99,7 @@ namespace Proyecto_AirBnb.Controllers
             }
             return View(model);
         }
-       
+
         public ActionResult Desconectar()
         {
             Session["usuario"] = null;
@@ -111,11 +115,11 @@ namespace Proyecto_AirBnb.Controllers
             using (var reader = new StreamReader(stream))
                 dump = reader.ReadToEnd();
 
-            var path = Server.MapPath("/Content/Imagenes/Perfil/"+u.Id+".jpg");//--> Nombre foto = ID user
+            var path = Server.MapPath("/Content/Imagenes/Perfil/" + u.Id + ".jpg");//--> Nombre foto = ID user
             System.IO.File.WriteAllBytes(path, String_To_Bytes2(dump));
 
             Session["usuario"] = null;
-            Usuario conFoto = controlUsu.SetNombreFoto(u.Id, u.Id+".jpg"); //---> escribo en sesion Objeto actualizado
+            Usuario conFoto = controlUsu.SetNombreFoto(u.Id, u.Id + ".jpg"); //---> escribo en sesion Objeto actualizado
             Session["usuario"] = conFoto;
             return RedirectToAction("Index", "Inicio", new { usuario = conFoto });
         }
@@ -125,8 +129,8 @@ namespace Proyecto_AirBnb.Controllers
             if (file != null)
             {
                 string pic = System.IO.Path.GetFileName(file.FileName);
-                string path = System.IO.Path.Combine( Server.MapPath("~/Content/Imagenes/Perfil"), pic);
-                // file is uploaded
+                string path = System.IO.Path.Combine(Server.MapPath("~/Content/Imagenes/Perfil"), pic);
+                // file is uploaded ----> Aqui no llamo a la foto con el ID del User
                 file.SaveAs(path);
                 string queID = ((Usuario)Session["usuario"]).Id;
                 Session["usuario"] = null;

@@ -676,7 +676,7 @@ namespace Proyecto_AirBnb.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Anfitrion", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Anfitrion", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
 		public string Id_Anfitrion
 		{
 			get
@@ -880,7 +880,7 @@ namespace Proyecto_AirBnb.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Anuncio", DbType="Int", IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Anuncio", DbType="Int", IsPrimaryKey=true, IsDbGenerated=true)]
 		public System.Nullable<int> Id_Anuncio
 		{
 			get

@@ -26,7 +26,7 @@
                             if ((bool)user.Anfitrion)
                             {
                                 @Html.ActionLink("Mis anuncios", "Index", "Inicio", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
-                                
+
                             }
                             else
                             {
@@ -35,26 +35,24 @@
                             }
 
                             <a class="btn btn-primary navbar-btn" href="http://localhost:17204/Inicio/Index">Mensajes <span class="badge ">3</span></a>
-                                    @*@Html.ActionLink("Mensajes", "Index", "Inicio", new { area = "" }, new { @class = "btn btn-default navbar-btn",  })*@
+                            @*@Html.ActionLink("Mensajes", "Index", "Inicio", new { area = "" }, new { @class = "btn btn-default navbar-btn",  })*@
 
-                                    @Html.ActionLink(user.Nombre, "Index", "Inicio", new { area = "" }, new { @class = "btn btn-danger navbar-btn" })
-                                    @Html.ActionLink("Cerrar sesión", "Desconectar", "Account", new { area = "" }, new { @class = "btn btn-danger navbar-btn " })
+                            @Html.ActionLink(user.Nombre, "Index", "Inicio", new { area = "" }, new { @class = "btn btn-danger navbar-btn" })
+                            @Html.ActionLink("Cerrar sesión", "Desconectar", "Account", new { area = "" }, new { @class = "btn btn-danger navbar-btn " })
 
 
                             if (user.Foto != null)
                             {
                                 <img src="~/Content/Imagenes/Perfil/@user.Foto" style="width:65px; height:50px" />
                             }
-
-
-
-                            //debería aparecer tb mensajes Y SI es anfitrion "Anfitrión...con sus mensajes"
+                                                        
                         }
                         else
                         {
                             @Html.ActionLink("AirBnb", "Index", "Inicio", new { area = "" }, new { @class = "navbar-brand" })
 
                             @Html.ActionLink("Conviértete en Anfitrión", "NuevoAnuncio", "Anuncios", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
+
                             @Html.ActionLink("Regístrate", "Registro", "Account", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
                             @Html.ActionLink("Iniciar sesión", "Login", "Account", new { area = "" }, new { @class = "btn btn-default navbar-btn", @id = "btnLogin" })
 

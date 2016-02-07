@@ -12,9 +12,11 @@ namespace Proyecto_AirBnb.Controllers
         // GET: Anuncios
         public ActionResult NuevoAnuncio()
         {
-            //CreaAnuncioViewModel model = new CreaAnuncioViewModel();
-            //model.Alojamientos = new List<string> { "Apartamento", "Casa", "Bed&Breakfast" };
-            //model.Habitaciones = new List<string> { "Casa/Apto. Entero", "Habitacion privada", "Habitacion compartida" };
+            if (TempData["warning"] != null)
+            {
+                ViewBag.Warning = TempData["warning"].ToString();
+
+            }
             return View();
         }
 
@@ -28,15 +30,19 @@ namespace Proyecto_AirBnb.Controllers
             if (ModelState.IsValid)
             {
                 Usuario u = (Usuario)Session["usuario"];
-                if ( u != null)
+                if (u != null)
                 {
-                    string idUser = ((Usuario) Session["usuario"]).Id;
+                    string idUser = ((Usuario)Session["usuario"]).Id;
                     //grabo el anuncio y voy a completar anuncio
                     // ya es anfitrion
-                    Anuncio a = new Anuncio { Id_Anfitrion = idUser, Alojamiento = model.Alojamiento,
-                                            Habitacion = model.Habitacion,
-                                            Capacidad = model.Capacidad,
-                                            Localidad = model.Ciudad };
+                    Anuncio a = new Anuncio
+                    {
+                        Id_Anfitrion = idUser,
+                        Alojamiento = model.Alojamiento,
+                        Habitacion = model.Habitacion,
+                        Capacidad = model.Capacidad,
+                        Localidad = model.Ciudad
+                    };
                     controlUsu.SetAnfitrion(idUser); //-- > Au nno grabo en la BD
                     u.Anfitrion = true;
                     Session["usuario"] = u; //lo vuelvo a meter en session
@@ -58,8 +64,9 @@ namespace Proyecto_AirBnb.Controllers
 
                     Y ADEMAS!!!! TANTO SI SE LOGGEA COMO REGISTRA, TENGO QUE SETTEAR ANFITRION = TRUE
                     */
-                    ViewBag.Warning = "Registrate o Inicia sesión para continuar";
-                    return RedirectToAction("NuevoAnuncio", "Anuncios",ViewBag.Warning);
+                    TempData["warning"] = "Registrate o Inicia sesión para continuar";
+                    //ViewBag.Warning = "Registrate o Inicia sesión para continuar";
+                    return RedirectToAction("NuevoAnuncio", "Anuncios");
                 }
             }
             return View();
@@ -75,24 +82,40 @@ namespace Proyecto_AirBnb.Controllers
         {
             if (ModelState.IsValid)
             {
+                string idUser = ((Usuario)Session["usuario"]).Id;
                 Anuncio a = (Anuncio)Session["anuncio"];
                 a.Titulo = model.Titulo;
                 a.Precio = model.Precio;
-                a.Foto = model.Foto;
+                a.Foto = idUser + model.Foto.FileName;
                 a.Descripcion = model.Descripcion;
 
-                GrabaAnuncio(a);
+                GrabaAnuncio(a); Session["anuncio"] = null;//--->Ya no me hace falta
+                FileUpload(model.Foto, idUser);
                 return RedirectToAction("Index", "Inicio");
-                //hago algo....
-                //guardo foto...
             }
             return View(model);
         }
+               
+
+        public void FileUpload(HttpPostedFileBase file, string id) // ---> subo Upload
+        {
+            if (file != null)
+            {
+                string pic = System.IO.Path.GetFileName(id + file.FileName);
+                string path = System.IO.Path.Combine(Server.MapPath("~/Content/Imagenes/Anuncios"), pic);
+                // file is uploaded
+                file.SaveAs(path);
+
+            }
+        }
+
+
+
 
         #region "Accesso a datos"
         public void GrabaAnuncio(Anuncio a)
         {
-            using (OperacionesBDController db = new OperacionesBDController() )
+            using (OperacionesBDController db = new OperacionesBDController())
             {
                 db.GrabaAnuncio(a);
             }

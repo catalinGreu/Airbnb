@@ -27,7 +27,7 @@
         <elementListCompartment Id="b6d26360-1bbd-403e-a91f-3539d82e01f5" absoluteBounds="0.89000000000000012, 5.21, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(1.8125 : 3.47280110677083); (1.8125 : 4.75)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(1.53125 : 3.47280110677083); (1.53125 : 4.75)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/MiDataBaseDataContext/Usuario/Usuario_Anuncio" />
       <nodes>
         <classShapeMoniker Id="10b3f74d-ed2a-4291-b396-3130c2ecca67" />
@@ -40,14 +40,14 @@
         <elementListCompartment Id="2562eb80-ea3b-4083-87e6-794bf5b3bf8c" absoluteBounds="5.015, 4.71, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.875 : 5.09699625651042); (5 : 5.09699625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.875 : 5.09699625651042); (5 : 5.09699625651042)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/MiDataBaseDataContext/Anuncio/Anuncio_Reserva" />
       <nodes>
         <classShapeMoniker Id="85cd4849-2882-474e-a319-176cfeb3f31f" />
         <classShapeMoniker Id="b9da8a59-2c2c-4f40-8a84-9bd7ef9bc8d0" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(6.84375 : 4.25); (6.84375 : 3.1819482421875); (2.75 : 3.1819482421875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5 : 4.46875); (1.61458333333333 : 4.46875 : JumpStart); (1.44791666666667 : 4.46875 : JumpEnd); (0.78125 : 4.46875); (0.78125 : 3.47280110677083)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/MiDataBaseDataContext/Reserva/Reserva_Usuario" />
       <nodes>
         <classShapeMoniker Id="b9da8a59-2c2c-4f40-8a84-9bd7ef9bc8d0" />

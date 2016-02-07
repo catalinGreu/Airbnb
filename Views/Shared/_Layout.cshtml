@@ -6,6 +6,7 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/bootstrap.min.js" type="text/javascript"></script>
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
     <link href="https://a0.muscache.com/airbnb/static/packages/common_o2.1-55963a131eb5480a933a106eb9ba3646.css" media="all" rel="stylesheet" type="text/css" />
 
@@ -1262,6 +1263,7 @@
 
     <script src="https://a2.muscache.com/airbnb/static/packages/homepage-0a4ea9d75a146d313d4e9f63dab7721b.js" type="text/javascript"></script>
     @RenderBody()
+    @RenderSection("scripts", required: false)
 
 </body>
 

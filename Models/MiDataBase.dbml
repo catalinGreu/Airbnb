@@ -26,7 +26,7 @@
   </Table>
   <Table Name="dbo.Anuncios" Member="Anuncios">
     <Type Name="Anuncio">
-      <Column Name="Id_Anfitrion" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id_Anfitrion" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="Titulo" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="Descripcion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
       <Column Name="Alojamiento" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
@@ -36,7 +36,7 @@
       <Column Name="Localidad" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="Precio" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Foto" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Id_Anuncio" AutoSync="Never" Type="System.Int32" DbType="Int" IsDbGenerated="true" CanBeNull="true" />
+      <Column Name="Id_Anuncio" AutoSync="Never" Type="System.Int32" DbType="Int" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="true" />
       <Association Name="Anuncio_Reserva" Member="Reservas" ThisKey="Id_Anuncio" OtherKey="Id_Anuncio" Type="Reserva" />
       <Association Name="Usuario_Anuncio" Member="Usuario" ThisKey="Id_Anfitrion" OtherKey="Id" Type="Usuario" IsForeignKey="true" />
     </Type>

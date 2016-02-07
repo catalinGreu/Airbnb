@@ -40,7 +40,7 @@ namespace Proyecto_AirBnb.Models
         public int Precio { get; set; }
         [Required(ErrorMessage = "Sube una foto")]
         [Display(Name = "Foto")]
-        public string Foto { get; set; }
+        public HttpPostedFileBase Foto { get; set; }
     }
 
 }
