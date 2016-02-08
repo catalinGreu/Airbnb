@@ -43,8 +43,6 @@ C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_
 C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\bin\System.Web.Optimization.xml
 C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\obj\Debug\Proyecto_AirBnb.csprojResolveAssemblyReference.cache
 C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\bin\Google.Apis.Core.dll
-C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\bin\Google.Apis.dll
-C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\bin\Google.Apis.PlatformServices.dll
 C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\bin\log4net.dll
 C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\bin\Microsoft.Threading.Tasks.dll
 C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\bin\Microsoft.Threading.Tasks.Extensions.Desktop.dll
@@ -52,12 +50,8 @@ C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_
 C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\bin\System.Net.Http.Extensions.dll
 C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\bin\System.Net.Http.Primitives.dll
 C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\bin\Zlib.Portable.dll
-C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\bin\Google.Apis.pdb
-C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\bin\Google.Apis.xml
 C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\bin\Google.Apis.Core.pdb
 C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\bin\Google.Apis.Core.xml
-C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\bin\Google.Apis.PlatformServices.pdb
-C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\bin\Google.Apis.PlatformServices.xml
 C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\bin\log4net.xml
 C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\bin\Microsoft.Threading.Tasks.xml
 C:\Users\Catalin\documents\visual studio 2015\Projects\Proyecto_AirBnb\Proyecto_AirBnb\bin\Microsoft.Threading.Tasks.Extensions.xml
