@@ -10,20 +10,7 @@
       <Column Name="Anfitrion" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="Hash" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
       <Column Name="Foto" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Mensajes" Member="Mensajes">
-    <Type Name="Mensaje">
-      <Column Name="Id_Destinatario" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Id_Remitente" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Mensaje" Member="Mensaje1" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="Fecha" Type="System.DateTime" DbType="Date" CanBeNull="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Reservas" Member="Reservas">
-    <Type Name="Reserva">
-      <Column Name="Id_Huesped" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Id_Anuncio" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Usuario_Mensaje" Member="Mensajes" ThisKey="Id" OtherKey="Id_Destinatario" Type="Mensaje" />
     </Type>
   </Table>
   <Table Name="dbo.Anuncios" Member="Anuncios">
@@ -39,6 +26,26 @@
       <Column Name="Precio" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Foto" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="Id_Anuncio" AutoSync="Never" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Anuncio_Reserva" Member="Reservas" ThisKey="Id_Anuncio" OtherKey="Id_Anuncio" Type="Reserva" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Reservas" Member="Reservas">
+    <Type Name="Reserva">
+      <Column Name="Id_Huesped" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Id_Anuncio" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Id_Reserva" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Anuncio_Reserva" Member="Anuncio" ThisKey="Id_Anuncio" OtherKey="Id_Anuncio" Type="Anuncio" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Mensajes" Member="Mensajes">
+    <Type Name="Mensaje">
+      <Column Name="Id_Destinatario" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Id_Remitente" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Mensaje" Member="Mensaje1" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Fecha" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Id_Mensaje" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Leido" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Usuario_Mensaje" Member="Usuario" ThisKey="Id_Destinatario" OtherKey="Id" Type="Usuario" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

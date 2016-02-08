@@ -47,6 +47,14 @@ namespace Proyecto_AirBnb.Controllers
             return EncodePasswordMd5(Convert.ToBase64String(inArray));
         }
 
+        public void MensajeBienvenida(Usuario u)
+        {
+            using (OperacionesBDController db = new OperacionesBDController())
+            {
+                db.MandarMensaje(u);
+            }
+        }
+
         public void SetAnfitrion(string idUser)
         {
             using (OperacionesBDController db = new OperacionesBDController())
@@ -87,6 +95,13 @@ namespace Proyecto_AirBnb.Controllers
 
         }
 
+        public int GetMensajes(string elID)
+        {
+            using (OperacionesBDController db = new OperacionesBDController())
+            {
+                return db.GetMensajes(elID);
+            }
+        }
 
         public bool ExisteUsuario(string hash, string email)
         {

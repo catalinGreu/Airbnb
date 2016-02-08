@@ -34,7 +34,7 @@
                     @Html.ActionLink("AirBnb", "Index", "Inicio", new { area = "" }, new { @class = "navbar-brand" })
 
                     @Html.ActionLink("Conviértete en Anfitrión", "NuevoAnuncio", "Anuncios", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
-                    @Html.ActionLink("Regístrate", "Registro", "Account",  new { area = "", id=true }, new { @class = "btn btn-default navbar-btn" })
+                    @Html.ActionLink("Regístrate", "Registro", "Account",  new { area = "", id=true }, new { @class = "btn btn-default navbar-btn" })// Le paso ID= true para que el Usuario sea Anfitrión
                     @Html.ActionLink("Iniciar sesión", "Login", "Account", new { area = "" }, new { @class = "btn btn-default navbar-btn", @id = "btnLogin" })
 
                 }
@@ -143,7 +143,7 @@
             @Html.ValidationMessageFor(model => model.Ciudad, "", new { @class = "text-danger" })
 
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Ciudad, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Ciudad, new { htmlAttributes = new { @class = "form-control", id = "busqueda" } })
 
 
             </div>
@@ -158,12 +158,17 @@
     </div>
 }
 
-    <script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwpwccxKmx8fpBuABauco_mGsjF2eJvaU&signed_in=true&libraries=places"
+        async defer>
         $select = $('#capacidad');
         for (var i = 1  ; i <= 15; i++) {
             $select.append(new Option(i));
         }
         $select.append(new Option("16+"));
+
+        $caja = $('#busqueda').keyup(function () { alert("Has pulsado");})
+        //autocompletado de Google API
+
     </script>
 
 

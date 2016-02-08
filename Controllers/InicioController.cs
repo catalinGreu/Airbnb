@@ -14,7 +14,7 @@ namespace Proyecto_AirBnb.Controllers
 
         // GET: Inicio
         public ActionResult Index(Usuario u)
-        {             
+        {            
             return View(u);
         }
     }

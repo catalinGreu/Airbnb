@@ -44,9 +44,10 @@ namespace Proyecto_AirBnb.Controllers
                     //Construyo Usuario
                     if (id == null) id = false;
                     Usuario u = new Usuario { Id = salt, Nombre = model.Nombre, Apellido = model.Apellido, Correo = model.Correo, Hash = hash, Anfitrion = id, Nacimiento = model.Nacimiento };
-
+                    controlUsu.MensajeBienvenida(u);
                     controlUsu.GrabaUser(u);
                     Session["usuario"] = u;
+                    Session["mensajes"] = controlUsu.GetMensajes(u.Id);
                     return RedirectToAction("CompletaRegistro", "Account");
                 }
                 else
@@ -88,6 +89,7 @@ namespace Proyecto_AirBnb.Controllers
                 if (controlUsu.ExisteUsuario(hash, model.Email))
                 {
                     Usuario u = controlUsu.GetUserById(elID);
+                    Session["mensajes"] = controlUsu.GetMensajes(elID);
                     Session["usuario"] = u;
                     return RedirectToAction("Index", "Inicio", new { usuario = u });
                 }

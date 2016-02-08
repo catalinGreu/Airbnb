@@ -10,10 +10,10 @@ namespace Proyecto_AirBnb.Controllers
     public class OperacionesBDController : Controller
     {
         MiDataBaseDataContext db = new MiDataBaseDataContext();
-        //esto es una prueba FALTA HASHEAR Y GENERAR ID!!!!
         public void GrabaUser(Usuario u)
         {
             db.Usuarios.InsertOnSubmit(u);
+
             try
             {
                 db.SubmitChanges();
@@ -55,10 +55,10 @@ namespace Proyecto_AirBnb.Controllers
 
         public Usuario SetNombreFoto(string id, string path)
         {
-            Usuario ret = ( db.Usuarios.Where(u => u.Id.Equals(id))).Single();
+            Usuario ret = (db.Usuarios.Where(u => u.Id.Equals(id))).Single();
 
             ret.Foto = path;
-           
+
             db.SubmitChanges();
             return ret;
         }
@@ -67,14 +67,35 @@ namespace Proyecto_AirBnb.Controllers
         {
             db.Usuarios.Where(u => u.Id == idUser).ToList().ForEach(x => x.Anfitrion = true);
             db.SubmitChanges();
-            
-            
+
+
+        }
+
+    
+        public void MandarMensaje(Usuario u)
+        {
+            string mensaje = u.Nombre + ", el equipo de AirBnb le da la bienvenida. " +
+                                    " Gracias por registrarse con nosotros.";
+            Mensaje m = new Mensaje
+            {
+                Id_Destinatario = u.Id,
+                Id_Remitente = "0",//---> El 0 es el equipo
+                Fecha = DateTime.Now,
+                Mensaje1 = mensaje
+            };
+            db.Mensajes.InsertOnSubmit(m);
+            db.SubmitChanges();
         }
 
         public void GrabaAnuncio(Anuncio a)
         {
             db.Anuncios.InsertOnSubmit(a);
             db.SubmitChanges();
+        }
+
+        public int GetMensajes(string elID) //los NO leidos
+        {
+            return db.Mensajes.Where(m => m.Id_Destinatario == elID && m.Leido == false).Count();
         }
     }
 }
