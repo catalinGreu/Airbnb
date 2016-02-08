@@ -49,7 +49,7 @@
 <h2>Completa tu Anuncio</h2>
 @if (ViewBag.Warning != null)
 {
-    <h2 class="warning">@ViewBag.Warning</h2>
+    <h2>@ViewBag.Warning</h2>
 }
 @using (Html.BeginForm("NuevoAnuncio", "Anuncios", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
@@ -158,15 +158,15 @@
     </div>
 }
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwpwccxKmx8fpBuABauco_mGsjF2eJvaU&signed_in=true&libraries=places"
-        async defer>
+    <script @*src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwpwccxKmx8fpBuABauco_mGsjF2eJvaU&signed_in=true&libraries=places"
+        async defer*@>
         $select = $('#capacidad');
         for (var i = 1  ; i <= 15; i++) {
             $select.append(new Option(i));
         }
         $select.append(new Option("16+"));
 
-        $caja = $('#busqueda').keyup(function () { alert("Has pulsado");})
+        //$caja = $('#busqueda').keyup(function () { alert("Has pulsado");})
         //autocompletado de Google API
 
     </script>

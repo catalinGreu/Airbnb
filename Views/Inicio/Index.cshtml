@@ -39,7 +39,7 @@
                                 Mensajes <span class="badge glyphicon-envelope"> @Session["mensajes"]</span>
                         </a>
 
-                                <a href="Perfil/MiPerfil" class="btn btn-danger navbar-btn">@user.Nombre</a>
+                                <a href="/Perfil/MiPerfil" class="btn btn-danger navbar-btn">@user.Nombre</a>
 
                                 @Html.ActionLink("Cerrar sesión", "Desconectar", "Account", new { area = "" }, new { @class = "btn btn-danger navbar-btn" })
 

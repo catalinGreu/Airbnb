@@ -81,7 +81,9 @@ namespace Proyecto_AirBnb.Controllers
                 Id_Destinatario = u.Id,
                 Id_Remitente = "0",//---> El 0 es el equipo
                 Fecha = DateTime.Now,
-                Mensaje1 = mensaje
+                Mensaje1 = mensaje,
+                Leido = false
+                
             };
             db.Mensajes.InsertOnSubmit(m);
             db.SubmitChanges();
