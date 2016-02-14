@@ -1,6 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Proyecto_AirBnb.Models
+<!DOCTYPE html>
+
 <html>
 <head>
+   
     <title>@ViewBag.Title</title>
     @RenderSection("head", required: false)
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
@@ -14,7 +17,8 @@
     <meta id="csrf-token-meta-tag" name="csrf-token" content="" />
    
 </head>
-<body>
+<body>   
+   
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header" style="position:relative">
@@ -35,7 +39,7 @@
 
                     }
 
-                </div>
+                </div>                
 
             </div>
 

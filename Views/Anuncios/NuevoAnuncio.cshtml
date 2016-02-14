@@ -1,9 +1,10 @@
 ﻿@using Proyecto_AirBnb.Models
 @model CreaAnuncioViewModel
+    @{ Usuario user = (Usuario)Session["usuario"];}
 @{
     ViewBag.Title = "NuevoAnuncio";
-    //Layout = "~/Views/Shared/_LayoutRegistro.cshtml";
-    Layout = null;
+    Layout = null; //--> SIN LAYOUT PORQ NECESITO PARAMETROS ID=TRUE EN EL NAVBAR....ASI SÉ SI UN REGISTRO O LOGIN PROVIENE DE ÉSTA PAGINA
+
     // Si le doy a registrarme desde "Conviertete en Anfitrión, deduzco que será ANfitrión
     // Asiq cambio el action para añadir: Anfitrion = true;
     //No uso el layout con el navbar por defecto
@@ -19,6 +20,7 @@
     <meta id="csrf-param-meta-tag" name="csrf-param" content="authenticity_token" />
     <meta id="csrf-token-meta-tag" name="csrf-token" content="" />
 </head>
+
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header" style="position:relative">
@@ -27,16 +29,48 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-
             <div class=" span6 pull-right">
                 @{
 
-                    @Html.ActionLink("AirBnb", "Index", "Inicio", new { area = "" }, new { @class = "navbar-brand" })
+                    if (user != null)
+                    {
+                        @Html.ActionLink("AirBnb", "Index", "Inicio", new { area = "" }, new { @class = "navbar-brand" })
 
-                    @Html.ActionLink("Conviértete en Anfitrión", "NuevoAnuncio", "Anuncios", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
-                    @Html.ActionLink("Regístrate", "Registro", "Account",  new { area = "", id=true }, new { @class = "btn btn-default navbar-btn" })// Le paso ID= true para que el Usuario sea Anfitrión
-                    @Html.ActionLink("Iniciar sesión", "Login", "Account", new { area = "" }, new { @class = "btn btn-default navbar-btn", @id = "btnLogin" })
+                        if ((bool)user.Anfitrion)
+                        {
+                            @Html.ActionLink("Sube un Anuncio", "NuevoAnuncio", "Anuncios", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
+                        }
+                        else
+                        {
 
+                            @Html.ActionLink("Conviértete en Anfitrión", "NuevoAnuncio", "Anuncios", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
+                        }
+
+                        <a class="btn btn-primary navbar-btn" href="http://localhost:17204/Inicio/Index">
+                            Mensajes <span class="badge glyphicon-envelope"> @Session["mensajes"]</span>
+                        </a>
+
+                            <a href="/Perfil/MiPerfil" class="btn btn-danger navbar-btn">@user.Nombre</a>
+
+                            @Html.ActionLink("Cerrar sesión", "Desconectar", "Account", new { area = "" }, new { @class = "btn btn-danger navbar-btn" })
+
+
+                        if (user.Foto != null)
+                        {
+                            <img src="~/Content/Imagenes/Perfil/@user.Foto" style="width:60px; height:45px; border-radius:30px" />
+                        }
+
+                    }
+                    else
+                    {
+                        @Html.ActionLink("AirBnb", "Index", "Inicio", new { area = "" }, new { @class = "navbar-brand" })
+
+                        @Html.ActionLink("Conviértete en Anfitrión", "NuevoAnuncio", "Anuncios", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
+
+                        @Html.ActionLink("Regístrate", "Registro", "Account", new { area = "", id=true }, new { @class = "btn btn-default navbar-btn" })
+                        @Html.ActionLink("Iniciar sesión", "Login", "Account", new { area = "" ,id=true}, new { @class = "btn btn-default navbar-btn", @id = "btnLogin" })
+
+                    }
                 }
 
             </div>
@@ -45,6 +79,8 @@
 
     </div>
 </div>
+
+
 
 <h2>Completa tu Anuncio</h2>
 @if (ViewBag.Warning != null)
@@ -158,17 +194,17 @@
     </div>
 }
 
-    <script @*src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwpwccxKmx8fpBuABauco_mGsjF2eJvaU&signed_in=true&libraries=places"
+<script @*src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwpwccxKmx8fpBuABauco_mGsjF2eJvaU&signed_in=true&libraries=places"
         async defer*@>
-        $select = $('#capacidad');
-        for (var i = 1  ; i <= 15; i++) {
-            $select.append(new Option(i));
-        }
-        $select.append(new Option("16+"));
+    $select = $('#capacidad');
+    for (var i = 1  ; i <= 15; i++) {
+        $select.append(new Option(i));
+    }
+    $select.append(new Option("16+"));
 
-        //$caja = $('#busqueda').keyup(function () { alert("Has pulsado");})
-        //autocompletado de Google API
+    //$caja = $('#busqueda').keyup(function () { alert("Has pulsado");})
+    //autocompletado de Google API
 
-    </script>
+</script>
 
 

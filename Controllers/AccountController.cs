@@ -42,12 +42,16 @@ namespace Proyecto_AirBnb.Controllers
                     string hash = controlUsu.Hashea(salt, model.Password);
 
                     //Construyo Usuario
-                    if (id == null) id = false;
+                    if (id == null) { id = false; };
                     Usuario u = new Usuario { Id = salt, Nombre = model.Nombre, Apellido = model.Apellido, Correo = model.Correo, Hash = hash, Anfitrion = id, Nacimiento = model.Nacimiento };
                     controlUsu.MensajeBienvenida(u);
                     controlUsu.GrabaUser(u);
                     Session["usuario"] = u;
                     Session["mensajes"] = controlUsu.GetMensajes(u.Id);
+
+                    //lo meto en la sesion para no mantenerlo a través de vistas y controladores.
+                    Session["VistaAnuncios"] = id;
+
                     return RedirectToAction("CompletaRegistro", "Account");
                 }
                 else
@@ -55,11 +59,9 @@ namespace Proyecto_AirBnb.Controllers
                     ViewBag.Menor = "Lo sentimos, no puedes registrarte siendo menor de edad";
                 }
             }
-
-
             return View(model);
         }
-        public ActionResult CompletaRegistro()
+        public ActionResult CompletaRegistro()//el tempdata persiste entre controladores...
         {
             return View();
         }
@@ -72,9 +74,9 @@ namespace Proyecto_AirBnb.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginViewModel model)
+        public ActionResult Login(LoginViewModel model, bool? id)
         {
-
+            if(id == null) { id = false; }
             if (ModelState.IsValid)
             {
 
@@ -91,6 +93,11 @@ namespace Proyecto_AirBnb.Controllers
                     Usuario u = controlUsu.GetUserById(elID);
                     Session["mensajes"] = controlUsu.GetMensajes(elID);
                     Session["usuario"] = u;
+
+                    if ( (bool) id )
+                    {
+                        return RedirectToAction("NuevoAnuncio", "Anuncios");
+                    }
                     return RedirectToAction("Index", "Inicio", new { usuario = u });
                 }
                 else
@@ -123,6 +130,11 @@ namespace Proyecto_AirBnb.Controllers
             Session["usuario"] = null;
             Usuario conFoto = controlUsu.SetNombreFoto(u.Id, u.Id + ".jpg"); //---> escribo en sesion Objeto actualizado
             Session["usuario"] = conFoto;
+
+            if ((bool)Session["VistaAnuncios"] == true) //--> el BeginForm de Completa Anuncio apunta a Index...no chuta
+            {
+                return RedirectToAction("NuevoAnuncio", "Anuncios");
+            }
             return RedirectToAction("Index", "Inicio", new { usuario = conFoto });
         }
         public ActionResult FileUpload(HttpPostedFileBase file) // ---> subo Upload
@@ -139,6 +151,12 @@ namespace Proyecto_AirBnb.Controllers
                 u = controlUsu.SetNombreFoto(queID, pic);
                 Session["usuario"] = u;
             }
+
+            if ((bool)Session["VistaAnuncios"] == true) 
+            {
+                return RedirectToAction("NuevoAnuncio", "Anuncios");
+            }
+
             return RedirectToAction("Index", "Inicio");
         }
 
