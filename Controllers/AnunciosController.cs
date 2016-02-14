@@ -95,7 +95,7 @@ namespace Proyecto_AirBnb.Controllers
             }
             return View(model);
         }
-               
+
 
         public void FileUpload(HttpPostedFileBase file, string id) // ---> subo Upload
         {
@@ -107,6 +107,12 @@ namespace Proyecto_AirBnb.Controllers
                 file.SaveAs(path);
 
             }
+        }
+
+        public ActionResult ListarAnuncios()
+        {
+            List<Anuncio> lista = (List<Anuncio>) TempData["lista"];
+            return View(lista);
         }
 
 

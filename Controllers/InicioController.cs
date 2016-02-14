@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Proyecto_AirBnb.Models;
+using System.Threading.Tasks;
 
 namespace Proyecto_AirBnb.Controllers
 {
@@ -19,6 +20,7 @@ namespace Proyecto_AirBnb.Controllers
         }
 
         
+       
         [HttpPost]
         public ActionResult BuscarAnuncio(BuscaAnuncioViewModel model)
         {
@@ -39,16 +41,19 @@ namespace Proyecto_AirBnb.Controllers
 
 
             List<Anuncio> lista = getAnuncios(model);
+
             // 1.Llamo a controlador de anuncios
             // 2. Busco lista de anuncios con esa búsqueda
             // 3. Devuelvo la lista aquí y se la paso a la vista BuscaAnuncio, que cargará PartialViews de ese List<Anuncios>
 
-            return View(model);
+            TempData["lista"] = lista;
+            return RedirectToAction("ListarAnuncios", "Anuncios");
         }
 
 
         public List<Anuncio> getAnuncios(BuscaAnuncioViewModel modelo)
         {
+           
             return db.Anuncios.Where(a => a.Localidad.Contains(modelo.Sitio) && a.Capacidad >= Convert.ToInt16(modelo.Huespedes) ).ToList();
 
         }
