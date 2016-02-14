@@ -43,4 +43,14 @@ namespace Proyecto_AirBnb.Models
         public HttpPostedFileBase Foto { get; set; }
     }
 
+    public class BuscaAnuncioViewModel
+    {
+        public string Sitio { get; set; } // A dónde quieres ir?
+        public string Huespedes { get; set; } // Cuántos sois?
+       // [DataType(DataType.Date)]
+        public string Llegada { get; set; }//Cuándo llegáis?
+        //[DataType(DataType.Date)]
+        public string Salida { get; set; } //Cuándo os piráis?
+    }
+
 }

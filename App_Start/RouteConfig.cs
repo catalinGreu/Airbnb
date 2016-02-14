@@ -34,6 +34,7 @@ namespace Proyecto_AirBnb
               url: "{controller}/{action}/{id}",
               defaults: new { controller = "Account", action = "CompletaRegistro", id = UrlParameter.Optional }
           );
+            
         }
     }
 }
