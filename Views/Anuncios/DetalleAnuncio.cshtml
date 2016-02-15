@@ -9,11 +9,12 @@
 
 <h2>DetalleAnuncio</h2>
 @{ int noches = (int)Session["noches"];
-    int precio = (int) Model.Precio;//a veces es null.....
-   int subtotal = noches * precio;
-   double total = subtotal * 1.2;
+    int precio = (int)@Model.Precio;//a veces es null.....
+    int subtotal = noches * precio;
+    double iva = subtotal * 0.2;
+    double total = subtotal * 1.2;
 }
-<div class="col-xs-offset-2 panel panel-primary" style="width:700px;padding-bottom: 20px;position:relative">
+<div class="col-xs-offset-2 panel panel-primary" style="width:800px;padding-bottom: 20px;position:relative">
     <div class="panel-heading">
         <h1> @Model.Titulo </h1>
     </div>
@@ -40,7 +41,7 @@
             <div><h5>@Model.Descripcion</h5></div>
         </div>
         <div style="float:right">
-            <table class="table" style="width:300px">
+            <table class="table table-bordered" style="width:300px">
                 <thead>
                     <tr>
                         <th>Precio/Noche</th>
@@ -55,21 +56,26 @@
                         <td>@subtotal€</td>
                     </tr>
                     <tr>
+                        <td colspan="2">@subtotal + 20% </td>
+                        <td>@iva</td>
+                    </tr>
+                    <tr>
                         <td colspan="2"><h2>TOTAL:</h2></td>
-                        <td>@total€</td>
+                        <td><strong>@total€</strong></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><button class="btn btn-primary">RESERVAR</button></td>
                     </tr>
                 </tbody>
 
-
             </table>
-
 
         </div>
     </div>
 
     <div>
 
-        <button class="btn btn-primary">RESERVAR</button>
+
 
     </div>
 </div>
