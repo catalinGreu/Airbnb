@@ -46,6 +46,12 @@ namespace Proyecto_AirBnb.Controllers
             return existe;
 
         }
+
+        public List<Mensaje> getMensajesUsuario(Usuario u)
+        {
+            return db.Mensajes.Where(m => m.Id_Destinatario == u.Id && m.Leido == false).ToList();
+        }
+
         public Usuario GetUserById(string id)
         {
             return (from usu in db.Usuarios
@@ -63,6 +69,16 @@ namespace Proyecto_AirBnb.Controllers
             return ret;
         }
 
+        public List<Anuncio> getAnunciosSubidos(Usuario u)
+        {
+            return db.Anuncios.Where(a => a.Id_Anfitrion == u.Id).ToList();
+        }
+
+        public Anuncio getAnuncioAborrar(int idAnuncio)
+        {
+            return db.Anuncios.Where(a => a.Id_Anuncio == idAnuncio).Single();
+        }
+
         public void SetAnfitrion(string idUser)
         {
             db.Usuarios.Where(u => u.Id == idUser).ToList().ForEach(x => x.Anfitrion = true);
@@ -71,6 +87,12 @@ namespace Proyecto_AirBnb.Controllers
 
         }
 
+        public bool estaReservado(Anuncio a)
+        {
+            return (from res in db.Reservas
+                    where res.Id_Anuncio == a.Id_Anuncio
+                    select true).Single();
+        }
 
         public void MandarMensaje(Usuario u)
         {

@@ -229,6 +229,8 @@
     <Content Include="Views\Shared\_LayoutNavBar.cshtml" />
     <Content Include="Views\Inicio\ListarAnuncios.cshtml" />
     <Content Include="Views\Anuncios\DetalleAnuncio.cshtml" />
+    <Content Include="Views\Perfil\Mensajes.cshtml" />
+    <Content Include="Views\Perfil\MisAnuncios.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

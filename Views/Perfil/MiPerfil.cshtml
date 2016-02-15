@@ -21,6 +21,7 @@
 </head>
 <body>
 
+    @{Usuario user = (Usuario)Session["usuario"]; }
     @* seccion central. Navegacion y Contenido*@
     <div class="page-container-responsive space-top-4 space-4">
         <div class="row">
@@ -28,19 +29,19 @@
                 <div class="sidenav">
                     <ul class="sidenav-list">
                         <li>
-                            <a href="#" aria-selected="false" class="sidenav-item">Editar perfil</a>
+                            <a href="#" id="editarPerfil" aria-selected="false" class="sidenav-item link">Editar perfil</a>
                         </li>
                         <li>
-                            <a href="#" aria-selected="false" class="sidenav-item">Mis anuncios</a>
+                            <a href="#" id="misAnuncios" aria-selected="false" class="sidenav-item link">Mis anuncios</a>
                         </li>
                         <li>
-                            <a href="#" aria-selected="false" class="sidenav-item">Subir anuncios</a>
+                            <a href="/Anuncios/NuevoAnuncio"  aria-selected="false" class="sidenav-item link">Subir anuncios</a>
                         </li>
                         <li>
-                            <a href="#" aria-selected="false" class="sidenav-item">Mensajes (@Session["mensajes"])</a>
+                            <a href="#" id="mensajes" aria-selected="false" class="sidenav-item link">Mensajes (@Session["mensajes"])</a>
                         </li>
                         <li>
-                            <a href="#" aria-selected="false" class="sidenav-item">Darse de baja</a>
+                            <a href="#" aria-selected="false" class="sidenav-item link">Darse de baja</a>
                         </li>
                     </ul>
                 </div>
@@ -51,7 +52,7 @@
             <div class="col-md-offset-4">
 
 
-                <h2>Bienvenido</h2>
+                <h2>Bienvenido @user.Nombre </h2>
                 <div id="dashboard-content">
 
 
@@ -62,8 +63,8 @@
 
 </body>
 </html>
-@section scripts{    
-    
+@section scripts{
+
     <script>
         /*
         Peticion ajax a action que lee el parámetro y devuelve con un switch
@@ -72,6 +73,74 @@
         - Datos de perfil...
 
         */
+
+        //dinamismoooooo
+
+        $(".link").click(function () { //--> como vamos siempre al mismo lado....solo cambia id
+            //los anchor de la class='link'
+            var id = $(this).attr("id");
+            var json = { "index": id };
+
+            $.ajax({
+
+                url: "@Url.Action("Listar", "Perfil")",
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'html',
+                data: JSON.stringify(json),
+
+            }).done(function (data) {
+
+                $("#dashboard-content").html(data);
+            });
+        });
+
+
+
+
+        @*$("#editarPerfil").click(function () {/*Pet ajax para cargar PartialView Perfil*/ });
+        $("#misAnuncios").click(function () {/*Pet ajax para cargar PartialView Listar Anuncios*/
+
+            var json = { "index": "misAnuncios" };
+            $.ajax({
+
+                url: "@Url.Action("Listar", "Perfil")",
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'html',
+                data: JSON.stringify(json),
+
+            }).done(function (data) {
+
+                $("#dashboard-content").html(data);
+            });
+
+        });
+        $("#subirAnuncio").click(function () {/*Pet ajax para cargar Subir Anuncio*/
+
+            window.location.assign("http://localhost:17204/Anuncios/NuevoAnuncio");
+        });
+
+
+        $("#mensajes").click(function () {/*Pet ajax para cargar PartialView ListarMensajes*/
+
+            var json = { "index": "mensajes" };
+            $.ajax({
+
+                url: "@Url.Action("Listar", "Perfil")",
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'html',
+                data: JSON.stringify(json),
+
+            }).done(function (data) {
+
+                $("#dashboard-content").html(data);
+            });
+
+        });*@
+
+
 
     </script>
 }

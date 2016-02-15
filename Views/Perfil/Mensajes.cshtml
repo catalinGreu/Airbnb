@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Proyecto_AirBnb.Models.Mensaje>
+
+<table class="table">
+    <tr>       
+        <th>
+            @Html.DisplayNameFor(model => model.Id_Remitente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mensaje1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fecha)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Leido)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Destinatario)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.Mensaje1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fecha)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Leido)
+        </td>
+        <td>
+            @Html.ActionLink("Leido", "Delete", new { id=item.Id_Mensaje })
+        </td>
+    </tr>
+}
+
+</table>
