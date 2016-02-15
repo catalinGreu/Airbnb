@@ -18,7 +18,8 @@
         <div class="form-group col-md-offset-2 col-md-10 form-horizontal">
             @Html.LabelFor(model => model.Titulo, htmlAttributes: new { @class = "control-label col-md-2" })
             @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control" } })
+           @* @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control" } })*@
+            <input type="text" name="titulo" class="form-control" maxlength="40"/>
 
         </div>
         <div class="form-group col-md-offset-2 col-md-10 form-horizontal">

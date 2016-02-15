@@ -105,7 +105,7 @@
 
     <!-- Navigation bar.............-->
     @RenderSection("Navbar")
-    
+
 
 
     <noscript>
@@ -133,67 +133,67 @@
 
 
 
-        @*<script>
+       <script>
 
-  var AIR = AIR || {};
-!function() {
-  var xhr,
-    callbacks = [],
-    loaded = false,
-    response = null,
-    url = '/discovery/discover_feed';
+              var AIR = AIR || {};
+            !function() {
+              var xhr,
+                callbacks = [],
+                loaded = false,
+                response = null,
+                url = '/discovery/discover_feed';
 
-  AIR.onCustomRecommendedDestinationsLoad = function(callback) {
-    if (loaded) {
-      // [do not release zalgo]
-      // http://blog.izs.me/post/59142742143/designing-apis-for-asynchrony
-      setTimeout(function() { callback(response); }, 0);
-    } else {
-      callbacks.push(callback);
-    }
-  };
+              AIR.onCustomRecommendedDestinationsLoad = function(callback) {
+                if (loaded) {
+                  // [do not release zalgo]
+                  // http://blog.izs.me/post/59142742143/designing-apis-for-asynchrony
+                  setTimeout(function() { callback(response); }, 0);
+                } else {
+                  callbacks.push(callback);
+                }
+              };
 
-  if (window.XMLHttpRequest) {
-    xhr = new XMLHttpRequest();
-  } else if (window.ActiveXObject) {
-    xhr = new ActiveXObject("Microsoft.XMLHTTP");
-  } else {
-    return; // Can't do XHR - Give up
-  }
+              if (window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest();
+              } else if (window.ActiveXObject) {
+                xhr = new ActiveXObject("Microsoft.XMLHTTP");
+              } else {
+                return; // Can't do XHR - Give up
+              }
 
-  xhr.onreadystatechange = function() {
-    var status;
+              xhr.onreadystatechange = function() {
+                var status;
 
-    if (xhr.readyState != 4)
-      return false;
+                if (xhr.readyState != 4)
+                  return false;
 
-    status = xhr.status;
-    if (status !== 200) {
-      response = '{"error": "Internal server error"}';
-    } else {
-      response = xhr.responseText;
-    }
+                status = xhr.status;
+                if (status !== 200) {
+                  response = '{"error": "Internal server error"}';
+                } else {
+                  response = xhr.responseText;
+                }
 
-    loaded = true;
-    while (callbacks.length > 0) {
-      callbacks.pop()(response);
-    }
+                loaded = true;
+                while (callbacks.length > 0) {
+                  callbacks.pop()(response);
+                }
 
-    return (status === 200);
-  };
-  url += window.location.search;
-  xhr.open('get', url, true);
-  xhr.setRequestHeader('Accept', 'application/json');
-  // WE MUST set the XHR http headers since this is loaded on a cached home page which without
-  // this code it will run the cross domain POST request which logs the user out for no reason
-  // without even successfully transfering the cookie session.
-  xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-  xhr.send();
-}();
+                return (status === 200);
+              };
+              url += window.location.search;
+              xhr.open('get', url, true);
+              xhr.setRequestHeader('Accept', 'application/json');
+              // WE MUST set the XHR http headers since this is loaded on a cached home page which without
+              // this code it will run the cross domain POST request which logs the user out for no reason
+              // without even successfully transfering the cookie session.
+              xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+              xhr.send();
+            }();
 
-        </script>*@
+                    </script>
 
-        
+
 
 
         <div class="hero shift-with-hiw js-hero">
@@ -290,7 +290,7 @@
 
                         </div>
 
-                        <a href="/info/how_it_works"
+                        <a href="#"
                            class="btn hide-sm btn-contrast btn-large btn-semi-transparent js-show-how-it-works">
                             Cómo funciona
                         </a>
@@ -298,7 +298,7 @@
                     </div>
 
                 </div>
-               @RenderSection("search");
+                @RenderSection("search")
             </div>
         </div>
 
@@ -362,7 +362,7 @@
 
                     <div class="row space-top-4 space-4 text-center">
                         <p>
-                            <a href='/help/getting-started/how-to-host'>Infórmate</a> sobre cómo convertirte en anfitrión de Airbnb y haz que los huéspedes sientan que han encontrado su lugar.
+                            <a href="#">Infórmate</a> sobre cómo convertirte en anfitrión de Airbnb y haz que los huéspedes sientan que han encontrado su lugar.
                         </p>
                     </div>
 
@@ -381,7 +381,7 @@
                     <div class="row">
                         <div class="col-sm-8 hide-sm">
                             <div class="host-banner__media-container">
-                                <a href="/rooms/new" class="host-banner__image-link">
+                                <a href="#" class="host-banner__image-link">
                                     <div class="air-slideshow hide-sm host-banner__slide">
                                         <ul class="list-unstyled" id="host-banner-slideshow">
                                             <li class="air-slide air-slide--active background-cover host-banner__welcome-guest"
@@ -429,7 +429,7 @@
                                     <div class="host-banner__subtitle space-4">
                                         Gana dinero compartiendo tu espacio libre con los huéspedes.
                                     </div>
-                                    <a href="/rooms/new"
+                                    <a href="#"
                                        class='link-reset host-banner__btn'>
                                         <strong class='btn btn-host btn-large btn-block host-banner__cta'>
                                             Cuánto puedes ganar
@@ -442,7 +442,7 @@
                 </div>
             </div>
         </div>
-
+        @RenderSection("anuncios")
 
         <div class="panel panel-dark no-border-top">
             <div id="discovery-container">
@@ -729,7 +729,7 @@
                         </div>
                     </div>
                 </li>
-                
+
                 <li class="air-slide belong-anywhere__create" aria-hidden="true">
                     <!--<![endif]-->
                     <a href="https://create.airbnb.com">

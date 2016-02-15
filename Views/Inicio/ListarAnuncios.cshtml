@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Proyecto_AirBnb.Models.Anuncio>
+
+
+
+@foreach (var item in Model)
+{
+
+    <div class="col-xs-offset-2 panel panel-primary" style="width:550px;padding-bottom: 20px;position:relative">
+        <div class="panel-heading">
+            <h2> @Html.ActionLink(@item.Titulo,"DetalleAnuncio","Anuncios", new { id = @item.Id_Anuncio }, new { @style="color:#FFFFFF"} )
+            </h2>
+        </div>
+        <div>
+            <img src="~/Content/Imagenes/Anuncios/@item.Foto" width="300" style="border-radius:15px" />
+
+            <div class="form-group" style="float:right">
+                <label for="aloj"><strong>Alojamiento</strong></label>
+                <p name="aloj">@item.Alojamiento</p>
+
+                <label for="hab"><strong>Habitacion</strong></label>
+                <p name="hab">@item.Habitacion</p>
+
+                <label for="cap"><strong>Capacidad</strong></label>
+                <p name="hab">@item.Capacidad</p>
+
+                <div>
+                    <h5>Precio/noche: </h5>  @item.Precio €
+
+                </div>
+
+            </div>
+
+            <div>
+
+                <h3><strong>Descripción</strong></h3>
+                <div><h5>@item.Descripcion</h5></div>
+            </div>
+        </div>
+
+        <div>
+
+            <button class="btn btn-primary">RESERVAR</button>
+
+        </div>
+    </div>
+
+}
+
+

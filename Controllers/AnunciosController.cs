@@ -109,6 +109,12 @@ namespace Proyecto_AirBnb.Controllers
             }
         }
 
+       
+        public ActionResult DetalleAnuncio(int? id)
+        {
+            Anuncio a = getAnuncioById( (int)id);
+            return View(a);
+        }
         public ActionResult ListarAnuncios()
         {
             List<Anuncio> lista = (List<Anuncio>) TempData["lista"];
@@ -124,6 +130,14 @@ namespace Proyecto_AirBnb.Controllers
             using (OperacionesBDController db = new OperacionesBDController())
             {
                 db.GrabaAnuncio(a);
+            }
+        }
+
+        public Anuncio getAnuncioById(int id)
+        {
+            using (OperacionesBDController db = new OperacionesBDController())
+            {
+                return db.getAnuncioById(id);
             }
         }
         #endregion

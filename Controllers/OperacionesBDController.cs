@@ -99,5 +99,10 @@ namespace Proyecto_AirBnb.Controllers
         {
             return db.Mensajes.Where(m => m.Id_Destinatario == elID && m.Leido == false).Count();
         }
+
+        public Anuncio getAnuncioById(int id)
+        {
+            return db.Anuncios.Where(a => a.Id_Anuncio == id).Single();
+        }
     }
 }
