@@ -46,15 +46,30 @@ namespace Proyecto_AirBnb.Controllers
             return PartialView();
         }
 
-        public string EliminarAnuncio(int id)
+        public string EliminarAnuncio(int? id)
         {
-            Anuncio a = getAnuncioAborrar(id);
+            Anuncio a = getAnuncioAborrar((int)id);
             //comprobar que no está en reservas
             if ( estaReservado(a) )
             {
-
+                return ("<script>alert('El anuncio está reservado. NO se puede borrar');" +
+                        "window.location.assign('http://localhost:17204/Perfil/MiPerfil');" +
+                    "</script>");
+            }
+            else
+            {
+                BorraAnuncio(a);
+                return ("<script>alert('Anuncio borrado con éxito.');" +
+                       "window.location.assign('http://localhost:17204/Perfil/MiPerfil');" +
+                   "</script>");
             }
 
+        }
+        public string MensajeLeido(int? id)
+        {
+            MarcarLeido((int)id);
+            return ("<script>window.location.assign('http://localhost:17204/Perfil/MiPerfil');" +
+                   "</script>");
         }
         #region "acceso a datos"
 
@@ -90,8 +105,21 @@ namespace Proyecto_AirBnb.Controllers
             }
         }
 
+        public void BorraAnuncio(Anuncio a)
+        {
+            using (OperacionesBDController db = new OperacionesBDController())
+            {
+                db.BorraAnuncio(a);
+            }
+        }
+        public void MarcarLeido(int idMensaje)
+        {
+            using (OperacionesBDController db = new OperacionesBDController())
+            {
+                db.MarcarLeido(idMensaje);
+            }
+        }
         #endregion
-        //Perfil/Anuncios
         //Perfil/Reservas...
     }
 }

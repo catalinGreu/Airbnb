@@ -91,7 +91,7 @@ namespace Proyecto_AirBnb.Controllers
         {
             return (from res in db.Reservas
                     where res.Id_Anuncio == a.Id_Anuncio
-                    select true).Single();
+                    select true).SingleOrDefault();
         }
 
         public void MandarMensaje(Usuario u)
@@ -108,6 +108,21 @@ namespace Proyecto_AirBnb.Controllers
 
             };
             db.Mensajes.InsertOnSubmit(m);
+            db.SubmitChanges();
+        }
+
+        public void BorraAnuncio(Anuncio a)
+        {
+            Anuncio borrar = db.Anuncios.Where(an => an.Id_Anuncio == a.Id_Anuncio).Single();
+            db.Anuncios.DeleteOnSubmit(borrar);
+            db.SubmitChanges();
+
+        }
+
+        public void MarcarLeido(int idMensaje)
+        {
+            db.Mensajes.Where(m => m.Id_Mensaje == idMensaje).Single().Leido = true;
+            
             db.SubmitChanges();
         }
 
@@ -142,7 +157,7 @@ namespace Proyecto_AirBnb.Controllers
             bool existe = (from res in db.Reservas
                     where res.Id_Huesped == r.Id_Huesped &&
                    res.Id_Anuncio == r.Id_Anuncio
-                    select true).Single();
+                    select true).SingleOrDefault();
             return existe;
         }
 

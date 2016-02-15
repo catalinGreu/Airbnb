@@ -3,7 +3,7 @@
 <table class="table">
     <tr>       
         <th>
-            @Html.DisplayNameFor(model => model.Id_Remitente)
+            @Html.DisplayNameFor(model => model.Id_Destinatario)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Mensaje1)
@@ -11,9 +11,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Fecha)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Leido)
-        </th>
+        
         <th></th>
     </tr>
 
@@ -29,11 +27,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.Fecha)
         </td>
+       
         <td>
-            @Html.DisplayFor(modelItem => item.Leido)
-        </td>
-        <td>
-            @Html.ActionLink("Leido", "Delete", new { id=item.Id_Mensaje })
+            @Html.ActionLink("Leído","MensajeLeido", "Perfil", new { id=item.Id_Mensaje },null)
         </td>
     </tr>
 }

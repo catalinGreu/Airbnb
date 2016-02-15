@@ -56,7 +56,7 @@
         </td>
        
         <td>
-            @Html.ActionLink("Eliminar","EliminarAnuncio", "Anuncios", new { id=item.Id_Anuncio })
+            @Html.ActionLink("Eliminar","EliminarAnuncio","Perfil", new { id=@item.Id_Anuncio},null)
         </td>
     </tr>
 }
