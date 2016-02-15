@@ -31,13 +31,17 @@ namespace Proyecto_AirBnb.Controllers
             string ddL = model.Llegada.Split('/')[1]; //--> dd llegada
             string yyL = model.Llegada.Split('/')[2];// --> yy Llegada
 
-            string mmS = model.Llegada.Split('/')[0];//--> mm Salida
+            string mmS = model.Salida.Split('/')[0];//--> mm Salida
             string ddS = model.Salida.Split('/')[1];//--> dd Salida
-            string yyS = model.Llegada.Split('/')[2];//--> yy Salida
+            string yyS = model.Salida.Split('/')[2];//--> yy Salida
 
             DateTime llegada = DateTime.Parse( ddL +"/" + mmL + "/" + yyL) ;
             DateTime salida = DateTime.Parse( ddS + "/" + mmS + "/" +yyS);
             TimeSpan resta = salida.Subtract(llegada);
+            if (resta.Days < 0)
+            {
+                return PartialView("ListarAnuncios", null);
+            }
             Session["noches"] = resta.Days;
 
             List<Anuncio> lista = getAnuncios(model);                     

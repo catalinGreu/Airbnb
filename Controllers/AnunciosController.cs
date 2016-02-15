@@ -109,23 +109,67 @@ namespace Proyecto_AirBnb.Controllers
             }
         }
 
-       
+
         public ActionResult DetalleAnuncio(int? id)
         {
-            Anuncio a = getAnuncioById( (int)id);
+            Anuncio a = getAnuncioById((int)id);
             return View(a);
         }
         public ActionResult ListarAnuncios()
         {
-            List<Anuncio> lista = (List<Anuncio>) TempData["lista"];
+            List<Anuncio> lista = (List<Anuncio>)TempData["lista"];
             return View(lista);
         }
+
+        public string Reserva(string id) //--> ID del Anuncio
+        {
+            if (Session["usuario"] != null)
+            {
+                Usuario conectado = (Usuario)Session["usuario"];
+                Reserva r = new Models.Reserva { Id_Anuncio = Convert.ToInt16(id), Id_Huesped = conectado.Id };
+
+                if (GrabaReserva(r))
+                {
+                    string idAnfitrion = getIdAnfitrion(Convert.ToInt16(id)); //id ---> Anuncio
+                    string texto = "EL usuario " + conectado.Nombre + " ha hecho una reserva para su anuncio con ID=" + Convert.ToInt16(id);
+                    Mensaje m = new Mensaje
+                    {
+                        Fecha = DateTime.Now,
+                        Id_Destinatario = idAnfitrion,
+                        Id_Remitente = conectado.Id,
+                        Leido = false,
+                        Mensaje1 = texto
+                    };
+                    MandaNotificacionReserva(m);
+                    return ("<script>alert('Reserva realizada con éxito');" +
+                        "window.location.assign('http://localhost:17204/Inicio/Index');" +
+                    "</script>");
+
+                }
+                else
+                {
+                    return ("<script>alert('Esta anuncio ya lo había solicitado.\n Espere a que el anfitrión le conteste');" +
+                       "window.location.assign('http://localhost:17204/Inicio/Index');" +
+                   "</script>");
+                }
+
+
+            }
+            else
+            {
+                return ("<script>alert('Inicia sesión o regístrate para reservar anuncios');" +
+                 "window.location.assign('http://localhost:17204/Inicio/Index');" +
+             "</script>");
+            }
+
+        }
+
 
 
 
 
         #region "Accesso a datos"
-        public void GrabaAnuncio(Anuncio a)
+        private void GrabaAnuncio(Anuncio a)
         {
             using (OperacionesBDController db = new OperacionesBDController())
             {
@@ -133,11 +177,34 @@ namespace Proyecto_AirBnb.Controllers
             }
         }
 
-        public Anuncio getAnuncioById(int id)
+        private Anuncio getAnuncioById(int id)
         {
             using (OperacionesBDController db = new OperacionesBDController())
             {
                 return db.getAnuncioById(id);
+            }
+        }
+
+        private bool GrabaReserva(Reserva r)
+        {
+            using (OperacionesBDController db = new OperacionesBDController())
+            {
+                return db.GrabaReserva(r);
+            }
+        }
+
+        private string getIdAnfitrion(int id)
+        {
+            using (OperacionesBDController db = new OperacionesBDController())
+            {
+                return db.getIdAnfitrion(id);
+            }
+        }
+        private void MandaNotificacionReserva(Mensaje m)
+        {
+            using (OperacionesBDController db = new OperacionesBDController())
+            {
+                db.MandaNotificacionReserva(m);
             }
         }
         #endregion

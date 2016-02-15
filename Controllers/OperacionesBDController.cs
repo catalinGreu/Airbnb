@@ -71,7 +71,7 @@ namespace Proyecto_AirBnb.Controllers
 
         }
 
-    
+
         public void MandarMensaje(Usuario u)
         {
             string mensaje = u.Nombre + ", el equipo de AirBnb le da la bienvenida. " +
@@ -83,7 +83,7 @@ namespace Proyecto_AirBnb.Controllers
                 Fecha = DateTime.Now,
                 Mensaje1 = mensaje,
                 Leido = false
-                
+
             };
             db.Mensajes.InsertOnSubmit(m);
             db.SubmitChanges();
@@ -103,6 +103,38 @@ namespace Proyecto_AirBnb.Controllers
         public Anuncio getAnuncioById(int id)
         {
             return db.Anuncios.Where(a => a.Id_Anuncio == id).Single();
+        }
+
+        public bool GrabaReserva(Reserva r)
+        {
+            if (existeReserva(r))
+            {
+                return false;
+            }
+            db.Reservas.InsertOnSubmit(r);
+            db.SubmitChanges();
+            return true;
+        }
+        private bool existeReserva(Reserva r)
+        {
+            bool existe = (from res in db.Reservas
+                    where res.Id_Huesped == r.Id_Huesped &&
+                   res.Id_Anuncio == r.Id_Anuncio
+                    select true).Single();
+            return existe;
+        }
+
+        public string getIdAnfitrion(int id) //--> ID del Anuncio
+        {
+            return (from a in db.Anuncios
+                    where a.Id_Anuncio == id
+                    select a.Id_Anfitrion).Single();
+        }
+
+        public void MandaNotificacionReserva(Mensaje m)
+        {
+            db.Mensajes.InsertOnSubmit(m);
+            db.SubmitChanges();
         }
     }
 }

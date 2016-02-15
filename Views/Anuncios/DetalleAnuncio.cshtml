@@ -56,7 +56,7 @@
                         <td>@subtotal€</td>
                     </tr>
                     <tr>
-                        <td colspan="2">@subtotal + 20% </td>
+                        <td data-toggle="tooltip" data-placement="left" title="En concepto de servicios ofrecidos por la página" colspan="2">@subtotal + 20% </td>
                         <td>@iva</td>
                     </tr>
                     <tr>
@@ -64,7 +64,11 @@
                         <td><strong>@total€</strong></td>
                     </tr>
                     <tr>
-                        <td colspan="3"><button class="btn btn-primary">RESERVAR</button></td>
+                        <td colspan="3">
+
+                            
+                            @Html.ActionLink("RESERVAR", "Reserva", "Anuncios", new { area = "", id = @Model.Id_Anuncio, }, new { @class = "btn btn-primary" })
+                        </td>
                     </tr>
                 </tbody>
 
@@ -72,10 +76,8 @@
 
         </div>
     </div>
-
-    <div>
-
-
-
-    </div>
 </div>
+
+
+
+}

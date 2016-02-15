@@ -91,8 +91,6 @@
                             <input id="location"
                                    type="text"
                                    class="input-large input-contrast"
-                                   autocomplete="off"
-                                   name="location"
                                    placeholder="¿A dónde quieres ir?" />
                             <div id="searchbar-location-error" class="searchbar__location-error hide">
                                 Por favor, elige una ubicación
@@ -175,10 +173,15 @@
 @section scripts{
 
 
-    <script src="~/Scripts/MiScriptUi.js" type="text/javascript"></script>
     <script>
-        //-->
-        //------> JQUERY UI
+        $("#checkin").datepicker();
+        $("#checkout").datepicker();
+
+
+        var array = ["miami", "new york", "florida"];
+        $("#location").autocomplete(array);
+    </script>
+    <script>
 
 
 
