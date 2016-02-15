@@ -1,37 +1,45 @@
 ﻿@model IEnumerable<Proyecto_AirBnb.Models.Anuncio>
 
-<table class="table">
-    <tr>
-        
-        <th>
-            @Html.DisplayNameFor(model => model.Titulo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Alojamiento)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Habitacion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Capacidad)
-        </th>
-       
-        <th>
-            @Html.DisplayNameFor(model => model.Localidad)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Precio)
-        </th>
-       
-        <th></th>
-    </tr>
+@if (Model.Count() == 0)
+{
+    <div class="panel panel-default">
+        <h2>Aun no tienes anuncios subidos</h2>
+    </div>
+}
+else
+{
+    <table class="table">
+        <tr>
 
-@foreach (var item in Model) {
+            <th>
+                @Html.DisplayNameFor(model => model.Titulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Alojamiento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Habitacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Capacidad)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Localidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model) {
     <tr>
-        
+
         <td>
             @Html.DisplayFor(modelItem => item.Titulo)
         </td>
@@ -47,18 +55,20 @@
         <td>
             @Html.DisplayFor(modelItem => item.Capacidad)
         </td>
-       
+
         <td>
             @Html.DisplayFor(modelItem => item.Localidad)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Precio)
         </td>
-       
+
         <td>
             @Html.ActionLink("Eliminar","EliminarAnuncio","Perfil", new { id=@item.Id_Anuncio},null)
         </td>
     </tr>
 }
 
-</table>
+    </table>
+
+}

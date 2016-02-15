@@ -123,7 +123,13 @@ namespace Proyecto_AirBnb.Controllers
                 if (GrabaReserva(r))
                 {
                     string idAnfitrion = getIdAnfitrion(Convert.ToInt16(id)); //id ---> Anuncio
-                    string texto = "EL usuario " + conectado.Nombre + " ha hecho una reserva para su anuncio con ID=" + Convert.ToInt16(id);
+                    if(idAnfitrion.Equals(conectado.Id))
+                    {
+                        return ("<script>alert('Este anuncio lo has publicado tu, Capullo!');" +
+                       "window.location.assign('http://localhost:17204/Inicio/Index');" +
+                   "</script>");
+                    }
+                    string texto = "El usuario " + conectado.Nombre + " ha hecho una reserva para su anuncio con ID=" + Convert.ToInt16(id);
                     Mensaje m = new Mensaje
                     {
                         Fecha = DateTime.Now,
@@ -140,9 +146,9 @@ namespace Proyecto_AirBnb.Controllers
                 }
                 else
                 {
-                    return ("<script>alert('Esta anuncio ya lo había solicitado.\n Espere a que el anfitrión le conteste');" +
-                       "window.location.assign('http://localhost:17204/Inicio/Index');" +
-                   "</script>");
+                    return ("<script>alert('Este anuncio ya lo había reservado. Espere confirmación del Anfitrión');" +
+                         "window.location.assign('http://localhost:17204/Inicio/Index');" +
+                     "</script>");
                 }
 
 

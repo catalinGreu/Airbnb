@@ -119,11 +119,15 @@ namespace Proyecto_AirBnb.Controllers
 
         }
 
-        public void MarcarLeido(int idMensaje)
+        public int MarcarLeido(int idMensaje)
         {
             db.Mensajes.Where(m => m.Id_Mensaje == idMensaje).Single().Leido = true;
             
             db.SubmitChanges();
+            Usuario u = (Usuario)Session["usuario"];
+            return GetMensajes(u.Id);
+
+
         }
 
         public void GrabaAnuncio(Anuncio a)
