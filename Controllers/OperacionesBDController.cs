@@ -119,12 +119,12 @@ namespace Proyecto_AirBnb.Controllers
 
         }
 
-        public int MarcarLeido(int idMensaje)
+        public int MarcarLeido(int idMensaje, Usuario u)
         {
             db.Mensajes.Where(m => m.Id_Mensaje == idMensaje).Single().Leido = true;
             
             db.SubmitChanges();
-            Usuario u = (Usuario)Session["usuario"];
+            //Usuario u = (Usuario)Session["usuario"]; por alguna razon aqui es null el user...
             return GetMensajes(u.Id);
 
 

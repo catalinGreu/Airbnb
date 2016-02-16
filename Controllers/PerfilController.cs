@@ -67,7 +67,9 @@ namespace Proyecto_AirBnb.Controllers
         }
         public string MensajeLeido(int? id)
         {
-            int mensajesSinLeer = MarcarLeido((int)id); //--> volvemos a meter en la Session
+            Usuario queUsu = (Usuario)Session["usuario"];
+        
+            int mensajesSinLeer = MarcarLeido((int)id, queUsu); //--> volvemos a meter en la Session
             Session["mensajes"] = mensajesSinLeer;
             return ("<script>window.location.assign('http://localhost:17204/Perfil/MiPerfil');" +
                    "</script>");
@@ -113,11 +115,11 @@ namespace Proyecto_AirBnb.Controllers
                 db.BorraAnuncio(a);
             }
         }
-        public int MarcarLeido(int idMensaje)
+        public int MarcarLeido(int idMensaje, Usuario u)
         {
             using (OperacionesBDController db = new OperacionesBDController())
             {
-                return db.MarcarLeido(idMensaje);
+                return db.MarcarLeido(idMensaje, u);
             }
         }
         #endregion

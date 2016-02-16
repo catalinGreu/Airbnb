@@ -55,7 +55,7 @@ namespace Proyecto_AirBnb.Controllers
                     //le mando a registro o a login...y guardo en sesion el Anuncio (Incompleto)
                     Anuncio a = new Anuncio { Alojamiento = model.Alojamiento, Habitacion = model.Habitacion, Capacidad = model.Capacidad, Localidad = model.Ciudad };
                     Session["anuncio"] = a;
-                   
+
                     TempData["warning"] = "Registrate o Inicia sesión para continuar";
                     //ViewBag.Warning = "Registrate o Inicia sesión para continuar";
                     return RedirectToAction("NuevoAnuncio", "Anuncios");
@@ -120,15 +120,18 @@ namespace Proyecto_AirBnb.Controllers
                 Usuario conectado = (Usuario)Session["usuario"];
                 Reserva r = new Models.Reserva { Id_Anuncio = Convert.ToInt16(id), Id_Huesped = conectado.Id };
 
-                if (GrabaReserva(r))
+                string idAnfitrion = getIdAnfitrion(Convert.ToInt16(id)); //id ---> Anuncio
+                if (idAnfitrion.Equals(conectado.Id))
                 {
-                    string idAnfitrion = getIdAnfitrion(Convert.ToInt16(id)); //id ---> Anuncio
-                    if(idAnfitrion.Equals(conectado.Id))
-                    {
-                        return ("<script>alert('Este anuncio lo has publicado tu, Capullo!');" +
-                       "window.location.assign('http://localhost:17204/Inicio/Index');" +
-                   "</script>");
-                    }
+                    return ("<script>alert('Este anuncio lo has publicado tu, Capullo!');" +
+                   "window.location.assign('http://localhost:17204/Inicio/Index');" +
+               "</script>");
+                }
+
+                if (GrabaReserva(r))//Compruebo si puede grabar en reservas. Si ha podido--> anuncio no existía
+                                    //si no ha podido es porq el anuncio ya estaba reservado por ese Usuario.
+                {
+
                     string texto = "El usuario " + conectado.Nombre + " ha hecho una reserva para su anuncio con ID=" + Convert.ToInt16(id);
                     Mensaje m = new Mensaje
                     {
