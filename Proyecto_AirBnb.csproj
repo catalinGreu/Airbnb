@@ -185,6 +185,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AnunciosController.cs" />
+    <Compile Include="Controllers\ControladorEmail.cs" />
     <Compile Include="Controllers\InicioController.cs" />
     <Compile Include="Controllers\OperacionesBDController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
@@ -218,6 +219,7 @@
     <Content Include="Views\Anuncios\DetalleAnuncio.cshtml" />
     <Content Include="Views\Perfil\Mensajes.cshtml" />
     <Content Include="Views\Perfil\MisAnuncios.cshtml" />
+    <Content Include="Views\Account\ForgotPass.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

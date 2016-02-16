@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
 using Proyecto_AirBnb.Models;
+
 using System.IO;
 
 namespace Proyecto_AirBnb.Controllers
@@ -12,6 +13,7 @@ namespace Proyecto_AirBnb.Controllers
     public class AccountController : Controller
     {
         UsuarioController controlUsu = new UsuarioController();
+        
         // GET: Account
 
         public ActionResult Registro(bool? id)
@@ -37,7 +39,7 @@ namespace Proyecto_AirBnb.Controllers
                     string salt = null;
                     while (salt == null) // si me da null, lo llamo de nuevo
                     {
-                        salt = controlUsu.GeneraID();
+                        salt = controlUsu.GeneraID(20);
                     }
                     string hash = controlUsu.Hashea(salt, model.Password);
 
@@ -107,6 +109,34 @@ namespace Proyecto_AirBnb.Controllers
                 }
             }
             return View(model);
+        }
+        public ActionResult ForgotPass()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ForgotPass(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                string id = controlUsu.GetIdByCorreo(model.Email);
+                if (id != null)
+                {
+                    string newPass = controlUsu.GeneraID(10);
+                    string newHash = controlUsu.Hashea(id, newPass);
+                    //update del hash
+                    controlUsu.UpdateHash(id, newHash);
+                    return RedirectToAction("Login", "Account");
+                    //mando correo con pass...
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "El usuario no existe";
+                    return View();
+                }
+
+            }
+            return View();
         }
 
         public ActionResult Desconectar()

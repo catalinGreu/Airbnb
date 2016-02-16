@@ -11,9 +11,9 @@ namespace Proyecto_AirBnb.Controllers
     public class UsuarioController : Controller
     {
 
-        public string GeneraID()
+        public string GeneraID(int length)
         {
-            const int length = 20;
+            
             const string allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789";
             var randNum = new Random();
             var chars = new char[length];
@@ -123,6 +123,14 @@ namespace Proyecto_AirBnb.Controllers
             using (OperacionesBDController db = new OperacionesBDController())
             {
                 return db.SetNombreFoto(id, ruta);
+            }
+
+        }
+        public void UpdateHash(string id, string hash)
+        {
+            using (OperacionesBDController db = new OperacionesBDController())
+            {
+                db.UpdateHash(id, hash);
             }
 
         }

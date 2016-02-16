@@ -49,7 +49,18 @@ namespace Proyecto_AirBnb.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
     }
+    public class ForgotPasswordViewModel
+    {
+        [Required]
+        [Display(Name = "Email")]
+        [EmailAddress]
+        public string Email { get; set; }
+        [Required]
+        [Display(Name = "Confirma Email")]
+        [EmailAddress]
+        [Compare("Email", ErrorMessage = "Emails no coinciden")]
+        public string ConfirmEmail { get; set; }
 
-    //meteré tambien un RegistroAnfitrión
-    // o tambien PublicarAnuncio...
+    }
+        
 }

@@ -156,6 +156,13 @@ namespace Proyecto_AirBnb.Controllers
             db.SubmitChanges();
             return true;
         }
+
+        public void UpdateHash(string id, string hash)
+        {
+            db.Usuarios.Where(usu => usu.Id == id).Single().Hash = hash;
+            db.SubmitChanges();
+        }
+
         private bool existeReserva(Reserva r)
         {
             bool existe = (from res in db.Reservas
