@@ -89,8 +89,8 @@ namespace Proyecto_AirBnb.Controllers
                     return View(model);
                 }
                 string hash = controlUsu.Hashea(elID, model.Password);
-                //o_O no entiendo por qué funciona cuando restaura la contraseña desde
-                // el email, porq le envio unos caracteres aleatorios...y 
+                
+
                 if (controlUsu.ExisteUsuario(hash, model.Email))
                 {
                     Usuario u = controlUsu.GetUserById(elID);
@@ -123,7 +123,11 @@ namespace Proyecto_AirBnb.Controllers
                 string id = controlUsu.GetIdByCorreo(model.Email);
                 if (id != null)
                 {
-                    string newPass = controlUsu.GeneraID(10);
+                    string newPass = null;
+                    while (newPass == null)
+                    {
+                        newPass = controlUsu.GeneraID(10);
+                    }
                     string newHash = controlUsu.Hashea(id, newPass);
                     //update del hash
                     controlUsu.UpdateHash(id, newHash);

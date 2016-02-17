@@ -122,16 +122,30 @@ namespace Proyecto_AirBnb.Controllers
 
         }
         [HttpPost]
-        public ActionResult CambiaPass(ChangePassViewModel model)
+        public ActionResult ChangePasswd(ChangePassViewModel model)
         {
             if (ModelState.IsValid)
             {
+                Usuario u = (Usuario)Session["usuario"];
+                string id = u.Id;
+                string hash = control.Hashea(id, model.OldPassword);
+                
+                //comprobamos si la pass antigua esta ok
+                if ( control.ExisteUsuario(hash,u.Correo) )
+                {
+                    string newHash = control.Hashea(id, model.NewPass);
+                    control.UpdateHash(id, newHash);
 
+                    Session["usuario"] = null;
+                    return RedirectToAction("Inicio", "Index");
+                    //le cambiamos la pass
+                }
             }
-            return View();
+            return PartialView(model);
         }
         #region "acceso a datos"
 
+       
         private List<Mensaje> getMensajesUsuario(Usuario u)
         {
 
