@@ -34,15 +34,21 @@
                         <li>
                             <a href="#" id="misAnuncios" aria-selected="false" class="sidenav-item link">Mis anuncios</a>
                         </li>
-                        @if ( (bool)user.Anfitrion)
+                        @if ((bool)user.Anfitrion)
                         {
-                           
+
                             <li>
                                 <a href="/Anuncios/NuevoAnuncio" aria-selected="false" class="sidenav-item link">Subir anuncios</a>
                             </li>
                         }
                         <li>
                             <a href="#" id="mensajes" aria-selected="false" class="sidenav-item link">Mensajes (@Session["mensajes"])</a>
+                        </li>
+                        <li>
+                            <a href="#" id="reservas" aria-selected="false" class="sidenav-item link">Mis Reservas</a>
+                        </li>
+                        <li>
+                            <a href="#" id="password" aria-selected="false" class="sidenav-item link">Cambiar Contraseña</a>
                         </li>
                         <li>
                             <a href="#" aria-selected="false" class="sidenav-item link">Darse de baja</a>
@@ -68,17 +74,33 @@
 
     <script>
         /*
-        Peticion ajax a action que lee el parámetro y devuelve con un switch
+        Peticion ajax a action que lee el parámetro y devuelve:
         - Mensajes
         - Anuncios subidos(por el usuario)
         - Datos de perfil...
 
         */
+        //la unica forma q se me ocurre para cargar algo nada mas entrar al perfil:
+        var json = { "index": "editarPerfil" };
+        $.ajax({
+
+            url: "@Url.Action("Listar", "Perfil")",
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'html',
+            data: JSON.stringify(json),
+
+        }).done(function (data) {
+
+            $("#dashboard-content").html(data);
+        });
+
+
 
         //dinamismoooooo
 
         $(".link").click(function () { //--> como vamos siempre al mismo lado....solo cambia id
-        
+
             var id = $(this).attr("id");
             var json = { "index": id };
 
@@ -95,7 +117,7 @@
                 $("#dashboard-content").html(data);
             });
         });
-         
+
 
 
     </script>

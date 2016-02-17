@@ -60,6 +60,11 @@ namespace Proyecto_AirBnb.Controllers
             return BitConverter.ToString(encodedBytes);
         }
 
+        public void UpdateUser(Usuario actual)
+        {
+            OperacionesBDController.UpdateUser(actual);
+        }
+
         #region "acceso a datos"
         public void MensajeBienvenida(Usuario u)
         {

@@ -247,5 +247,31 @@ namespace Proyecto_AirBnb.Controllers
             }
 
         }
+
+        public static List<Reserva> GetReservas(Usuario u)
+        {
+            using (MiDataBaseDataContext db = new MiDataBaseDataContext())
+            {
+                return db.Reservas.Where(r => r.Id_Huesped == u.Id).ToList();
+            }
+
+        }
+
+        public static void UpdateUser(Usuario nuevo)
+        {
+            using (MiDataBaseDataContext db = new MiDataBaseDataContext())
+            {
+                Usuario viejo = db.Usuarios.Where(usu => usu.Id == nuevo.Id).Single();
+
+                viejo.Nombre = nuevo.Nombre;
+                viejo.Apellido = nuevo.Apellido;
+                viejo.Correo = nuevo.Correo;
+                viejo.Foto = nuevo.Foto;
+
+                db.SubmitChanges();
+
+            }
+
+        }
     }
 }

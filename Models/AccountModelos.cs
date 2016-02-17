@@ -62,5 +62,39 @@ namespace Proyecto_AirBnb.Models
         public string ConfirmEmail { get; set; }
 
     }
+    public class EditUserViewModel
+    {
+       
+        [Required]
+        [Display(Name = "Nombre")]
+        public string Nombre { get; set; }
+        [Required]
+        [Display(Name = "Apellido")]
+        public string Apellido { get; set; }
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Correo { get; set; }
+
+    }
+    public class ChangePassViewModel
+    {
+        [Required]
+        [StringLength(100, ErrorMessage = "La {0} debe tener al menos {2} caracteres.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password Actual")]
+        public string OldPassword { get; set; }
+
+       
+        [DataType(DataType.Password)]
+        [Display(Name = "Nueva password")]
+        public string NewPass { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirmar password")]
+        [Compare("NewPass", ErrorMessage = "Las passwords no coinciden.")]
+        public string ConfirmNewPass { get; set; }
+
+    }
         
 }

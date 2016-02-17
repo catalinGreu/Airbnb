@@ -1,0 +1,71 @@
+﻿@model Proyecto_AirBnb.Models.EditUserViewModel
+@{ Usuario u = (Usuario)Session["usuario"];}
+@using (Html.BeginForm("EditarPerfil", "Perfil", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Editar Perfil</h4>
+        <hr />
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @if (ViewBag.Error != null)
+        {
+            <h2>@ViewBag.Error</h2>
+        }
+        <div class="form-group">
+            <label for="foto">Foto</label>
+            <div class="col-md-10">
+                <div class="col-md-10">
+                    @if (u.Foto != null)
+                    {
+                        <img src="~/Content/Imagenes/Perfil/@u.Foto"
+                              style="width:150px; height:170px;border-color:#403d3d;border-image-width:3px" />
+                    }
+                    else
+                    {
+                        <img src="~/Content/Imagenes/Perfil/no_img.png" 
+                             style="width:150px; height:170px;border-color:#403d3d;border-image-width:3px" />
+                    }
+                </div>
+                <input type="file" name="foto" />
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Apellido, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Apellido, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Apellido, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Correo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Correo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Guardar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
