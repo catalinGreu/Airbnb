@@ -185,7 +185,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AnunciosController.cs" />
-    <Compile Include="Controllers\ControladorEmail.cs" />
+    <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\InicioController.cs" />
     <Compile Include="Controllers\OperacionesBDController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
@@ -231,7 +231,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\Imagenes\Anuncios\" />
     <Folder Include="Content\Imagenes\Perfil\" />
-    <Folder Include="Views\Usuario\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

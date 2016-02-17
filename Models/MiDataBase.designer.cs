@@ -30,9 +30,6 @@ namespace Proyecto_AirBnb.Models
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertUsuario(Usuario instance);
-    partial void UpdateUsuario(Usuario instance);
-    partial void DeleteUsuario(Usuario instance);
     partial void InsertAnuncio(Anuncio instance);
     partial void UpdateAnuncio(Anuncio instance);
     partial void DeleteAnuncio(Anuncio instance);
@@ -42,6 +39,9 @@ namespace Proyecto_AirBnb.Models
     partial void InsertMensaje(Mensaje instance);
     partial void UpdateMensaje(Mensaje instance);
     partial void DeleteMensaje(Mensaje instance);
+    partial void InsertUsuario(Usuario instance);
+    partial void UpdateUsuario(Usuario instance);
+    partial void DeleteUsuario(Usuario instance);
     #endregion
 		
 		public MiDataBaseDataContext() : 
@@ -74,14 +74,6 @@ namespace Proyecto_AirBnb.Models
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<Usuario> Usuarios
-		{
-			get
-			{
-				return this.GetTable<Usuario>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Anuncio> Anuncios
 		{
 			get
@@ -105,263 +97,13 @@ namespace Proyecto_AirBnb.Models
 				return this.GetTable<Mensaje>();
 			}
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Usuarios")]
-	public partial class Usuario : INotifyPropertyChanging, INotifyPropertyChanged
-	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _Id;
-		
-		private string _Nombre;
-		
-		private string _Apellido;
-		
-		private string _Correo;
-		
-		private System.Nullable<System.DateTime> _Nacimiento;
-		
-		private System.Nullable<bool> _Anfitrion;
-		
-		private string _Hash;
-		
-		private string _Foto;
-		
-		private EntitySet<Mensaje> _Mensajes;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(string value);
-    partial void OnIdChanged();
-    partial void OnNombreChanging(string value);
-    partial void OnNombreChanged();
-    partial void OnApellidoChanging(string value);
-    partial void OnApellidoChanged();
-    partial void OnCorreoChanging(string value);
-    partial void OnCorreoChanged();
-    partial void OnNacimientoChanging(System.Nullable<System.DateTime> value);
-    partial void OnNacimientoChanged();
-    partial void OnAnfitrionChanging(System.Nullable<bool> value);
-    partial void OnAnfitrionChanged();
-    partial void OnHashChanging(string value);
-    partial void OnHashChanged();
-    partial void OnFotoChanging(string value);
-    partial void OnFotoChanged();
-    #endregion
-		
-		public Usuario()
-		{
-			this._Mensajes = new EntitySet<Mensaje>(new Action<Mensaje>(this.attach_Mensajes), new Action<Mensaje>(this.detach_Mensajes));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string Id
+		public System.Data.Linq.Table<Usuario> Usuarios
 		{
 			get
 			{
-				return this._Id;
+				return this.GetTable<Usuario>();
 			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Nombre", DbType="NVarChar(50)")]
-		public string Nombre
-		{
-			get
-			{
-				return this._Nombre;
-			}
-			set
-			{
-				if ((this._Nombre != value))
-				{
-					this.OnNombreChanging(value);
-					this.SendPropertyChanging();
-					this._Nombre = value;
-					this.SendPropertyChanged("Nombre");
-					this.OnNombreChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Apellido", DbType="NVarChar(50)")]
-		public string Apellido
-		{
-			get
-			{
-				return this._Apellido;
-			}
-			set
-			{
-				if ((this._Apellido != value))
-				{
-					this.OnApellidoChanging(value);
-					this.SendPropertyChanging();
-					this._Apellido = value;
-					this.SendPropertyChanged("Apellido");
-					this.OnApellidoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Correo", DbType="NVarChar(MAX)")]
-		public string Correo
-		{
-			get
-			{
-				return this._Correo;
-			}
-			set
-			{
-				if ((this._Correo != value))
-				{
-					this.OnCorreoChanging(value);
-					this.SendPropertyChanging();
-					this._Correo = value;
-					this.SendPropertyChanged("Correo");
-					this.OnCorreoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Nacimiento", DbType="Date")]
-		public System.Nullable<System.DateTime> Nacimiento
-		{
-			get
-			{
-				return this._Nacimiento;
-			}
-			set
-			{
-				if ((this._Nacimiento != value))
-				{
-					this.OnNacimientoChanging(value);
-					this.SendPropertyChanging();
-					this._Nacimiento = value;
-					this.SendPropertyChanged("Nacimiento");
-					this.OnNacimientoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Anfitrion", DbType="Bit")]
-		public System.Nullable<bool> Anfitrion
-		{
-			get
-			{
-				return this._Anfitrion;
-			}
-			set
-			{
-				if ((this._Anfitrion != value))
-				{
-					this.OnAnfitrionChanging(value);
-					this.SendPropertyChanging();
-					this._Anfitrion = value;
-					this.SendPropertyChanged("Anfitrion");
-					this.OnAnfitrionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Hash", DbType="Text", UpdateCheck=UpdateCheck.Never)]
-		public string Hash
-		{
-			get
-			{
-				return this._Hash;
-			}
-			set
-			{
-				if ((this._Hash != value))
-				{
-					this.OnHashChanging(value);
-					this.SendPropertyChanging();
-					this._Hash = value;
-					this.SendPropertyChanged("Hash");
-					this.OnHashChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Foto", DbType="NVarChar(50)")]
-		public string Foto
-		{
-			get
-			{
-				return this._Foto;
-			}
-			set
-			{
-				if ((this._Foto != value))
-				{
-					this.OnFotoChanging(value);
-					this.SendPropertyChanging();
-					this._Foto = value;
-					this.SendPropertyChanged("Foto");
-					this.OnFotoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Usuario_Mensaje", Storage="_Mensajes", ThisKey="Id", OtherKey="Id_Destinatario")]
-		public EntitySet<Mensaje> Mensajes
-		{
-			get
-			{
-				return this._Mensajes;
-			}
-			set
-			{
-				this._Mensajes.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Mensajes(Mensaje entity)
-		{
-			this.SendPropertyChanging();
-			entity.Usuario = this;
-		}
-		
-		private void detach_Mensajes(Mensaje entity)
-		{
-			this.SendPropertyChanging();
-			entity.Usuario = null;
 		}
 	}
 	
@@ -1066,6 +808,288 @@ namespace Proyecto_AirBnb.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Usuarios")]
+	public partial class Usuario : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _Id;
+		
+		private string _Nombre;
+		
+		private string _Apellido;
+		
+		private string _Correo;
+		
+		private System.Nullable<System.DateTime> _Nacimiento;
+		
+		private System.Nullable<bool> _Anfitrion;
+		
+		private string _Hash;
+		
+		private string _Foto;
+		
+		private System.Nullable<bool> _Validado;
+		
+		private EntitySet<Mensaje> _Mensajes;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(string value);
+    partial void OnIdChanged();
+    partial void OnNombreChanging(string value);
+    partial void OnNombreChanged();
+    partial void OnApellidoChanging(string value);
+    partial void OnApellidoChanged();
+    partial void OnCorreoChanging(string value);
+    partial void OnCorreoChanged();
+    partial void OnNacimientoChanging(System.Nullable<System.DateTime> value);
+    partial void OnNacimientoChanged();
+    partial void OnAnfitrionChanging(System.Nullable<bool> value);
+    partial void OnAnfitrionChanged();
+    partial void OnHashChanging(string value);
+    partial void OnHashChanged();
+    partial void OnFotoChanging(string value);
+    partial void OnFotoChanged();
+    partial void OnValidadoChanging(System.Nullable<bool> value);
+    partial void OnValidadoChanged();
+    #endregion
+		
+		public Usuario()
+		{
+			this._Mensajes = new EntitySet<Mensaje>(new Action<Mensaje>(this.attach_Mensajes), new Action<Mensaje>(this.detach_Mensajes));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Nombre", DbType="NVarChar(50)")]
+		public string Nombre
+		{
+			get
+			{
+				return this._Nombre;
+			}
+			set
+			{
+				if ((this._Nombre != value))
+				{
+					this.OnNombreChanging(value);
+					this.SendPropertyChanging();
+					this._Nombre = value;
+					this.SendPropertyChanged("Nombre");
+					this.OnNombreChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Apellido", DbType="NVarChar(50)")]
+		public string Apellido
+		{
+			get
+			{
+				return this._Apellido;
+			}
+			set
+			{
+				if ((this._Apellido != value))
+				{
+					this.OnApellidoChanging(value);
+					this.SendPropertyChanging();
+					this._Apellido = value;
+					this.SendPropertyChanged("Apellido");
+					this.OnApellidoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Correo", DbType="NVarChar(MAX)")]
+		public string Correo
+		{
+			get
+			{
+				return this._Correo;
+			}
+			set
+			{
+				if ((this._Correo != value))
+				{
+					this.OnCorreoChanging(value);
+					this.SendPropertyChanging();
+					this._Correo = value;
+					this.SendPropertyChanged("Correo");
+					this.OnCorreoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Nacimiento", DbType="Date")]
+		public System.Nullable<System.DateTime> Nacimiento
+		{
+			get
+			{
+				return this._Nacimiento;
+			}
+			set
+			{
+				if ((this._Nacimiento != value))
+				{
+					this.OnNacimientoChanging(value);
+					this.SendPropertyChanging();
+					this._Nacimiento = value;
+					this.SendPropertyChanged("Nacimiento");
+					this.OnNacimientoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Anfitrion", DbType="Bit")]
+		public System.Nullable<bool> Anfitrion
+		{
+			get
+			{
+				return this._Anfitrion;
+			}
+			set
+			{
+				if ((this._Anfitrion != value))
+				{
+					this.OnAnfitrionChanging(value);
+					this.SendPropertyChanging();
+					this._Anfitrion = value;
+					this.SendPropertyChanged("Anfitrion");
+					this.OnAnfitrionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Hash", DbType="Text", UpdateCheck=UpdateCheck.Never)]
+		public string Hash
+		{
+			get
+			{
+				return this._Hash;
+			}
+			set
+			{
+				if ((this._Hash != value))
+				{
+					this.OnHashChanging(value);
+					this.SendPropertyChanging();
+					this._Hash = value;
+					this.SendPropertyChanged("Hash");
+					this.OnHashChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Foto", DbType="NVarChar(50)")]
+		public string Foto
+		{
+			get
+			{
+				return this._Foto;
+			}
+			set
+			{
+				if ((this._Foto != value))
+				{
+					this.OnFotoChanging(value);
+					this.SendPropertyChanging();
+					this._Foto = value;
+					this.SendPropertyChanged("Foto");
+					this.OnFotoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Validado", DbType="Bit")]
+		public System.Nullable<bool> Validado
+		{
+			get
+			{
+				return this._Validado;
+			}
+			set
+			{
+				if ((this._Validado != value))
+				{
+					this.OnValidadoChanging(value);
+					this.SendPropertyChanging();
+					this._Validado = value;
+					this.SendPropertyChanged("Validado");
+					this.OnValidadoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Usuario_Mensaje", Storage="_Mensajes", ThisKey="Id", OtherKey="Id_Destinatario")]
+		public EntitySet<Mensaje> Mensajes
+		{
+			get
+			{
+				return this._Mensajes;
+			}
+			set
+			{
+				this._Mensajes.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Mensajes(Mensaje entity)
+		{
+			this.SendPropertyChanging();
+			entity.Usuario = this;
+		}
+		
+		private void detach_Mensajes(Mensaje entity)
+		{
+			this.SendPropertyChanging();
+			entity.Usuario = null;
 		}
 	}
 }

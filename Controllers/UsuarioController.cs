@@ -13,7 +13,7 @@ namespace Proyecto_AirBnb.Controllers
 
         public string GeneraID(int length)
         {
-            
+
             const string allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789";
             var randNum = new Random();
             var chars = new char[length];
@@ -46,24 +46,6 @@ namespace Proyecto_AirBnb.Controllers
 
             return EncodePasswordMd5(Convert.ToBase64String(inArray));
         }
-
-        public void MensajeBienvenida(Usuario u)
-        {
-            using (OperacionesBDController db = new OperacionesBDController())
-            {
-                db.MandarMensaje(u);
-            }
-        }
-
-        public void SetAnfitrion(string idUser)
-        {
-            using (OperacionesBDController db = new OperacionesBDController())
-            {
-                db.SetAnfitrion(idUser);
-            }
-
-        }
-
         public static string EncodePasswordMd5(string pass) //Encrypt using MD5    
         {
             Byte[] originalBytes;
@@ -78,61 +60,55 @@ namespace Proyecto_AirBnb.Controllers
             return BitConverter.ToString(encodedBytes);
         }
 
+        #region "acceso a datos"
+        public void MensajeBienvenida(Usuario u)
+        {
+            OperacionesBDController.MandarMensaje(u);
+        }
+
+        public void SetAnfitrion(string idUser)
+        {
+            OperacionesBDController.SetAnfitrion(idUser);
+
+        }
+
+
         public void GrabaUser(Usuario u)
         {
-            using (OperacionesBDController db = new OperacionesBDController())
-            {
-                db.GrabaUser(u);
-            }
+            OperacionesBDController.GrabaUser(u);
         }
 
         public string GetIdByCorreo(string email)
         {
-            using (OperacionesBDController db = new OperacionesBDController())
-            {
-                return db.GetIdByCorreo(email);
-            }
+
+            return OperacionesBDController.GetIdByCorreo(email);
 
         }
 
         public int GetMensajes(string elID)
         {
-            using (OperacionesBDController db = new OperacionesBDController())
-            {
-                return db.GetMensajes(elID);
-            }
+            return OperacionesBDController.GetMensajes(elID);
         }
 
         public bool ExisteUsuario(string hash, string email)
         {
-            using (OperacionesBDController db = new OperacionesBDController())
-            {
-                return db.ExisteUsuario(hash, email);
-            }
+            return OperacionesBDController.ExisteUsuario(hash, email);
 
         }
         public Usuario GetUserById(string elID)
         {
-            using (OperacionesBDController db = new OperacionesBDController())
-            {
-                return db.GetUserById(elID);
-            }
+            return OperacionesBDController.GetUserById(elID);
         }
         public Usuario SetNombreFoto(string id, string ruta)
         {
-            using (OperacionesBDController db = new OperacionesBDController())
-            {
-                return db.SetNombreFoto(id, ruta);
-            }
+            return OperacionesBDController.SetNombreFoto(id, ruta);
 
         }
         public void UpdateHash(string id, string hash)
         {
-            using (OperacionesBDController db = new OperacionesBDController())
-            {
-                db.UpdateHash(id, hash);
-            }
+            OperacionesBDController.UpdateHash(id, hash);
 
         }
+        #endregion
     }
 }

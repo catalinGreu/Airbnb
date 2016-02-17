@@ -1,18 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="BaseAirBnb" Class="MiDataBaseDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="WebSettings" ConnectionString="Data Source=(localdb)\ProjectsV12;Initial Catalog=BaseAirBnb;Integrated Security=True;Connect Timeout=30" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="BaseAirBnbConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.Usuarios" Member="Usuarios">
-    <Type Name="Usuario">
-      <Column Name="Id" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Nombre" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Apellido" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Correo" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="Nacimiento" Type="System.DateTime" DbType="Date" CanBeNull="true" />
-      <Column Name="Anfitrion" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="Hash" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="Foto" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Association Name="Usuario_Mensaje" Member="Mensajes" ThisKey="Id" OtherKey="Id_Destinatario" Type="Mensaje" />
-    </Type>
-  </Table>
   <Table Name="dbo.Anuncios" Member="Anuncios">
     <Type Name="Anuncio">
       <Column Name="Id_Anfitrion" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
@@ -46,6 +33,20 @@
       <Column Name="Id_Mensaje" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Leido" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Association Name="Usuario_Mensaje" Member="Usuario" ThisKey="Id_Destinatario" OtherKey="Id" Type="Usuario" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Usuarios" Member="Usuarios">
+    <Type Name="Usuario">
+      <Column Name="Id" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Apellido" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Correo" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Nacimiento" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Anfitrion" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Hash" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Foto" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Validado" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Usuario_Mensaje" Member="Mensajes" ThisKey="Id" OtherKey="Id_Destinatario" Type="Mensaje" />
     </Type>
   </Table>
 </Database>

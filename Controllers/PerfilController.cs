@@ -50,7 +50,7 @@ namespace Proyecto_AirBnb.Controllers
         {
             Anuncio a = getAnuncioAborrar((int)id);
             //comprobar que no está en reservas
-            if ( estaReservado(a) )
+            if (estaReservado(a))
             {
                 return ("<script>alert('El anuncio está reservado. NO se puede borrar');" +
                         "window.location.assign('http://localhost:17204/Perfil/MiPerfil');" +
@@ -68,7 +68,7 @@ namespace Proyecto_AirBnb.Controllers
         public string MensajeLeido(int? id)
         {
             Usuario queUsu = (Usuario)Session["usuario"];
-        
+
             int mensajesSinLeer = MarcarLeido((int)id, queUsu); //--> volvemos a meter en la Session
             Session["mensajes"] = mensajesSinLeer;
             return ("<script>window.location.assign('http://localhost:17204/Perfil/MiPerfil');" +
@@ -78,49 +78,34 @@ namespace Proyecto_AirBnb.Controllers
 
         private List<Mensaje> getMensajesUsuario(Usuario u)
         {
-            using (OperacionesBDController db = new OperacionesBDController())
-            {
-                return db.getMensajesUsuario(u);
-            }
+
+            return OperacionesBDController.getMensajesUsuario(u);
         }
 
         public List<Anuncio> getAnunciosSubidos(Usuario u)
         {
-            using (OperacionesBDController db = new OperacionesBDController())
-            {
-                return db.getAnunciosSubidos(u);
-            }
+
+            return OperacionesBDController.getAnunciosSubidos(u);
 
         }
         public Anuncio getAnuncioAborrar(int idAnuncio)
         {
-            using (OperacionesBDController db = new OperacionesBDController())
-            {
-                return db.getAnuncioAborrar(idAnuncio);
-            }
+
+            return OperacionesBDController.getAnuncioAborrar(idAnuncio);
 
         }
         public bool estaReservado(Anuncio a)
         {
-            using (OperacionesBDController db = new OperacionesBDController())
-            {
-                return db.estaReservado(a);
-            }
+            return OperacionesBDController.estaReservado(a);
         }
 
         public void BorraAnuncio(Anuncio a)
         {
-            using (OperacionesBDController db = new OperacionesBDController())
-            {
-                db.BorraAnuncio(a);
-            }
+            OperacionesBDController.BorraAnuncio(a);
         }
         public int MarcarLeido(int idMensaje, Usuario u)
         {
-            using (OperacionesBDController db = new OperacionesBDController())
-            {
-                return db.MarcarLeido(idMensaje, u);
-            }
+            return OperacionesBDController.MarcarLeido(idMensaje, u);
         }
         #endregion
         //Perfil/Reservas...

@@ -13,7 +13,7 @@ namespace Proyecto_AirBnb.Controllers
     public class AccountController : Controller
     {
         UsuarioController controlUsu = new UsuarioController();
-        
+
         // GET: Account
 
         public ActionResult Registro(bool? id)
@@ -78,25 +78,26 @@ namespace Proyecto_AirBnb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginViewModel model, bool? id)
         {
-            if(id == null) { id = false; }
+            if (id == null) { id = false; }
             if (ModelState.IsValid)
             {
 
-                string elID = controlUsu.GetIdByCorreo(model.Email);
+                string elID = OperacionesBDController.GetIdByCorreo(model.Email);
                 if (elID == null) //---> No existe ese correo
                 {
                     ViewBag.ErrorUsuario = "El usuario no existe";
                     return View(model);
                 }
                 string hash = controlUsu.Hashea(elID, model.Password);
-
+                //o_O no entiendo por qué funciona cuando restaura la contraseña desde
+                // el email, porq le envio unos caracteres aleatorios...y 
                 if (controlUsu.ExisteUsuario(hash, model.Email))
                 {
                     Usuario u = controlUsu.GetUserById(elID);
                     Session["mensajes"] = controlUsu.GetMensajes(elID);
                     Session["usuario"] = u;
 
-                    if ( (bool) id )
+                    if ((bool)id)
                     {
                         return RedirectToAction("NuevoAnuncio", "Anuncios");
                     }
@@ -126,8 +127,19 @@ namespace Proyecto_AirBnb.Controllers
                     string newHash = controlUsu.Hashea(id, newPass);
                     //update del hash
                     controlUsu.UpdateHash(id, newHash);
-                    return RedirectToAction("Login", "Account");
+
                     //mando correo con pass...
+                    string asunto = "Recuperación de contraseña";
+                    string texto = "Tu nueva contraseña es: " + newPass
+                                   + ".\nAhora puedes entrar a tu perfil."
+                                   + " Le recomendamos cambiarla para una mayor seguridad."
+                                   + " \nPincha en el enlace para iniciar sesión."
+                                   + "\n http://localhost:17204/Account/Login";
+                    EmailController.MandarPass(model.Email, texto, asunto);
+
+                    ViewBag.Mensaje = "Te hemos enviado un e-mail a tu correo con tu nueva contraseña.";
+                    return View();
+
                 }
                 else
                 {
@@ -182,7 +194,7 @@ namespace Proyecto_AirBnb.Controllers
                 Session["usuario"] = u;
             }
 
-            if ((bool)Session["VistaAnuncios"] == true) 
+            if ((bool)Session["VistaAnuncios"] == true)
             {
                 return RedirectToAction("NuevoAnuncio", "Anuncios");
             }

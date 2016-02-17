@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using System.Net.Mail;
 using System.Net;
 using Proyecto_AirBnb.Models;
 
-namespace MerCadona.App_Code.Controladores
+namespace Proyecto_AirBnb.Controllers
 {
-    public static class ControladorEmail
+    public class EmailController : Controller
     {
-
         private static string __from = "mercadonashop@outlook.es";
         private static string __host = "smtp-mail.outlook.com";
         private static SmtpClient __cliente;
@@ -67,7 +67,6 @@ namespace MerCadona.App_Code.Controladores
             }
 
         }
-
-
     }
+
 }

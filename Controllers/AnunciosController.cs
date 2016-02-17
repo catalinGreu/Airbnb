@@ -172,41 +172,26 @@ namespace Proyecto_AirBnb.Controllers
         #region "Accesso a datos"
         private void GrabaAnuncio(Anuncio a)
         {
-            using (OperacionesBDController db = new OperacionesBDController())
-            {
-                db.GrabaAnuncio(a);
-            }
+            OperacionesBDController.GrabaAnuncio(a);
         }
 
         private Anuncio getAnuncioById(int id)
         {
-            using (OperacionesBDController db = new OperacionesBDController())
-            {
-                return db.getAnuncioById(id);
-            }
+            return OperacionesBDController.getAnuncioById(id);
         }
 
         private bool GrabaReserva(Reserva r)
         {
-            using (OperacionesBDController db = new OperacionesBDController())
-            {
-                return db.GrabaReserva(r);
-            }
+            return OperacionesBDController.GrabaReserva(r);
         }
 
         private string getIdAnfitrion(int id)
         {
-            using (OperacionesBDController db = new OperacionesBDController())
-            {
-                return db.getIdAnfitrion(id);
-            }
+            return OperacionesBDController.getIdAnfitrion(id);
         }
         private void MandaNotificacionReserva(Mensaje m)
         {
-            using (OperacionesBDController db = new OperacionesBDController())
-            {
-                db.MandaNotificacionReserva(m);
-            }
+                OperacionesBDController.MandaNotificacionReserva(m);
         }
         #endregion
 

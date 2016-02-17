@@ -4,13 +4,20 @@
     ViewBag.Title = "Recuperación contraseña";
     Layout = "~/Views/Shared/_LayoutNavBar.cshtml";
 }
-
+@{var cambiada = "enabled";}
 <h2 class="col-md-offset-2 col-md-10">ForgotPass</h2>
+
 
 @if (ViewBag.ErrorMessage != null)
 {
-    <h2 class="col-md-offset-2 col-md-10">ErrorMessage</h2>
+    <h2 class="col-md-offset-2 col-md-10">@ViewBag.ErrorMessage</h2>
 }
+@if (ViewBag.Mensaje != null)
+{
+    cambiada = "disabled";
+    <h2 class="col-md-offset-2 col-md-10">@ViewBag.Mensaje</h2>
+}
+
 
 @using (Html.BeginForm("ForgotPass", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" })) 
 {
@@ -38,7 +45,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input @cambiada type="submit" value="Enviar" class="btn btn-primary" />
             </div>
         </div>
     </div>
