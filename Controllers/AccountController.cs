@@ -43,18 +43,26 @@ namespace Proyecto_AirBnb.Controllers
                     }
                     string hash = controlUsu.Hashea(salt, model.Password);
 
-                    //Construyo Usuario
-                    if (id == null) { id = false; };
-                    Usuario u = new Usuario { Id = salt, Nombre = model.Nombre, Apellido = model.Apellido, Correo = model.Correo, Hash = hash, Anfitrion = id, Nacimiento = model.Nacimiento };
-                    controlUsu.MensajeBienvenida(u);
-                    controlUsu.GrabaUser(u);
-                    Session["usuario"] = u;
-                    Session["mensajes"] = controlUsu.GetMensajes(u.Id);
+                    if (!controlUsu.ExisteEmail(model.Correo))//si no se repite Correo
+                    {
 
-                    //lo meto en la sesion para no mantenerlo a través de vistas y controladores.
-                    Session["VistaAnuncios"] = id;
+                        //Construyo Usuario
+                        if (id == null) { id = false; };
+                        Usuario u = new Usuario { Id = salt, Nombre = model.Nombre, Apellido = model.Apellido, Correo = model.Correo, Hash = hash, Anfitrion = id, Nacimiento = model.Nacimiento };
+                        controlUsu.MensajeBienvenida(u);
+                        controlUsu.GrabaUser(u);
+                        Session["usuario"] = u;
+                        Session["mensajes"] = controlUsu.GetMensajes(u.Id);
 
-                    return RedirectToAction("CompletaRegistro", "Account");
+                        //lo meto en la sesion para no mantenerlo a través de vistas y controladores.
+                        Session["VistaAnuncios"] = id;
+
+                        return RedirectToAction("CompletaRegistro", "Account");
+                    }
+                    else
+                    {
+                        ViewBag.Error = "Lo sentimos, ya existe un usuario con ese correo";
+                    }
                 }
                 else
                 {
@@ -89,7 +97,7 @@ namespace Proyecto_AirBnb.Controllers
                     return View(model);
                 }
                 string hash = controlUsu.Hashea(elID, model.Password);
-                
+
 
                 if (controlUsu.ExisteUsuario(hash, model.Email))
                 {
@@ -148,11 +156,11 @@ namespace Proyecto_AirBnb.Controllers
                 else
                 {
                     ViewBag.ErrorMessage = "El usuario no existe";
-                    return View();
+                    return View(model);
                 }
 
             }
-            return View();
+            return View(model);
         }
 
         public ActionResult Desconectar()

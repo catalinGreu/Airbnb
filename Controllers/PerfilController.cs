@@ -11,12 +11,10 @@ namespace Proyecto_AirBnb.Controllers
     {
         UsuarioController control = new UsuarioController();
         // GET: Perfil
-        public ActionResult MiPerfil()
+        public ActionResult PerfilUsuario()
         {
-            if (TempData["error"] != null)
-            {
-                ViewBag.Error = "Faltan Campos";
-            }
+
+            ViewBag.Error = "Faltan Campos";
             return View();
         }
 
@@ -37,7 +35,6 @@ namespace Proyecto_AirBnb.Controllers
                 case "mensajes":
                     List<Mensaje> lista = getMensajesUsuario(conectado);
                     return PartialView("Mensajes", lista);
-
                 case "misAnuncios":
                     List<Anuncio> list = getAnunciosSubidos(conectado);
                     return PartialView("MisAnuncios", list);
@@ -58,7 +55,7 @@ namespace Proyecto_AirBnb.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditarPerfil(EditUserViewModel model, HttpPostedFileBase foto)
+        public string EditarPerfil(EditUserViewModel model, HttpPostedFileBase foto)
         {
 
             if (ModelState.IsValid)
@@ -66,20 +63,27 @@ namespace Proyecto_AirBnb.Controllers
                 Usuario actual = (Usuario)Session["usuario"];
                 actual.Nombre = model.Nombre;
                 actual.Apellido = model.Apellido;
-                actual.Correo = model.Correo;
 
                 if (foto != null)
                 {
+                    if (actual.Foto != null)
+                    {
+
+                        DeleteFile(actual.Foto);//borramos su foto antigua
+                    }
                     actual.Foto = actual.Id + foto.FileName;
                     FileUpload(foto, actual);
                 }
                 control.UpdateUser(actual);
 
-                return RedirectToAction("MiPerfil", "Perfil");
+                return ("<script>alert('Cambios realizados con éxito');" +
+                        "window.location.assign('http://localhost:17204/Perfil/PerfilUsuario');" +
+                    "</script>");
 
             }
-            TempData["error"] = "Faltan Campos";
-            return RedirectToAction("MiPerfil", "Perfil");
+            return ("<script>alert('No puede haber campos vacíos');" +
+                         "window.location.assign('http://localhost:17204/Perfil/PerfilUsuario');" +
+                     "</script>");
         }
 
         public string EliminarAnuncio(int? id)
@@ -89,14 +93,14 @@ namespace Proyecto_AirBnb.Controllers
             if (estaReservado(a))
             {
                 return ("<script>alert('El anuncio está reservado. NO se puede borrar');" +
-                        "window.location.assign('http://localhost:17204/Perfil/MiPerfil');" +
+                        "window.location.assign('http://localhost:17204/Perfil/PerfilUsuario');" +
                     "</script>");
             }
             else
             {
                 BorraAnuncio(a);
                 return ("<script>alert('Anuncio borrado con éxito.');" +
-                       "window.location.assign('http://localhost:17204/Perfil/MiPerfil');" +
+                       "window.location.assign('http://localhost:17204/Perfil/PerfilUsuario');" +
                    "</script>");
             }
 
@@ -107,7 +111,7 @@ namespace Proyecto_AirBnb.Controllers
 
             int mensajesSinLeer = MarcarLeido((int)id, queUsu); //--> volvemos a meter en la Session
             Session["mensajes"] = mensajesSinLeer;
-            return ("<script>window.location.assign('http://localhost:17204/Perfil/MiPerfil');" +
+            return ("<script>window.location.assign('http://localhost:17204/Perfil/PerfilUsuario');" +
                    "</script>");
         }
 
@@ -121,6 +125,16 @@ namespace Proyecto_AirBnb.Controllers
 
 
         }
+        public void DeleteFile(string file)
+        {
+            string fullPath = Request.MapPath("~/Content/Imagenes/Perfil/" + file);
+
+            if (System.IO.File.Exists(fullPath))
+            {
+                System.IO.File.Delete(fullPath);
+            }
+
+        }
         [HttpPost]
         public ActionResult ChangePasswd(ChangePassViewModel model)
         {
@@ -129,23 +143,26 @@ namespace Proyecto_AirBnb.Controllers
                 Usuario u = (Usuario)Session["usuario"];
                 string id = u.Id;
                 string hash = control.Hashea(id, model.OldPassword);
-                
+
                 //comprobamos si la pass antigua esta ok
-                if ( control.ExisteUsuario(hash,u.Correo) )
+                if (control.ExisteUsuario(hash, u.Correo))
                 {
                     string newHash = control.Hashea(id, model.NewPass);
                     control.UpdateHash(id, newHash);
 
                     Session["usuario"] = null;
-                    return RedirectToAction("Inicio", "Index");
+                    return RedirectToAction("Index", "Inicio");
                     //le cambiamos la pass
                 }
             }
             return PartialView(model);
         }
         #region "acceso a datos"
+        public List<Reserva> getReservas(Usuario u)
+        {
+            return OperacionesBDController.GetReservas(u);
+        }
 
-       
         private List<Mensaje> getMensajesUsuario(Usuario u)
         {
 
@@ -179,9 +196,6 @@ namespace Proyecto_AirBnb.Controllers
         }
         #endregion
         //Perfil/Reservas...
-        public List<Reserva> getReservas(Usuario u)
-        {
-            return OperacionesBDController.GetReservas(u);
-        }
+        
     }
 }

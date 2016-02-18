@@ -71,7 +71,7 @@ namespace Proyecto_AirBnb.Models
         [Required]
         [Display(Name = "Apellido")]
         public string Apellido { get; set; }
-        [Required]
+       // [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Correo { get; set; }

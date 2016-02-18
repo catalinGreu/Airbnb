@@ -46,6 +46,12 @@ namespace Proyecto_AirBnb.Controllers
 
             return EncodePasswordMd5(Convert.ToBase64String(inArray));
         }
+
+        public bool ExisteEmail(string correo)
+        {
+            return OperacionesBDController.ExisteMail(correo);
+        }
+
         public static string EncodePasswordMd5(string pass) //Encrypt using MD5    
         {
             Byte[] originalBytes;

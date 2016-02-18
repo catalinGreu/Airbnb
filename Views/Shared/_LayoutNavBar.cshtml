@@ -50,11 +50,11 @@
                                 @Html.ActionLink("Conviértete en Anfitrión", "NuevoAnuncio", "Anuncios", new { area = "" }, new { @class = "btn btn-default navbar-btn" })
                             }
 
-                            <a class="btn btn-primary navbar-btn" href="http://localhost:17204/Perfil/MiPerfil">
+                            <a class="btn btn-primary navbar-btn" href="http://localhost:17204/Perfil/PerfilUsuario">
                                 Mensajes <span class="badge glyphicon-envelope"> @Session["mensajes"]</span>
                             </a>
 
-                            <a href="/Perfil/MiPerfil" class="btn btn-danger navbar-btn">@user.Nombre</a>
+                            <a href="/Perfil/PerfilUsuario" class="btn btn-danger navbar-btn">@user.Nombre</a>
 
                                 @Html.ActionLink("Cerrar sesión", "Desconectar", "Account", new { area = "" }, new { @class = "btn btn-danger navbar-btn" })
 

@@ -9,6 +9,10 @@
 {
     <h1 class="danger">@ViewBag.Menor</h1>
 }
+@if (ViewBag.Error != null)
+{
+    <h1 class="danger">@ViewBag.Error</h1>
+}
 
 @using (Html.BeginForm("Registro", "Account", new { id = ViewBag.Anfitrion }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {

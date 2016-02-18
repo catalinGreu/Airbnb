@@ -60,7 +60,18 @@ namespace Proyecto_AirBnb.Controllers
         {
             using (MiDataBaseDataContext db = new MiDataBaseDataContext())
             {
-                return db.Mensajes.Where(m => m.Id_Destinatario == u.Id && m.Leido == false).ToList();
+                return db.Mensajes.Where(m => m.Id_Destinatario == u.Id && m.Leido==false).ToList();
+            }
+        }
+
+        public static bool ExisteMail(string correo)
+        {
+            using (MiDataBaseDataContext db = new MiDataBaseDataContext())
+            {
+
+                return (from user in db.Usuarios
+                               where user.Correo == correo
+                               select true).SingleOrDefault();
             }
         }
 
