@@ -118,9 +118,14 @@ namespace Proyecto_AirBnb.Controllers
             if (Session["usuario"] != null)
             {
                 Usuario conectado = (Usuario)Session["usuario"];
-                Reserva r = new Models.Reserva { Id_Anuncio = Convert.ToInt16(id), Id_Huesped = conectado.Id };
+                int noches = (int)Session["noches"];
+                Reserva r = new Models.Reserva { Id_Anuncio = Convert.ToInt16(id), Id_Huesped = conectado.Id, Noches = noches };
+                Anuncio a = controlUsu.GetAnuncio(r);
 
+                double total = (double)(noches * a.Precio) * 1.20;
+                r.Precio = (int)total;
                 string idAnfitrion = getIdAnfitrion(Convert.ToInt16(id)); //id ---> Anuncio
+
                 if (idAnfitrion.Equals(conectado.Id))
                 {
                     return ("<script>alert('Este anuncio lo has publicado tu, Capullo!');" +
@@ -131,8 +136,10 @@ namespace Proyecto_AirBnb.Controllers
                 if (GrabaReserva(r))//Compruebo si puede grabar en reservas. Si ha podido--> anuncio no existía
                                     //si no ha podido es porq el anuncio ya estaba reservado por ese Usuario.
                 {
+                    
+                    string texto = "El usuario " + conectado.Nombre + " ha hecho una reserva para su anuncio en la localidad de "
+                        +a.Localidad+", durante " + r.Noches+" noches, por un total de: "+ r.Precio+"€";//+20%
 
-                    string texto = "El usuario " + conectado.Nombre + " ha hecho una reserva para su anuncio con ID=" + Convert.ToInt16(id);
                     Mensaje m = new Mensaje
                     {
                         Fecha = DateTime.Now,

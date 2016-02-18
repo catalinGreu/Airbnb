@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Proyecto_AirBnb.Models;
 
 using System.IO;
+using System.Threading;
 
 namespace Proyecto_AirBnb.Controllers
 {
@@ -180,6 +181,8 @@ namespace Proyecto_AirBnb.Controllers
 
             var path = Server.MapPath("/Content/Imagenes/Perfil/" + u.Id + ".jpg");//--> Nombre foto = ID user
             System.IO.File.WriteAllBytes(path, String_To_Bytes2(dump));
+
+            Thread.Sleep(2000);//----> Para que le de tiempo a guardarla antes de redirigir
 
             Session["usuario"] = null;
             Usuario conFoto = controlUsu.SetNombreFoto(u.Id, u.Id + ".jpg"); //---> escribo en sesion Objeto actualizado

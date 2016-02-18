@@ -33,15 +33,15 @@ namespace Proyecto_AirBnb.Models
     partial void InsertAnuncio(Anuncio instance);
     partial void UpdateAnuncio(Anuncio instance);
     partial void DeleteAnuncio(Anuncio instance);
-    partial void InsertReserva(Reserva instance);
-    partial void UpdateReserva(Reserva instance);
-    partial void DeleteReserva(Reserva instance);
     partial void InsertMensaje(Mensaje instance);
     partial void UpdateMensaje(Mensaje instance);
     partial void DeleteMensaje(Mensaje instance);
     partial void InsertUsuario(Usuario instance);
     partial void UpdateUsuario(Usuario instance);
     partial void DeleteUsuario(Usuario instance);
+    partial void InsertReserva(Reserva instance);
+    partial void UpdateReserva(Reserva instance);
+    partial void DeleteReserva(Reserva instance);
     #endregion
 		
 		public MiDataBaseDataContext() : 
@@ -82,14 +82,6 @@ namespace Proyecto_AirBnb.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<Reserva> Reservas
-		{
-			get
-			{
-				return this.GetTable<Reserva>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Mensaje> Mensajes
 		{
 			get
@@ -103,6 +95,14 @@ namespace Proyecto_AirBnb.Models
 			get
 			{
 				return this.GetTable<Usuario>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Reserva> Reservas
+		{
+			get
+			{
+				return this.GetTable<Reserva>();
 			}
 		}
 	}
@@ -434,157 +434,6 @@ namespace Proyecto_AirBnb.Models
 		{
 			this.SendPropertyChanging();
 			entity.Anuncio = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Reservas")]
-	public partial class Reserva : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _Id_Huesped;
-		
-		private int _Id_Anuncio;
-		
-		private int _Id_Reserva;
-		
-		private EntityRef<Anuncio> _Anuncio;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnId_HuespedChanging(string value);
-    partial void OnId_HuespedChanged();
-    partial void OnId_AnuncioChanging(int value);
-    partial void OnId_AnuncioChanged();
-    partial void OnId_ReservaChanging(int value);
-    partial void OnId_ReservaChanged();
-    #endregion
-		
-		public Reserva()
-		{
-			this._Anuncio = default(EntityRef<Anuncio>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Huesped", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Id_Huesped
-		{
-			get
-			{
-				return this._Id_Huesped;
-			}
-			set
-			{
-				if ((this._Id_Huesped != value))
-				{
-					this.OnId_HuespedChanging(value);
-					this.SendPropertyChanging();
-					this._Id_Huesped = value;
-					this.SendPropertyChanged("Id_Huesped");
-					this.OnId_HuespedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Anuncio", DbType="Int NOT NULL")]
-		public int Id_Anuncio
-		{
-			get
-			{
-				return this._Id_Anuncio;
-			}
-			set
-			{
-				if ((this._Id_Anuncio != value))
-				{
-					if (this._Anuncio.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnId_AnuncioChanging(value);
-					this.SendPropertyChanging();
-					this._Id_Anuncio = value;
-					this.SendPropertyChanged("Id_Anuncio");
-					this.OnId_AnuncioChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Reserva", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id_Reserva
-		{
-			get
-			{
-				return this._Id_Reserva;
-			}
-			set
-			{
-				if ((this._Id_Reserva != value))
-				{
-					this.OnId_ReservaChanging(value);
-					this.SendPropertyChanging();
-					this._Id_Reserva = value;
-					this.SendPropertyChanged("Id_Reserva");
-					this.OnId_ReservaChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Anuncio_Reserva", Storage="_Anuncio", ThisKey="Id_Anuncio", OtherKey="Id_Anuncio", IsForeignKey=true)]
-		public Anuncio Anuncio
-		{
-			get
-			{
-				return this._Anuncio.Entity;
-			}
-			set
-			{
-				Anuncio previousValue = this._Anuncio.Entity;
-				if (((previousValue != value) 
-							|| (this._Anuncio.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Anuncio.Entity = null;
-						previousValue.Reservas.Remove(this);
-					}
-					this._Anuncio.Entity = value;
-					if ((value != null))
-					{
-						value.Reservas.Add(this);
-						this._Id_Anuncio = value.Id_Anuncio;
-					}
-					else
-					{
-						this._Id_Anuncio = default(int);
-					}
-					this.SendPropertyChanged("Anuncio");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
 		}
 	}
 	
@@ -1090,6 +939,205 @@ namespace Proyecto_AirBnb.Models
 		{
 			this.SendPropertyChanging();
 			entity.Usuario = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Reservas")]
+	public partial class Reserva : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _Id_Huesped;
+		
+		private int _Id_Anuncio;
+		
+		private int _Id_Reserva;
+		
+		private System.Nullable<int> _Noches;
+		
+		private System.Nullable<int> _Precio;
+		
+		private EntityRef<Anuncio> _Anuncio;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnId_HuespedChanging(string value);
+    partial void OnId_HuespedChanged();
+    partial void OnId_AnuncioChanging(int value);
+    partial void OnId_AnuncioChanged();
+    partial void OnId_ReservaChanging(int value);
+    partial void OnId_ReservaChanged();
+    partial void OnNochesChanging(System.Nullable<int> value);
+    partial void OnNochesChanged();
+    partial void OnPrecioChanging(System.Nullable<int> value);
+    partial void OnPrecioChanged();
+    #endregion
+		
+		public Reserva()
+		{
+			this._Anuncio = default(EntityRef<Anuncio>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Huesped", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Id_Huesped
+		{
+			get
+			{
+				return this._Id_Huesped;
+			}
+			set
+			{
+				if ((this._Id_Huesped != value))
+				{
+					this.OnId_HuespedChanging(value);
+					this.SendPropertyChanging();
+					this._Id_Huesped = value;
+					this.SendPropertyChanged("Id_Huesped");
+					this.OnId_HuespedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Anuncio", DbType="Int NOT NULL")]
+		public int Id_Anuncio
+		{
+			get
+			{
+				return this._Id_Anuncio;
+			}
+			set
+			{
+				if ((this._Id_Anuncio != value))
+				{
+					if (this._Anuncio.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnId_AnuncioChanging(value);
+					this.SendPropertyChanging();
+					this._Id_Anuncio = value;
+					this.SendPropertyChanged("Id_Anuncio");
+					this.OnId_AnuncioChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Reserva", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id_Reserva
+		{
+			get
+			{
+				return this._Id_Reserva;
+			}
+			set
+			{
+				if ((this._Id_Reserva != value))
+				{
+					this.OnId_ReservaChanging(value);
+					this.SendPropertyChanging();
+					this._Id_Reserva = value;
+					this.SendPropertyChanged("Id_Reserva");
+					this.OnId_ReservaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Noches", DbType="Int")]
+		public System.Nullable<int> Noches
+		{
+			get
+			{
+				return this._Noches;
+			}
+			set
+			{
+				if ((this._Noches != value))
+				{
+					this.OnNochesChanging(value);
+					this.SendPropertyChanging();
+					this._Noches = value;
+					this.SendPropertyChanged("Noches");
+					this.OnNochesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Precio", DbType="Int")]
+		public System.Nullable<int> Precio
+		{
+			get
+			{
+				return this._Precio;
+			}
+			set
+			{
+				if ((this._Precio != value))
+				{
+					this.OnPrecioChanging(value);
+					this.SendPropertyChanging();
+					this._Precio = value;
+					this.SendPropertyChanged("Precio");
+					this.OnPrecioChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Anuncio_Reserva", Storage="_Anuncio", ThisKey="Id_Anuncio", OtherKey="Id_Anuncio", IsForeignKey=true)]
+		public Anuncio Anuncio
+		{
+			get
+			{
+				return this._Anuncio.Entity;
+			}
+			set
+			{
+				Anuncio previousValue = this._Anuncio.Entity;
+				if (((previousValue != value) 
+							|| (this._Anuncio.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Anuncio.Entity = null;
+						previousValue.Reservas.Remove(this);
+					}
+					this._Anuncio.Entity = value;
+					if ((value != null))
+					{
+						value.Reservas.Add(this);
+						this._Id_Anuncio = value.Id_Anuncio;
+					}
+					else
+					{
+						this._Id_Anuncio = default(int);
+					}
+					this.SendPropertyChanged("Anuncio");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

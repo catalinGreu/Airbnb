@@ -68,8 +68,6 @@
         </div>
     </div>
 
-</body>
-</html>
 @section scripts{
 
     <script>
@@ -78,31 +76,35 @@
         - Mensajes
         - Anuncios subidos(por el usuario)
         - Datos de perfil...
+        - Reservas
+        - Pantalla Cambiar Pass...
         */
-        //la unica forma q se me ocurre para cargar algo nada mas entrar al perfil:
-        var json = { "index": "editarPerfil" };
-        $.ajax({
 
-            url: "@Url.Action("Listar", "Perfil")",
-            type: 'POST',
-            contentType: 'application/json',
-            dataType: 'html',
-            data: JSON.stringify(json),
+        //Por defecto cargo el PartialView EditarPerfil
+        // pero si han pulsado el boton de Mensajes en Inicio
+        //Leo ese parámetro y mando petAjax para cargar los mensajes
+        try {
 
-        }).done(function (data) {
+            var opcion = window.location.href.split('?')[1].split('=')[1];
 
-            $("#dashboard-content").html(data);
-        });
+        } catch (e) {
 
+        }
+        if (typeof (opcion) == "undefined") {
+            console.log("Es undefined");
+            var json = { "index": "editarPerfil" };
+            hacerPeticion(json);
 
+        }
+        else {
+            var elJson = { "index": opcion };
+            hacerPeticion(elJson);
+        }
+        //--> como lo cargo todo co peticion ajax...no tengo forma de decirle 
+        // manualmente que se vaya a ESE sito de mensajes, tengo que apañarmelas y hacerlo asi
 
-        //dinamismoooooo
-
-        $(".link").click(function () { //--> como vamos siempre al mismo lado....solo cambia id
-
-            var id = $(this).attr("id");
-            var json = { "index": id };
-
+       
+        function hacerPeticion(json) {
             $.ajax({
 
                 url: "@Url.Action("Listar", "Perfil")",
@@ -115,9 +117,20 @@
 
                 $("#dashboard-content").html(data);
             });
-        });
+        }
 
+        // dinamismooooooo
+        $(".link").click(function () { //--> como vamos siempre al mismo lado....solo cambia id
+
+            var id = $(this).attr("id");
+            var json = { "index": id };
+
+            hacerPeticion(json);
+        });
+               
 
 
     </script>
+</body>
+</html>
 }

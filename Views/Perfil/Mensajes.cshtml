@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Proyecto_AirBnb.Models.Mensaje>
-
+<h3>Mensajes</h3>
 @if (Model.Count() == 0)
 {
     <div class="panel panel-default">
@@ -13,36 +13,96 @@ else
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id_Destinatario)
+                Leido
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Mensaje1)
+                Mensaje
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Fecha)
+                Fecha
             </th>
 
             <th></th>
         </tr>
 
-        @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Id_Destinatario)
-        </td>
+        @foreach (var item in Model)
+        {
+            <tr>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Mensaje1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fecha)
-        </td>
+                @if ( !item.Id_Remitente.Equals("0") )// es una reserva
+                {
+                    if ((bool)item.Leido)
+                    {
+                        <td>
+                            SI
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Mensaje1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Fecha)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Aceptar", "AceptarReserva", "Perfil", new { remitente = item.Id_Remitente }, null) |
+                            @Html.ActionLink("Rechazar", "RechazarReserva", "Perfil", new { remitente = item.Id_Remitente }, null)
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            NO
+                        </td>
+                        <td>
+                            <strong>@Html.DisplayFor(modelItem => item.Mensaje1)</strong>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Fecha)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Leído", "MensajeLeido", "Perfil", new { id = item.Id_Mensaje }, null) |
+                            @Html.ActionLink("Aceptar", "AceptarReserva", "Perfil", new { remitente = item.Id_Remitente }, null) |
+                            @Html.ActionLink("Rechazar", "RechazarReserva", "Perfil", new { remitente = item.Id_Remitente }, null)
+                        </td>
+                    }
+                }
+                else //---> Es mensaje bienvenida
+                {
+                    if ((bool)item.Leido)
+                    {
+                        <td>
+                            SI
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Mensaje1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Fecha)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Eliminar", "EliminarMensaje", "Perfil", new { id = item.Id_Mensaje }, null)
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            NO
+                        </td>
+                        <td>
+                            <strong>@Html.DisplayFor(modelItem => item.Mensaje1)</strong>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Fecha)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Leído", "MensajeLeido", "Perfil", new { id = item.Id_Mensaje}, null)
+                           
+                        </td>
 
-        <td>
-            @Html.ActionLink("Leído","MensajeLeido", "Perfil", new { id=item.Id_Mensaje })
-        </td>
-    </tr>
-}
+                    }
+                }
+                
+            </tr>
+        }
 
     </table>
 }

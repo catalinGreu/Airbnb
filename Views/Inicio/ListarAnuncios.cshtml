@@ -22,7 +22,7 @@ else if (@Model != null)
     foreach (var item in Model)
     {
 
-        <div class="col-xs-offset-2 panel panel-primary" style="width:550px;padding-bottom: 20px;position:relative">
+        <div class="col-xs-offset-2 panel panel-primary" style="width:550px;padding:0px 10px 20px 10px ;position:relative">
             <div class="panel-heading">
                 <h2>
                     @Html.ActionLink(@item.Titulo, "DetalleAnuncio", "Anuncios", new { id = @item.Id_Anuncio }, new { @style = "color:#FFFFFF" })

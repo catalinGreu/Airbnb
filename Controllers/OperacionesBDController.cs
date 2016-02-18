@@ -60,7 +60,7 @@ namespace Proyecto_AirBnb.Controllers
         {
             using (MiDataBaseDataContext db = new MiDataBaseDataContext())
             {
-                return db.Mensajes.Where(m => m.Id_Destinatario == u.Id && m.Leido==false).ToList();
+                return db.Mensajes.Where(m => m.Id_Destinatario == u.Id).ToList();
             }
         }
 
@@ -131,6 +131,27 @@ namespace Proyecto_AirBnb.Controllers
                 return (from res in db.Reservas
                         where res.Id_Anuncio == a.Id_Anuncio
                         select true).SingleOrDefault();
+            }
+        }
+
+        public static Anuncio GetAnuncioByReserva(Reserva r)
+        {
+            using (MiDataBaseDataContext db = new MiDataBaseDataContext())
+            {
+                return db.Anuncios.Where(a => a.Id_Anuncio == r.Id_Anuncio).Single();
+            }
+
+        }
+
+        public static void DeleteMensaje(int id)
+        {
+            using (MiDataBaseDataContext db = new MiDataBaseDataContext())
+            {
+                Mensaje delete = db.Mensajes.Where(m => m.Id_Mensaje == id).Single();
+
+                db.Mensajes.DeleteOnSubmit(delete);
+                db.SubmitChanges();
+
             }
         }
 
@@ -259,11 +280,18 @@ namespace Proyecto_AirBnb.Controllers
 
         }
 
-        public static List<Reserva> GetReservas(Usuario u)
+        public static List<Anuncio> GetReservas(Usuario u)
         {
             using (MiDataBaseDataContext db = new MiDataBaseDataContext())
             {
-                return db.Reservas.Where(r => r.Id_Huesped == u.Id).ToList();
+                List<Anuncio> anunciosReservados = new List<Anuncio>();
+                List<Reserva> reservas = db.Reservas.Where(r => r.Id_Huesped == u.Id).ToList();
+
+                foreach (Reserva r in reservas)
+                {
+                    anunciosReservados.Add(db.Anuncios.Where(a => a.Id_Anuncio == r.Id_Anuncio).Single());
+                }
+                return anunciosReservados;
             }
 
         }

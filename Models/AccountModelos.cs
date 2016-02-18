@@ -85,11 +85,14 @@ namespace Proyecto_AirBnb.Models
         [Display(Name = "Password Actual")]
         public string OldPassword { get; set; }
 
-       
+        [Required]
+        [StringLength(100, ErrorMessage = "La {0} debe tener al menos {2} caracteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Nueva password")]
         public string NewPass { get; set; }
 
+        [Required]
+        [StringLength(100, ErrorMessage = "La {0} debe tener al menos {2} caracteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Confirmar password")]
         [Compare("NewPass", ErrorMessage = "Las passwords no coinciden.")]

@@ -120,6 +120,16 @@ namespace Proyecto_AirBnb.Controllers
             OperacionesBDController.UpdateHash(id, hash);
 
         }
+
+        public void EliminaMensaje(int id)
+        {
+            OperacionesBDController.DeleteMensaje(id);
+        }
+
+        public Anuncio GetAnuncio(Reserva r)
+        {
+            return OperacionesBDController.GetAnuncioByReserva(r);
+        }
         #endregion
     }
 }

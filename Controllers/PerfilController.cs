@@ -43,7 +43,7 @@ namespace Proyecto_AirBnb.Controllers
                     EditUserViewModel edit = new EditUserViewModel { Nombre = conectado.Nombre, Apellido = conectado.Apellido, Correo = conectado.Correo };
                     return PartialView("EditarPerfil", edit);
                 case "reservas":
-                    List<Reserva> reservas = getReservas(conectado);
+                    List<Anuncio> reservas = getReservas(conectado);//en realidad cojo Anuncios, reservados por ese usuario
                     return PartialView("MisReservas", reservas);
                 case "password":
                     ChangePassViewModel model = new ChangePassViewModel();
@@ -69,7 +69,7 @@ namespace Proyecto_AirBnb.Controllers
                     if (actual.Foto != null)
                     {
 
-                        DeleteFile(actual.Foto);//borramos su foto antigua
+                        DeleteFile("/Perfil/"+actual.Foto);//borramos su foto antigua
                     }
                     actual.Foto = actual.Id + foto.FileName;
                     FileUpload(foto, actual);
@@ -93,14 +93,15 @@ namespace Proyecto_AirBnb.Controllers
             if (estaReservado(a))
             {
                 return ("<script>alert('El anuncio está reservado. NO se puede borrar');" +
-                        "window.location.assign('http://localhost:17204/Perfil/PerfilUsuario');" +
+                        "window.location.assign('http://localhost:17204/Perfil/PerfilUsuario?op=misAnuncios');" +
                     "</script>");
             }
             else
             {
                 BorraAnuncio(a);
+                DeleteFile("/Anuncios/"+a.Foto);
                 return ("<script>alert('Anuncio borrado con éxito.');" +
-                       "window.location.assign('http://localhost:17204/Perfil/PerfilUsuario');" +
+                       "window.location.assign('http://localhost:17204/Perfil/PerfilUsuario?op=misAnuncios');" +
                    "</script>");
             }
 
@@ -111,7 +112,13 @@ namespace Proyecto_AirBnb.Controllers
 
             int mensajesSinLeer = MarcarLeido((int)id, queUsu); //--> volvemos a meter en la Session
             Session["mensajes"] = mensajesSinLeer;
-            return ("<script>window.location.assign('http://localhost:17204/Perfil/PerfilUsuario');" +
+            return ("<script>window.location.assign('http://localhost:17204/Perfil/PerfilUsuario?op=mensajes');" +
+                   "</script>");
+        }
+        public string EliminarMensaje(int? id)
+        {
+            control.EliminaMensaje( (int)id );
+            return ("<script>window.location.assign('http://localhost:17204/Perfil/PerfilUsuario?op=mensajes');" +
                    "</script>");
         }
 
@@ -127,7 +134,7 @@ namespace Proyecto_AirBnb.Controllers
         }
         public void DeleteFile(string file)
         {
-            string fullPath = Request.MapPath("~/Content/Imagenes/Perfil/" + file);
+            string fullPath = Request.MapPath("~/Content/Imagenes/" + file);
 
             if (System.IO.File.Exists(fullPath))
             {
@@ -136,7 +143,7 @@ namespace Proyecto_AirBnb.Controllers
 
         }
         [HttpPost]
-        public ActionResult ChangePasswd(ChangePassViewModel model)
+        public string ChangePasswd(ChangePassViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -151,14 +158,18 @@ namespace Proyecto_AirBnb.Controllers
                     control.UpdateHash(id, newHash);
 
                     Session["usuario"] = null;
-                    return RedirectToAction("Index", "Inicio");
+                    return ("<script>alert('Contraseña cambiada con éxito');" +
+                        "window.location.assign('http://localhost:17204/Inicio/Index');" +
+                    "</script>");
                     //le cambiamos la pass
                 }
             }
-            return PartialView(model);
+            return ("<script>alert('Datos erróneos. Compruebe que la contraseña antigua sea la misma o la nueva coincida en ambos campos');" +
+                       "window.location.assign('http://localhost:17204/Perfil/PerfilUsuario?op=password');" +
+                   "</script>");
         }
         #region "acceso a datos"
-        public List<Reserva> getReservas(Usuario u)
+        public List<Anuncio> getReservas(Usuario u)
         {
             return OperacionesBDController.GetReservas(u);
         }
