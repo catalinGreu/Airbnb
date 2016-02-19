@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Proyecto_AirBnb.Models;
+using Proyecto_AirBnb.Filtros;
 namespace Proyecto_AirBnb.Controllers
 {
     public class AnunciosController : Controller
@@ -63,12 +64,15 @@ namespace Proyecto_AirBnb.Controllers
             }
             return View();
         }
-
+        //[Authorize]
         public ActionResult CompletaAnuncio()
         {
             return View();
         }
+
         [HttpPost]
+        //[Authorize]
+        [SessionExpirada]
         [ValidateAntiForgeryToken]
         public ActionResult CompletaAnuncio(CompletaAnuncioViewModel model)
         {
@@ -107,12 +111,14 @@ namespace Proyecto_AirBnb.Controllers
             Anuncio a = getAnuncioById((int)id);
             return View(a);
         }
+        //[Authorize]
         public ActionResult ListarAnuncios()
         {
             List<Anuncio> lista = (List<Anuncio>)TempData["lista"];
             return View(lista);
         }
 
+        
         public string Reserva(string id) //--> ID del Anuncio
         {
             if (Session["usuario"] != null)

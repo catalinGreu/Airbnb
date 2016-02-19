@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Proyecto_AirBnb.Models;
 using System.Threading.Tasks;
-
+using Proyecto_AirBnb.Filtros;
 namespace Proyecto_AirBnb.Controllers
 {
     
@@ -14,6 +14,7 @@ namespace Proyecto_AirBnb.Controllers
         MiDataBaseDataContext db = new MiDataBaseDataContext();
 
         // GET: Inicio
+        [RefrescaMensajes]
         public ActionResult Index(Usuario u)
         {            
             return View(u);

@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
 using Proyecto_AirBnb.Models;
-
+using Proyecto_AirBnb.Filtros;
 using System.IO;
 using System.Threading;
 
@@ -26,6 +26,7 @@ namespace Proyecto_AirBnb.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+       
         [ValidateAntiForgeryToken]
         public ActionResult Registro(RegistroViewModel model, bool? id) //el id me dice si será o no anfitrion
         {
@@ -182,6 +183,7 @@ namespace Proyecto_AirBnb.Controllers
             return RedirectToAction("Index", "Inicio");
         }
 
+        [SessionExpirada]
         public ActionResult Webcam() //--> subo from webcam
         {
             Usuario u = (Usuario)Session["usuario"];
@@ -206,6 +208,8 @@ namespace Proyecto_AirBnb.Controllers
             }
             return RedirectToAction("Index", "Inicio", new { usuario = conFoto });
         }
+
+        [SessionExpirada]
         public ActionResult FileUpload(HttpPostedFileBase file) // ---> subo Upload
         {
             Usuario u = (Usuario)Session["usuario"];

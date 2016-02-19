@@ -4,13 +4,16 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Proyecto_AirBnb.Models;
-
+using Proyecto_AirBnb.Filtros;
 namespace Proyecto_AirBnb.Controllers
 {
+    //[Authorize] //---> Para todos los Action del Controller---> NO me deja pasar ni estando loggeado. Falta configuracion
+    [SessionExpirada]
     public class PerfilController : Controller
     {
         UsuarioController control = new UsuarioController();
         // GET: Perfil
+        [RefrescaMensajes]
         public ActionResult PerfilUsuario()
         {
 
@@ -27,6 +30,7 @@ namespace Proyecto_AirBnb.Controllers
             return View();
         }
 
+       
         public PartialViewResult Listar(string index)
         {
             Usuario conectado = (Usuario)Session["usuario"];
