@@ -72,9 +72,9 @@ namespace Proyecto_AirBnb.Controllers
         }
 
         #region "acceso a datos"
-        public void MensajeBienvenida(Usuario u)
+        public void MensajeBienvenida(Mensaje m)
         {
-            OperacionesBDController.MandarMensaje(u);
+            OperacionesBDController.MandarMensaje(m);
         }
 
         public void SetAnfitrion(string idUser)

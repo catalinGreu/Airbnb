@@ -50,7 +50,19 @@ namespace Proyecto_AirBnb.Controllers
                         //Construyo Usuario
                         if (id == null) { id = false; };
                         Usuario u = new Usuario { Id = salt, Nombre = model.Nombre, Apellido = model.Apellido, Correo = model.Correo, Hash = hash, Anfitrion = id, Nacimiento = model.Nacimiento };
-                        controlUsu.MensajeBienvenida(u);
+                        string mensaje = u.Nombre + ", el equipo de AirBnb le da la bienvenida. " +
+                                                        " Gracias por registrarse con nosotros.";
+                        Mensaje m = new Mensaje
+                        {
+                            Id_Destinatario = u.Id,
+                            Id_Remitente = "0",//---> El 0 es el equipo
+                            Fecha = DateTime.Now,
+                            Mensaje1 = mensaje,
+                            Leido = false,
+                            Tipo = "bienvenida"
+
+                        };
+                        controlUsu.MensajeBienvenida(m);
                         controlUsu.GrabaUser(u);
                         Session["usuario"] = u;
                         Session["mensajes"] = controlUsu.GetMensajes(u.Id);

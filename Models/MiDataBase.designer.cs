@@ -938,6 +938,8 @@ namespace Proyecto_AirBnb.Models
 		
 		private System.Nullable<int> _Id_Reserva;
 		
+		private string _Tipo;
+		
 		private EntityRef<Usuario> _Usuario;
 		
     #region Extensibility Method Definitions
@@ -958,6 +960,8 @@ namespace Proyecto_AirBnb.Models
     partial void OnLeidoChanged();
     partial void OnId_ReservaChanging(System.Nullable<int> value);
     partial void OnId_ReservaChanged();
+    partial void OnTipoChanging(string value);
+    partial void OnTipoChanged();
     #endregion
 		
 		public Mensaje()
@@ -1106,6 +1110,26 @@ namespace Proyecto_AirBnb.Models
 					this._Id_Reserva = value;
 					this.SendPropertyChanged("Id_Reserva");
 					this.OnId_ReservaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tipo", DbType="NVarChar(50)")]
+		public string Tipo
+		{
+			get
+			{
+				return this._Tipo;
+			}
+			set
+			{
+				if ((this._Tipo != value))
+				{
+					this.OnTipoChanging(value);
+					this.SendPropertyChanging();
+					this._Tipo = value;
+					this.SendPropertyChanged("Tipo");
+					this.OnTipoChanged();
 				}
 			}
 		}

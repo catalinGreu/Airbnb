@@ -154,26 +154,7 @@ namespace Proyecto_AirBnb.Controllers
 
             }
         }
-
-        public static void MandarMensaje(Usuario u)
-        {
-            using (MiDataBaseDataContext db = new MiDataBaseDataContext())
-            {
-                string mensaje = u.Nombre + ", el equipo de AirBnb le da la bienvenida. " +
-                                        " Gracias por registrarse con nosotros.";
-                Mensaje m = new Mensaje
-                {
-                    Id_Destinatario = u.Id,
-                    Id_Remitente = "0",//---> El 0 es el equipo
-                    Fecha = DateTime.Now,
-                    Mensaje1 = mensaje,
-                    Leido = false
-
-                };
-                db.Mensajes.InsertOnSubmit(m);
-                db.SubmitChanges();
-            }
-        }
+       
 
         public static void BorraAnuncio(Anuncio a)
         {
@@ -193,7 +174,6 @@ namespace Proyecto_AirBnb.Controllers
                 db.Mensajes.Where(m => m.Id_Mensaje == idMensaje).Single().Leido = true;
 
                 db.SubmitChanges();
-                //Usuario u = (Usuario)Session["usuario"]; por alguna razon aqui es null el user...
                 return GetMensajes(u.Id);
             }
 
@@ -286,39 +266,24 @@ namespace Proyecto_AirBnb.Controllers
             }
         }
 
-        public static void MandaNotificacionReserva(Mensaje m)
+
+        public static void MandarMensaje(Mensaje m)
         {
             using (MiDataBaseDataContext db = new MiDataBaseDataContext())
-            {
-                db.Mensajes.InsertOnSubmit(m);
-                db.SubmitChanges();
-            }
-
-        }
-
-        public static void MandarMensajeConfirmacion(string destino, string remitente, string mensaje, int idReserva)
-        {
-            using (MiDataBaseDataContext db = new MiDataBaseDataContext())
-            {
-                Mensaje m = new Mensaje
-                {
-                    Id_Destinatario = destino,
-                    Id_Remitente = remitente,
-                    Mensaje1 = Convert.ToString(mensaje),
-                    Id_Reserva = idReserva,
-                    Fecha = DateTime.Now
-                };
+            {               
                 db.Mensajes.InsertOnSubmit(m);
                 db.SubmitChanges();
             }
         }
 
-        public static void BorrarMensaje(int idReserva)
+        public static void BorrarMensaje(int IdMensaje)
         {
             using (MiDataBaseDataContext db = new MiDataBaseDataContext())
             {
-                db.Mensajes.DeleteOnSubmit(db.Mensajes.Where(m => m.Id_Reserva == idReserva).Single());
+                db.Mensajes.DeleteOnSubmit(db.Mensajes.Where(m => m.Id_Mensaje == IdMensaje).Single());
+                db.SubmitChanges();
             }
+            
 
         }
 

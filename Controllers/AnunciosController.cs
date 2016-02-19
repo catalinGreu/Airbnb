@@ -147,7 +147,8 @@ namespace Proyecto_AirBnb.Controllers
                         Id_Remitente = conectado.Id,
                         Leido = false,
                         Mensaje1 = texto,
-                        Id_Reserva = r.Id_Reserva
+                        Id_Reserva = r.Id_Reserva,
+                        Tipo= "avisoreserva"    //Tipos: bienvenida, avisoReserva, confirmacion, rechazo
                     };
                     MandaNotificacionReserva(m);
                     return ("<script>alert('Reserva realizada con éxito');" +
@@ -199,7 +200,7 @@ namespace Proyecto_AirBnb.Controllers
         }
         private void MandaNotificacionReserva(Mensaje m)
         {
-                OperacionesBDController.MandaNotificacionReserva(m);
+                OperacionesBDController.MandarMensaje(m);
         }
         #endregion
 

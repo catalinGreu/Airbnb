@@ -179,7 +179,7 @@
             @Html.ValidationMessageFor(model => model.Ciudad, "", new { @class = "text-danger" })
 
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Ciudad, new { htmlAttributes = new { @class = "form-control", id = "busqueda" } })
+                @Html.EditorFor(model => model.Ciudad, new { htmlAttributes = new { @class = "form-control", id = "busqueda", @maxlength = 40 } })
 
 
             </div>

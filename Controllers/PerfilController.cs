@@ -54,7 +54,7 @@ namespace Proyecto_AirBnb.Controllers
             return PartialView();
         }
 
-        public void AceptarReserva(string destinatario, string remitente, int? idReserva)//remitente es Anfitrión
+        public ActionResult AceptarReserva(string destinatario, string remitente, int idReserva, int idMensaje)//remitente es Huesped
         {
             //mensaje a Huesped (id huesped de id reserva)
             //mando datos del Anfitrión y del Anuncio.
@@ -62,18 +62,29 @@ namespace Proyecto_AirBnb.Controllers
 
             //borro reserva, borro mensaje de reserva
             Usuario anfitrion = control.GetUserById(destinatario);
-            Reserva r = GetReserva( (int)idReserva);
-            Usuario huesped = control.GetUserById(r.Id_Huesped);
+            Reserva r = GetReserva(idReserva);
+            Usuario huesped = control.GetUserById(remitente);
 
             Anuncio a = getAnuncioById(r.Id_Anuncio);
 
             string mensaje = huesped.Nombre + ", le comunicamos que "+anfitrion.Nombre+" ha aceptado su reserva en "+a.Localidad
                               +" durante " + r.Noches + " noches, por la cuantia de "+r.Precio
                               + "€. Ya puede proceder a realizar el pago de la reserva. Disfrute de su viaje!";
-            MandarMensaje(mensaje, huesped.Id, anfitrion.Id,r.Id_Reserva);
-            BorraMensajeByIdReserva(r.Id_Reserva);
-            BorrarReserva(r.Id_Reserva);
-            
+
+            Mensaje m = new Mensaje
+            {
+                Id_Destinatario = huesped.Id,
+                Id_Remitente = anfitrion.Id,//---> El 0 es el equipo
+                Fecha = DateTime.Now,
+                Mensaje1 = mensaje,
+                Leido = false,
+                Tipo = "confirmacion"
+
+            };
+            MandarMensaje(m);
+            BorraMensajeByIdMensaje(idMensaje);
+            BorrarReserva(idReserva);
+            return RedirectToAction("EditarPerfil", "Perfil");
             
         }
         public void RechazarReserva(string remitente, int idReserva)
@@ -240,13 +251,13 @@ namespace Proyecto_AirBnb.Controllers
         {
             return OperacionesBDController.MarcarLeido(idMensaje, u);
         }
-        public void MandarMensaje(string destino, string remitente, string mensaje, int idReserva)
+        public void MandarMensaje(Mensaje m)
         {
-            OperacionesBDController.MandarMensajeConfirmacion(destino, remitente, mensaje, idReserva);
+            OperacionesBDController.MandarMensaje(m);
         }
-        public void BorraMensajeByIdReserva(int idReserva)
+        public void BorraMensajeByIdMensaje(int idMensaje)
         {
-            OperacionesBDController.BorrarMensaje(idReserva);
+            OperacionesBDController.BorrarMensaje(idMensaje);
         }
         #endregion
         //Perfil/Reservas...
