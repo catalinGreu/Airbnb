@@ -8,36 +8,36 @@
         <elementListCompartment Id="9aa08e05-078f-4ae4-9cf2-51f2dfc9d833" absoluteBounds="0.51500000000000012, 3.585, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="6a5f5879-352c-47ad-b07d-4a3b3b466ce2" absoluteBounds="4.75, 0.625, 2, 1.9631982421875">
-      <DataClassMoniker Name="/MiDataBaseDataContext/Mensaje" />
-      <nestedChildShapes>
-        <elementListCompartment Id="10e01207-08a2-40db-82aa-33989f5219fe" absoluteBounds="4.765, 1.085, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
     <classShape Id="fb1d475c-fe2b-4e0e-8cd0-d04dd0aafb41" absoluteBounds="0.5, 0.5, 2, 2.5401025390625">
       <DataClassMoniker Name="/MiDataBaseDataContext/Usuario" />
       <nestedChildShapes>
         <elementListCompartment Id="f57efc8c-d947-454b-bb3c-c79c811b3ad2" absoluteBounds="0.51500000000000012, 0.96, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.5 : 1.60659912109375); (4.75 : 1.60659912109375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/MiDataBaseDataContext/Usuario/Usuario_Mensaje" />
-      <nodes>
-        <classShapeMoniker Id="fb1d475c-fe2b-4e0e-8cd0-d04dd0aafb41" />
-        <classShapeMoniker Id="6a5f5879-352c-47ad-b07d-4a3b3b466ce2" />
-      </nodes>
-    </associationConnector>
     <classShape Id="a9462a64-2909-4558-ab30-ae4055b6f45b" absoluteBounds="5, 3.5, 2, 1.7708968098958331">
       <DataClassMoniker Name="/MiDataBaseDataContext/Reserva" />
       <nestedChildShapes>
         <elementListCompartment Id="93b1dbd4-e7cf-4357-aef9-98e71477e37a" absoluteBounds="5.015, 3.96, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.5 : 4.38544840494792); (5 : 4.38544840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.5 : 4.38544840494792); (5 : 4.38544840494792)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/MiDataBaseDataContext/Anuncio/Anuncio_Reserva" />
       <nodes>
         <classShapeMoniker Id="9f054451-b22f-49d6-9e56-b6faa7cf339e" />
         <classShapeMoniker Id="a9462a64-2909-4558-ab30-ae4055b6f45b" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="a4fddae1-0d03-4966-8c6f-78ce64978e7f" absoluteBounds="5.125, 0.5, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/MiDataBaseDataContext/Mensaje" />
+      <nestedChildShapes>
+        <elementListCompartment Id="23bc9c66-4125-40e3-a34f-09da7b237823" absoluteBounds="5.14, 0.96, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.5 : 1.57774983723958); (5.125 : 1.57774983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/MiDataBaseDataContext/Usuario/Usuario_Mensaje" />
+      <nodes>
+        <classShapeMoniker Id="fb1d475c-fe2b-4e0e-8cd0-d04dd0aafb41" />
+        <classShapeMoniker Id="a4fddae1-0d03-4966-8c6f-78ce64978e7f" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

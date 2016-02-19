@@ -54,6 +54,33 @@ namespace Proyecto_AirBnb.Controllers
             return PartialView();
         }
 
+        public void AceptarReserva(string destinatario, string remitente, int? idReserva)//remitente es Anfitrión
+        {
+            //mensaje a Huesped (id huesped de id reserva)
+            //mando datos del Anfitrión y del Anuncio.
+            //Avisar de realizar pago
+
+            //borro reserva, borro mensaje de reserva
+            Usuario anfitrion = control.GetUserById(destinatario);
+            Reserva r = GetReserva( (int)idReserva);
+            Usuario huesped = control.GetUserById(r.Id_Huesped);
+
+            Anuncio a = getAnuncioById(r.Id_Anuncio);
+
+            string mensaje = huesped.Nombre + ", le comunicamos que "+anfitrion.Nombre+" ha aceptado su reserva en "+a.Localidad
+                              +" durante " + r.Noches + " noches, por la cuantia de "+r.Precio
+                              + "€. Ya puede proceder a realizar el pago de la reserva. Disfrute de su viaje!";
+            MandarMensaje(mensaje, huesped.Id, anfitrion.Id,r.Id_Reserva);
+            BorraMensajeByIdReserva(r.Id_Reserva);
+            BorrarReserva(r.Id_Reserva);
+            
+            
+        }
+        public void RechazarReserva(string remitente, int idReserva)
+        {
+
+        }
+
         [HttpPost]
         public string EditarPerfil(EditUserViewModel model, HttpPostedFileBase foto)
         {
@@ -69,7 +96,7 @@ namespace Proyecto_AirBnb.Controllers
                     if (actual.Foto != null)
                     {
 
-                        DeleteFile("/Perfil/"+actual.Foto);//borramos su foto antigua
+                        DeleteFile("/Perfil/" + actual.Foto);//borramos su foto antigua
                     }
                     actual.Foto = actual.Id + foto.FileName;
                     FileUpload(foto, actual);
@@ -88,7 +115,7 @@ namespace Proyecto_AirBnb.Controllers
 
         public string EliminarAnuncio(int? id)
         {
-            Anuncio a = getAnuncioAborrar((int)id);
+            Anuncio a = getAnuncioById((int)id);
             //comprobar que no está en reservas
             if (estaReservado(a))
             {
@@ -99,7 +126,7 @@ namespace Proyecto_AirBnb.Controllers
             else
             {
                 BorraAnuncio(a);
-                DeleteFile("/Anuncios/"+a.Foto);
+                DeleteFile("/Anuncios/" + a.Foto);
                 return ("<script>alert('Anuncio borrado con éxito.');" +
                        "window.location.assign('http://localhost:17204/Perfil/PerfilUsuario?op=misAnuncios');" +
                    "</script>");
@@ -117,31 +144,11 @@ namespace Proyecto_AirBnb.Controllers
         }
         public string EliminarMensaje(int? id)
         {
-            control.EliminaMensaje( (int)id );
+            control.EliminaMensaje((int)id);
             return ("<script>window.location.assign('http://localhost:17204/Perfil/PerfilUsuario?op=mensajes');" +
                    "</script>");
         }
 
-        public void FileUpload(HttpPostedFileBase file, Usuario u) // ---> subo Upload
-        {
-
-            string pic = System.IO.Path.GetFileName(u.Id + file.FileName);
-            string path = System.IO.Path.Combine(Server.MapPath("~/Content/Imagenes/Perfil"), pic);
-
-            file.SaveAs(path);
-
-
-        }
-        public void DeleteFile(string file)
-        {
-            string fullPath = Request.MapPath("~/Content/Imagenes/" + file);
-
-            if (System.IO.File.Exists(fullPath))
-            {
-                System.IO.File.Delete(fullPath);
-            }
-
-        }
         [HttpPost]
         public string ChangePasswd(ChangePassViewModel model)
         {
@@ -168,10 +175,38 @@ namespace Proyecto_AirBnb.Controllers
                        "window.location.assign('http://localhost:17204/Perfil/PerfilUsuario?op=password');" +
                    "</script>");
         }
+        public void FileUpload(HttpPostedFileBase file, Usuario u) // ---> subo Upload
+        {
+
+            string pic = System.IO.Path.GetFileName(u.Id + file.FileName);
+            string path = System.IO.Path.Combine(Server.MapPath("~/Content/Imagenes/Perfil"), pic);
+
+            file.SaveAs(path);
+
+
+        }
+        public void DeleteFile(string file)
+        {
+            string fullPath = Request.MapPath("~/Content/Imagenes/" + file);
+
+            if (System.IO.File.Exists(fullPath))
+            {
+                System.IO.File.Delete(fullPath);
+            }
+
+        }
         #region "acceso a datos"
         public List<Anuncio> getReservas(Usuario u)
         {
             return OperacionesBDController.GetReservas(u);
+        }
+        public void BorrarReserva( int idReserva)
+        {
+            OperacionesBDController.BorrarReserva(idReserva);
+        }
+        public Reserva GetReserva(int IdReserva)
+        {
+            return OperacionesBDController.GetReserva(IdReserva);
         }
 
         private List<Mensaje> getMensajesUsuario(Usuario u)
@@ -186,10 +221,10 @@ namespace Proyecto_AirBnb.Controllers
             return OperacionesBDController.getAnunciosSubidos(u);
 
         }
-        public Anuncio getAnuncioAborrar(int idAnuncio)
+        public Anuncio getAnuncioById(int idAnuncio)
         {
 
-            return OperacionesBDController.getAnuncioAborrar(idAnuncio);
+            return OperacionesBDController.GetAnuncio(idAnuncio);
 
         }
         public bool estaReservado(Anuncio a)
@@ -205,8 +240,16 @@ namespace Proyecto_AirBnb.Controllers
         {
             return OperacionesBDController.MarcarLeido(idMensaje, u);
         }
+        public void MandarMensaje(string destino, string remitente, string mensaje, int idReserva)
+        {
+            OperacionesBDController.MandarMensajeConfirmacion(destino, remitente, mensaje, idReserva);
+        }
+        public void BorraMensajeByIdReserva(int idReserva)
+        {
+            OperacionesBDController.BorrarMensaje(idReserva);
+        }
         #endregion
         //Perfil/Reservas...
-        
+
     }
 }

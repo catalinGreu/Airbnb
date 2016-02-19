@@ -146,7 +146,8 @@ namespace Proyecto_AirBnb.Controllers
                         Id_Destinatario = idAnfitrion,
                         Id_Remitente = conectado.Id,
                         Leido = false,
-                        Mensaje1 = texto
+                        Mensaje1 = texto,
+                        Id_Reserva = r.Id_Reserva
                     };
                     MandaNotificacionReserva(m);
                     return ("<script>alert('Reserva realizada con éxito');" +

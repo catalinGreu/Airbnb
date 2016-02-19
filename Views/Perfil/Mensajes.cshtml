@@ -29,7 +29,7 @@ else
         {
             <tr>
 
-                @if ( !item.Id_Remitente.Equals("0") )// es una reserva
+                @if ( !item.Id_Remitente.Equals("0") )// es una Reserva!!
                 {
                     if ((bool)item.Leido)
                     {
@@ -43,8 +43,8 @@ else
                             @Html.DisplayFor(modelItem => item.Fecha)
                         </td>
                         <td>
-                            @Html.ActionLink("Aceptar", "AceptarReserva", "Perfil", new { remitente = item.Id_Remitente }, null) |
-                            @Html.ActionLink("Rechazar", "RechazarReserva", "Perfil", new { remitente = item.Id_Remitente }, null)
+                            @Html.ActionLink("Aceptar", "AceptarReserva", "Perfil", new { destinatario = item.Id_Destinatario,remitente = item.Id_Remitente, idReserva=item.Id_Reserva }, null) 
+                            @Html.ActionLink("Rechazar", "RechazarReserva", "Perfil", new { destinatario = item.Id_Destinatario,remitente = item.Id_Remitente, idReserva = item.Id_Reserva }, null)
                         </td>
                     }
                     else
@@ -59,9 +59,9 @@ else
                             @Html.DisplayFor(modelItem => item.Fecha)
                         </td>
                         <td>
-                            @Html.ActionLink("Leído", "MensajeLeido", "Perfil", new { id = item.Id_Mensaje }, null) |
-                            @Html.ActionLink("Aceptar", "AceptarReserva", "Perfil", new { remitente = item.Id_Remitente }, null) |
-                            @Html.ActionLink("Rechazar", "RechazarReserva", "Perfil", new { remitente = item.Id_Remitente }, null)
+                            @Html.ActionLink("Leído", "MensajeLeido", "Perfil", new { id = item.Id_Mensaje }, null) 
+                            @Html.ActionLink("Aceptar", "AceptarReserva", "Perfil", new { remitente = item.Id_Remitente, idReserva = item.Id_Reserva }, null) 
+                            @Html.ActionLink("Rechazar", "RechazarReserva", "Perfil", new { remitente = item.Id_Remitente, idReserva = item.Id_Reserva }, null)
                         </td>
                     }
                 }
