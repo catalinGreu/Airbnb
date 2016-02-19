@@ -29,27 +29,85 @@ else
         {
             <tr>
 
-                @if ( !item.Id_Remitente.Equals("0") )// es una Reserva o Confirmacion o Rechazo!!
+                @switch (item.Tipo)
                 {
-                    if ((bool)item.Leido)
-                    {
-                        
-                        <td>
-                            SI
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Mensaje1)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Fecha)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Aceptar", "AceptarReserva", "Perfil", new { destinatario = item.Id_Destinatario,remitente = item.Id_Remitente, idReserva=item.Id_Reserva, idMensaje = item.Id_Mensaje }, null) 
-                            @Html.ActionLink("Rechazar", "RechazarReserva", "Perfil", new { destinatario = item.Id_Destinatario,remitente = item.Id_Remitente, idReserva = item.Id_Reserva, idMensaje = item.Id_Mensaje }, null)
-                        </td>
-                    }
-                    else
-                    {
+                    case "bienvenida":
+
+                        if ((bool)item.Leido)
+                        {
+                            <td>
+                                SI
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Mensaje1)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fecha)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Eliminar", "EliminarMensaje", "Perfil", new { id = item.Id_Mensaje }, null)
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                NO
+                            </td>
+                            <td>
+                                <strong>@Html.DisplayFor(modelItem => item.Mensaje1)</strong>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fecha)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Leído", "MensajeLeido", "Perfil", new { id = item.Id_Mensaje }, null)
+                                @Html.ActionLink("Eliminar", "EliminarMensaje", "Perfil", new { id = item.Id_Mensaje }, null)
+
+                            </td>
+
+                        }
+                        break;
+
+                    case "avisoreserva":
+
+                        if ((bool)item.Leido)
+                        {
+
+                            <td>
+                                SI
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Mensaje1)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fecha)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Aceptar", "AccionReserva", "Perfil", new { destinatario = item.Id_Destinatario, remitente = item.Id_Remitente, idReserva = item.Id_Reserva, idMensaje = item.Id_Mensaje, accion = "aceptar" }, null)
+                                @Html.ActionLink("Rechazar", "AccionReserva", "Perfil", new { destinatario = item.Id_Destinatario, remitente = item.Id_Remitente, idReserva = item.Id_Reserva, idMensaje = item.Id_Mensaje, accion = "rechazar" }, null)
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                NO
+                            </td>
+                            <td>
+                                <strong>@Html.DisplayFor(modelItem => item.Mensaje1)</strong>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fecha)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Leído", "MensajeLeido", "Perfil", new { id = item.Id_Mensaje }, null)
+                                @Html.ActionLink("Aceptar", "AccionReserva", "Perfil", new { destinatario = item.Id_Destinatario, remitente = item.Id_Remitente, idReserva = item.Id_Reserva, idMensaje = item.Id_Mensaje, accion = "aceptar" }, null)
+                                @Html.ActionLink("Rechazar", "AccionReserva", "Perfil", new { destinatario = item.Id_Destinatario, remitente = item.Id_Remitente, idReserva = item.Id_Reserva, idMensaje = item.Id_Mensaje, accion = "rechazar" }, null)
+                            </td>
+                        }
+                        break;
+
+                    case "confirmacion": //Confirmación reserva
+
                         <td>
                             NO
                         </td>
@@ -60,48 +118,51 @@ else
                             @Html.DisplayFor(modelItem => item.Fecha)
                         </td>
                         <td>
-                            @Html.ActionLink("Leído", "MensajeLeido", "Perfil", new { id = item.Id_Mensaje }, null) 
-                            @Html.ActionLink("Aceptar", "AceptarReserva", "Perfil", new {destinatario =item.Id_Destinatario, remitente = item.Id_Remitente, idReserva = item.Id_Reserva, idMensaje = item.Id_Mensaje }, null) 
-                            @Html.ActionLink("Rechazar", "RechazarReserva", "Perfil", new { destinatario = item.Id_Destinatario, remitente = item.Id_Remitente, idReserva = item.Id_Reserva, idMensaje = item.Id_Mensaje }, null)
-                        </td>
-                    }
-                }
-                else //---> Es mensaje bienvenida
-                {
-                    if ((bool)item.Leido)
-                    {
-                        <td>
-                            SI
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Mensaje1)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Fecha)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Eliminar", "EliminarMensaje", "Perfil", new { id = item.Id_Mensaje }, null)
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            NO
-                        </td>
-                        <td>
-                            <strong>@Html.DisplayFor(modelItem => item.Mensaje1)</strong>
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Fecha)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Leído", "MensajeLeido", "Perfil", new { id = item.Id_Mensaje}, null)
-                           
+                            @Html.ActionLink("Pagar", "PagarReserva", "Perfil", new { id = item.Id_Mensaje, idReserva = item.Id_Reserva, remitente = item.Id_Remitente, destinatario = item.Id_Destinatario }, null)
+                            @Html.ActionLink("Descartar", "DescartarReserva", "Perfil", new { id = item.Id_Mensaje, idReserva = item.Id_Reserva, remitente = item.Id_Remitente, destinatario = item.Id_Destinatario }, null)
+
                         </td>
 
-                    }
+                        break;
+                    case "rechazo":
+
+                        if ((bool)item.Leido)
+                        {
+                            <td>
+                                SI
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Mensaje1)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fecha)
+                            </td>
+                            <td>
+                                
+                                @Html.ActionLink("Eliminar", "EliminarMensaje", "Perfil", new { id = item.Id_Mensaje }, null)
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                NO
+                            </td>
+                            <td>
+                                <strong>@Html.DisplayFor(modelItem => item.Mensaje1)</strong>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fecha)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Leído", "MensajeLeido", "Perfil", new { id = item.Id_Mensaje }, null)
+                                @Html.ActionLink("Eliminar", "EliminarMensaje", "Perfil", new { id = item.Id_Mensaje }, null)
+                            </td>
+                        }
+
+                        break;
+                    default:
+                        break;
                 }
-                
             </tr>
         }
 

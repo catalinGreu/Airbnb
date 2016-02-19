@@ -54,40 +54,67 @@ namespace Proyecto_AirBnb.Controllers
             return PartialView();
         }
 
-        public ActionResult AceptarReserva(string destinatario, string remitente, int idReserva, int idMensaje)//remitente es Huesped
-        {
-            //mensaje a Huesped (id huesped de id reserva)
-            //mando datos del Anfitrión y del Anuncio.
-            //Avisar de realizar pago
 
-            //borro reserva, borro mensaje de reserva
+        public ActionResult AccionReserva(string destinatario, string remitente, int idReserva, int idMensaje, string accion)
+        {
+
             Usuario anfitrion = control.GetUserById(destinatario);
             Reserva r = GetReserva(idReserva);
             Usuario huesped = control.GetUserById(remitente);
 
             Anuncio a = getAnuncioById(r.Id_Anuncio);
+            Mensaje m = null;
 
-            string mensaje = huesped.Nombre + ", le comunicamos que "+anfitrion.Nombre+" ha aceptado su reserva en "+a.Localidad
-                              +" durante " + r.Noches + " noches, por la cuantia de "+r.Precio
+            if (accion.Equals("aceptar"))
+            {
+                string mensaje = huesped.Nombre + ", le comunicamos que " + anfitrion.Nombre + " ha aceptado su reserva en " + a.Localidad
+                              + " durante " + r.Noches + " noches, por la cuantia de " + r.Precio
                               + "€. Ya puede proceder a realizar el pago de la reserva. Disfrute de su viaje!";
 
-            Mensaje m = new Mensaje
-            {
-                Id_Destinatario = huesped.Id,
-                Id_Remitente = anfitrion.Id,//---> El 0 es el equipo
-                Fecha = DateTime.Now,
-                Mensaje1 = mensaje,
-                Leido = false,
-                Tipo = "confirmacion"
+                m = new Mensaje
+                {
+                    Id_Destinatario = huesped.Id,
+                    Id_Remitente = anfitrion.Id,//---> El 0 es el equipo
+                    Fecha = DateTime.Now,
+                    Mensaje1 = mensaje,
+                    Leido = false,
+                    Tipo = "confirmacion",
+                    Id_Reserva = idReserva
 
-            };
+                };
+            }
+            else if (accion.Equals("rechazar"))
+            {
+                string mensaje = huesped.Nombre + ", lamentamos comunicarle que " + anfitrion.Nombre + " ha rechazado su reserva en " + a.Localidad
+                             + " durante " + r.Noches + " noches, por la cuantia de " + r.Precio
+                             + "€ :(. NO deje de reservar con nosotros.";
+                m = new Mensaje
+                {
+                    Id_Destinatario = huesped.Id,
+                    Id_Remitente = anfitrion.Id,//---> El 0 es el equipo
+                    Fecha = DateTime.Now,
+                    Mensaje1 = mensaje,
+                    Leido = false,
+                    Tipo = "rechazo",
+                    Id_Reserva = idReserva
+
+                };
+            }
+
             MandarMensaje(m);
             BorraMensajeByIdMensaje(idMensaje);
             BorrarReserva(idReserva);
-            return RedirectToAction("EditarPerfil", "Perfil");
-            
+            return RedirectToAction("PerfilUsuario", "Perfil");
+
         }
-        public void RechazarReserva(string remitente, int idReserva)
+
+
+        public void PagarReserva(int id, int idReserva, string remitente, string destinatario)
+        {
+
+        }
+
+        public void DescartarReserva(int id, int idReserva, string remitente, string destinatario)
         {
 
         }
@@ -211,7 +238,7 @@ namespace Proyecto_AirBnb.Controllers
         {
             return OperacionesBDController.GetReservas(u);
         }
-        public void BorrarReserva( int idReserva)
+        public void BorrarReserva(int idReserva)
         {
             OperacionesBDController.BorrarReserva(idReserva);
         }

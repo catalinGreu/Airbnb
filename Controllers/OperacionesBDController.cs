@@ -241,6 +241,7 @@ namespace Proyecto_AirBnb.Controllers
             using (MiDataBaseDataContext db = new MiDataBaseDataContext())
             {
                 db.Reservas.DeleteOnSubmit(db.Reservas.Where(r => r.Id_Reserva == idReserva).Single());
+                db.SubmitChanges();
             }
         }
 

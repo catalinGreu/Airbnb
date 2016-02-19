@@ -31,9 +31,12 @@
                         <li>
                             <a href="#" id="editarPerfil" aria-selected="false" class="sidenav-item link">Editar perfil</a>
                         </li>
-                        <li>
-                            <a href="#" id="misAnuncios" aria-selected="false" class="sidenav-item link">Mis anuncios</a>
-                        </li>
+                        @if ((bool)user.Anfitrion)
+                        {
+                            <li>
+                                <a href="#" id="misAnuncios" aria-selected="false" class="sidenav-item link">Mis anuncios</a>
+                            </li>
+                        }
                         @if ((bool)user.Anfitrion)
                         {
 
@@ -68,69 +71,69 @@
         </div>
     </div>
 
-@section scripts{
+    @section scripts{
 
-    <script>
-        /*
-        Peticion ajax a action que lee el parámetro y devuelve:
-        - Mensajes
-        - Anuncios subidos(por el usuario)
-        - Datos de perfil...
-        - Reservas
-        - Pantalla Cambiar Pass...
-        */
+        <script>
+            /*
+            Peticion ajax a action que lee el parámetro y devuelve:
+            - Mensajes
+            - Anuncios subidos(por el usuario)
+            - Datos de perfil...
+            - Reservas
+            - Pantalla Cambiar Pass...
+            */
 
-        //Por defecto cargo el PartialView EditarPerfil
-        // pero si han pulsado el boton de Mensajes en Inicio
-        //Leo ese parámetro y mando petAjax para cargar los mensajes
-        try {
+            //Por defecto cargo el PartialView EditarPerfil
+            // pero si han pulsado el boton de Mensajes en Inicio
+            //Leo ese parámetro y mando petAjax para cargar los mensajes
+            try {
 
-            var opcion = window.location.href.split('?')[1].split('=')[1];
+                var opcion = window.location.href.split('?')[1].split('=')[1];
 
-        } catch (e) {
+            } catch (e) {
 
-        }
-        if (typeof (opcion) == "undefined") {
-            console.log("Es undefined");
-            var json = { "index": "editarPerfil" };
-            hacerPeticion(json);
+            }
+            if (typeof (opcion) == "undefined") {
+                console.log("Es undefined");
+                var json = { "index": "editarPerfil" };
+                hacerPeticion(json);
 
-        }
-        else {
-            var elJson = { "index": opcion };
-            hacerPeticion(elJson);
-        }
-        //--> como lo cargo todo co peticion ajax...no tengo forma de decirle 
-        // manualmente que se vaya a ESE sito de mensajes, tengo que apañarmelas y hacerlo asi
+            }
+            else {
+                var elJson = { "index": opcion };
+                hacerPeticion(elJson);
+            }
+            //--> como lo cargo todo co peticion ajax...no tengo forma de decirle
+            // manualmente que se vaya a ESE sito de mensajes, tengo que apañarmelas y hacerlo asi
 
-       
-        function hacerPeticion(json) {
-            $.ajax({
 
-                url: "@Url.Action("Listar", "Perfil")",
-                type: 'POST',
-                contentType: 'application/json',
-                dataType: 'html',
-                data: JSON.stringify(json),
+            function hacerPeticion(json) {
+                $.ajax({
 
-            }).done(function (data) {
+                    url: "@Url.Action("Listar", "Perfil")",
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'html',
+                    data: JSON.stringify(json),
 
-                $("#dashboard-content").html(data);
+                }).done(function (data) {
+
+                    $("#dashboard-content").html(data);
+                });
+            }
+
+            // dinamismooooooo
+            $(".link").click(function () { //--> como vamos siempre al mismo lado....solo cambia id
+
+                var id = $(this).attr("id");
+                var json = { "index": id };
+
+                hacerPeticion(json);
             });
-        }
-
-        // dinamismooooooo
-        $(".link").click(function () { //--> como vamos siempre al mismo lado....solo cambia id
-
-            var id = $(this).attr("id");
-            var json = { "index": id };
-
-            hacerPeticion(json);
-        });
-               
 
 
-    </script>
-</body>
+
+        </script>
+    </body>
 </html>
-}
+    }
