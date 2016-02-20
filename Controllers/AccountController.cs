@@ -50,7 +50,7 @@ namespace Proyecto_AirBnb.Controllers
 
                         //Construyo Usuario
                         if (id == null) { id = false; };
-                        Usuario u = new Usuario { Id = salt, Nombre = model.Nombre, Apellido = model.Apellido, Correo = model.Correo, Hash = hash, Anfitrion = id, Nacimiento = model.Nacimiento };
+                        Usuario u = new Usuario { Id = salt, Nombre = model.Nombre, Apellido = model.Apellido, Correo = model.Correo, Hash = hash, Anfitrion = id, Nacimiento = model.Nacimiento, Saldo = 0 };
                         string mensaje = u.Nombre + ", el equipo de AirBnb le da la bienvenida. " +
                                                         " Gracias por registrarse con nosotros.";
                         Mensaje m = new Mensaje

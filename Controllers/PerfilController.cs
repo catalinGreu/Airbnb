@@ -30,7 +30,7 @@ namespace Proyecto_AirBnb.Controllers
             return View();
         }
 
-       
+
         public PartialViewResult Listar(string index)
         {
             Usuario conectado = (Usuario)Session["usuario"];
@@ -108,7 +108,7 @@ namespace Proyecto_AirBnb.Controllers
 
             MandarMensaje(m);
             BorraMensajeByIdMensaje(idMensaje);
-            
+
             return RedirectToAction("PerfilUsuario", "Perfil");
 
         }
@@ -116,28 +116,90 @@ namespace Proyecto_AirBnb.Controllers
 
         public ActionResult PagarReserva(int id, int idReserva, string remitente, string destinatario)
         {
-            Usuario anfitrion = control.GetUserById(destinatario);
-            Reserva r = GetReserva(idReserva);            
-            Usuario huesped = control.GetUserById(remitente);
+            Usuario anfitrion = control.GetUserById(remitente);
+            Reserva r = GetReserva(idReserva);
+            Usuario huesped = control.GetUserById(destinatario);
             Anuncio a = getAnuncioById(r.Id_Anuncio);
 
             ViewBag.Anfitrion = anfitrion;
             ViewBag.Huesped = huesped;
             ViewBag.Reserva = r;
             ViewBag.Anuncio = a;
+            ViewBag.IdMensaje = id;
 
             return View();
 
         }
+        public ActionResult GeneraPDF()
+        {
+            return new Rotativa.ActionAsPdf("PagarReserva");
+        }
         [HttpPost]
-        public void PagarReserva()
+        public void Pagar(PagoViewModel model)
         {
             //borro reserva una vez que haya pagado el Huesped.
+            //guardo en tabla PagosReserva
+            //Aumento saldo Anfitrion
+            //mando mails de confirmacion a ambos.
+            double comision = (double)model.Total * 0.2;
+            int saldo = model.Total - (int)comision;
+            PagosReserva pago = new PagosReserva
+            {
+                Id_Reserva = Convert.ToInt16(model.IdReserva),
+                Id_Usuario = model.IdHuesped,
+                Total = model.Total,
+                Comision = (int)comision,
+                NumTarjeta = model.NumTarjeta
+            };
+
+            //debería generar pdf tb!!!
+            GrabaPagos(pago);
+            AddSaldoToHost(model.IdAnfitrion, saldo);
+            BorrarReserva( Convert.ToInt16(model.IdReserva) );
+
+            Usuario host = control.GetUserById(model.IdAnfitrion);
+            Usuario huesped = control.GetUserById(model.IdHuesped);
+            string texto = host.Nombre + ", le comunicamos que " + huesped.Nombre + 
+                " ya ha realizado el pago de la reserva de su anuncio, por un total de " +
+                saldo + " euros. Gracias por confiar en AirBnb";
+
+            Mensaje m = new Mensaje
+            {
+                Id_Destinatario = model.IdAnfitrion,
+                Id_Remitente = model.IdHuesped,
+                Fecha = DateTime.Now,
+                Leido = false,
+                Mensaje1 = texto,
+                Tipo="bienvenida" //--> por no crearme oootro tipo
+            };
+            MandarMensaje(m);
+            BorraMensajeByIdMensaje(model.IdMensaje);
+            EmailController.ConfirmaReserva(host, "Confirmacion pago", texto, saldo.ToString());
+            ///Y al huesped le tendria que mandar el correo con PDF;
+
         }
 
-        public void DescartarReserva(int id, int idReserva, string remitente, string destinatario)
-        {
 
+
+        public void DescartarReserva(int id, int idReserva, string remitente, string destinatario)//remitente es el Anfitrión que me ha contestado
+        {
+            Usuario host = control.GetUserById(remitente);
+            Usuario huesped = control.GetUserById(destinatario);
+            Reserva r = GetReserva(idReserva);
+            Anuncio a = getAnuncioById(r.Id_Anuncio);
+            string texto = host.Nombre + ", le comunicamos que " + huesped.Nombre +
+                " ha decidido cancelar el pago de la reserva de su anuncio en " + a.Localidad;
+
+            Mensaje m = new Mensaje
+            {
+                Id_Destinatario = host.Id,
+                Id_Remitente = huesped.Id,
+                Fecha = DateTime.Now,
+                Leido = false,
+                Mensaje1=texto,
+                Tipo = "bienvenida" //--> por no crearme oootro tipo
+            };
+            MandarMensaje(m);
         }
 
         [HttpPost]
@@ -255,15 +317,15 @@ namespace Proyecto_AirBnb.Controllers
 
         }
         #region "acceso a datos"
-        public List<Anuncio> getReservas(Usuario u)
+        private List<Anuncio> getReservas(Usuario u)
         {
             return OperacionesBDController.GetReservas(u);
         }
-        public void BorrarReserva(int idReserva)
+        private void BorrarReserva(int idReserva)
         {
             OperacionesBDController.BorrarReserva(idReserva);
         }
-        public Reserva GetReserva(int IdReserva)
+        private Reserva GetReserva(int IdReserva)
         {
             return OperacionesBDController.GetReserva(IdReserva);
         }
@@ -274,38 +336,46 @@ namespace Proyecto_AirBnb.Controllers
             return OperacionesBDController.getMensajesUsuario(u);
         }
 
-        public List<Anuncio> getAnunciosSubidos(Usuario u)
+        private List<Anuncio> getAnunciosSubidos(Usuario u)
         {
 
             return OperacionesBDController.getAnunciosSubidos(u);
 
         }
-        public Anuncio getAnuncioById(int idAnuncio)
+        private Anuncio getAnuncioById(int idAnuncio)
         {
 
             return OperacionesBDController.GetAnuncio(idAnuncio);
 
         }
-        public bool estaReservado(Anuncio a)
+        private bool estaReservado(Anuncio a)
         {
             return OperacionesBDController.estaReservado(a);
         }
 
-        public void BorraAnuncio(Anuncio a)
+        private void BorraAnuncio(Anuncio a)
         {
             OperacionesBDController.BorraAnuncio(a);
         }
-        public int MarcarLeido(int idMensaje, Usuario u)
+        private int MarcarLeido(int idMensaje, Usuario u)
         {
             return OperacionesBDController.MarcarLeido(idMensaje, u);
         }
-        public void MandarMensaje(Mensaje m)
+        private void MandarMensaje(Mensaje m)
         {
             OperacionesBDController.MandarMensaje(m);
         }
-        public void BorraMensajeByIdMensaje(int idMensaje)
+        private void BorraMensajeByIdMensaje(int idMensaje)
         {
             OperacionesBDController.BorrarMensaje(idMensaje);
+        }
+        private void GrabaPagos(PagosReserva pr)
+        {
+            OperacionesBDController.GrabarPago(pr);
+        }
+        private void AddSaldoToHost(string idAnfitrion, int saldo)
+        {
+            OperacionesBDController.AddSaldoToAnfitrion(idAnfitrion, saldo);
         }
         #endregion
         //Perfil/Reservas...

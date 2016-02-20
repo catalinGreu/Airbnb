@@ -16,20 +16,6 @@
       <Association Name="Anuncio_Reserva" Member="Reservas" ThisKey="Id_Anuncio" OtherKey="Id_Anuncio" Type="Reserva" />
     </Type>
   </Table>
-  <Table Name="dbo.Usuarios" Member="Usuarios">
-    <Type Name="Usuario">
-      <Column Name="Id" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Nombre" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Apellido" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Correo" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="Nacimiento" Type="System.DateTime" DbType="Date" CanBeNull="true" />
-      <Column Name="Anfitrion" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="Hash" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="Foto" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Validado" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Association Name="Usuario_Mensaje" Member="Mensajes" ThisKey="Id" OtherKey="Id_Destinatario" Type="Mensaje" />
-    </Type>
-  </Table>
   <Table Name="dbo.Reservas" Member="Reservas">
     <Type Name="Reserva">
       <Column Name="Id_Huesped" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
@@ -51,6 +37,32 @@
       <Column Name="Id_Reserva" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Tipo" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Association Name="Usuario_Mensaje" Member="Usuario" ThisKey="Id_Destinatario" OtherKey="Id" Type="Usuario" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Usuarios" Member="Usuarios">
+    <Type Name="Usuario">
+      <Column Name="Id" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Apellido" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Correo" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Nacimiento" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Anfitrion" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Hash" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Foto" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Saldo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Usuario_Mensaje" Member="Mensajes" ThisKey="Id" OtherKey="Id_Destinatario" Type="Mensaje" />
+      <Association Name="Usuario_PagosReserva" Member="PagosReservas" ThisKey="Id" OtherKey="Id_Usuario" Type="PagosReserva" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PagosReservas" Member="PagosReservas">
+    <Type Name="PagosReserva">
+      <Column Name="Id_Usuario" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Id_Reserva" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Total" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Comision" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IdPago" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="NumTarjeta" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Association Name="Usuario_PagosReserva" Member="Usuario" ThisKey="Id_Usuario" OtherKey="Id" Type="Usuario" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

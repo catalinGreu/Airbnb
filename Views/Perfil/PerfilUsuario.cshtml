@@ -53,14 +53,18 @@
                         <li>
                             <a href="#" id="password" aria-selected="false" class="sidenav-item link">Cambiar Contraseña</a>
                         </li>
-                        <li>
-                            <a href="#" aria-selected="false" class="sidenav-item link">Darse de baja</a>
-                        </li>
+
+                        @if ((bool)user.Anfitrion)
+                        {
+                            <li>
+                                <strong> <h3>SALDO: @user.Saldo euros</h3></strong>
+                            </li>
+                        }
                     </ul>
                 </div>
 
 
-                <a href="#" class="btn btn-block row-space-top-4">Inicio</a>
+                <a href="/Inicio/Index" class="btn btn-block row-space-top-4">Inicio</a>
             </div>
             <div class="col-md-offset-4">
 

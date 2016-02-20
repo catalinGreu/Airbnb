@@ -53,4 +53,16 @@ namespace Proyecto_AirBnb.Models
         public string Salida { get; set; } //Cuándo os piráis?
     }
 
+    public class PagoViewModel
+    {
+
+        public string IdHuesped { get; set; }
+        public string IdAnfitrion { get; set; }
+        public int Total { get; set; }
+        public string IdReserva { get; set; }
+        public long NumTarjeta { get; set; }
+        public int IdMensaje { get; set; }
+
+    }
+
 }

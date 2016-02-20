@@ -47,7 +47,7 @@ namespace Proyecto_AirBnb.Controllers
                 return;
             }
         }
-        public static void ConfirmaReserva(Usuario u, Reserva r, string asunto, string texto, string total)
+        public static void ConfirmaReserva(Usuario u, string asunto, string texto, string total)
         {
             Prepara();
             try

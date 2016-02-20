@@ -70,8 +70,8 @@ namespace Proyecto_AirBnb.Controllers
             {
 
                 return (from user in db.Usuarios
-                               where user.Correo == correo
-                               select true).SingleOrDefault();
+                        where user.Correo == correo
+                        select true).SingleOrDefault();
             }
         }
 
@@ -154,7 +154,7 @@ namespace Proyecto_AirBnb.Controllers
 
             }
         }
-       
+
 
         public static void BorraAnuncio(Anuncio a)
         {
@@ -271,7 +271,7 @@ namespace Proyecto_AirBnb.Controllers
         public static void MandarMensaje(Mensaje m)
         {
             using (MiDataBaseDataContext db = new MiDataBaseDataContext())
-            {               
+            {
                 db.Mensajes.InsertOnSubmit(m);
                 db.SubmitChanges();
             }
@@ -284,7 +284,7 @@ namespace Proyecto_AirBnb.Controllers
                 db.Mensajes.DeleteOnSubmit(db.Mensajes.Where(m => m.Id_Mensaje == IdMensaje).Single());
                 db.SubmitChanges();
             }
-            
+
 
         }
 
@@ -319,6 +319,25 @@ namespace Proyecto_AirBnb.Controllers
 
             }
 
+        }
+
+        public static void GrabarPago(PagosReserva pr)
+        {
+            using (MiDataBaseDataContext db = new MiDataBaseDataContext())
+            {
+                db.PagosReservas.InsertOnSubmit(pr);
+                db.SubmitChanges();
+            }
+        }
+
+        public static void AddSaldoToAnfitrion(string idAnfitrion, int saldo)
+        {
+            using (MiDataBaseDataContext db = new MiDataBaseDataContext())
+            {
+                Usuario anfitiron = db.Usuarios.Where(u => u.Id == idAnfitrion).Single();
+                anfitiron.Saldo += saldo;
+                db.SubmitChanges();
+            }
         }
     }
 }
