@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 using Proyecto_AirBnb.Filtros;
 namespace Proyecto_AirBnb.Controllers
 {
-    
+
     public class InicioController : Controller
     {
-        MiDataBaseDataContext db = new MiDataBaseDataContext();
+
 
         // GET: Inicio
         [RefrescaMensajes]
         public ActionResult Index(Usuario u)
-        {            
+        {
             return View(u);
         }
 
-        
-       
+
+
         [HttpPost]
         public PartialViewResult BuscarAnuncio(BuscaAnuncioViewModel model)//--> formato JSON
         {
@@ -36,8 +36,8 @@ namespace Proyecto_AirBnb.Controllers
             string ddS = model.Salida.Split('/')[1];//--> dd Salida
             string yyS = model.Salida.Split('/')[2];//--> yy Salida
 
-            DateTime llegada = DateTime.Parse( ddL +"/" + mmL + "/" + yyL) ;
-            DateTime salida = DateTime.Parse( ddS + "/" + mmS + "/" +yyS);
+            DateTime llegada = DateTime.Parse(ddL + "/" + mmL + "/" + yyL);
+            DateTime salida = DateTime.Parse(ddS + "/" + mmS + "/" + yyS);
             TimeSpan resta = salida.Subtract(llegada);
             if (resta.Days < 0)
             {
@@ -45,18 +45,41 @@ namespace Proyecto_AirBnb.Controllers
             }
             Session["noches"] = resta.Days;
 
-            List<Anuncio> lista = getAnuncios(model);                     
+            List<Anuncio> lista = getAnuncios(model);
 
             //TempData["lista"] = lista;
-            return PartialView("ListarAnuncios",lista);
+            return PartialView("ListarAnuncios", lista);
+        }
+
+        [HttpPost]
+        public ActionResult GetLocalidades()
+        {
+            string[] locs = Locs();
+            return Json(locs);
         }
 
 
         public List<Anuncio> getAnuncios(BuscaAnuncioViewModel modelo)
         {
-           
-            return db.Anuncios.Where(a => a.Localidad.Contains(modelo.Sitio) && a.Capacidad >= Convert.ToInt16(modelo.Huespedes) ).ToList();
+            using (MiDataBaseDataContext db = new MiDataBaseDataContext())
+            {
 
+                return db.Anuncios.Where(a => a.Localidad.Contains(modelo.Sitio) && a.Capacidad >= Convert.ToInt16(modelo.Huespedes)).ToList();
+            }
+
+        }
+        public string[] Locs()
+        {
+            using (MiDataBaseDataContext db = new MiDataBaseDataContext())
+            {
+                List<Anuncio> anuncios = db.Anuncios.ToList();
+                string[] localidades = new string[anuncios.Count];
+                for (int i = 0; i < anuncios.Count; i++)
+                {
+                    localidades[i] = anuncios[i].Localidad;
+                }
+                return localidades;
+            }
         }
     }
 }

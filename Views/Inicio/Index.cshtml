@@ -94,7 +94,9 @@
                             </span>
                             <input id="location"
                                    type="text"
-                                   class="input-large input-contrast"
+                                   class="input-large input-contrast ui-autocomplete-input"
+                                   autocomplete="off"
+                                   maxlength="40"
                                    placeholder="¿A dónde quieres ir?" />
                             <div id="searchbar-location-error" class="searchbar__location-error hide">
                                 Por favor, elige una ubicación
@@ -175,19 +177,34 @@
     <div id="anuncios"></div>
 }
 @section scripts{
-
+    @*<script src="~/Scripts/jquery.js"></script>*@
+    <script src="~/Scripts/jquery-ui.min.js"></script>
 
     <script>
         $("#checkin").datepicker();
         $("#checkout").datepicker();
 
+        //Pet Ajax al Servidor. Cargamos las localidades de anuncios existentes
 
-        var array = ["miami", "new york", "florida"];
-        $("#location").autocomplete(array);
-    </script>
-    <script>
+        var arrLocs = new Array();
+        $.ajax({
+
+            url: "@Url.Action("GetLocalidades","Inicio")",
+            type: 'POST',
+            traditional: true
+
+        }).done(function (data) {
+
+            $("#location").autocomplete({//POR FIIIIIIIIN
+
+                source: data
+
+            });
+
+        });
 
 
+        //------BUSQUEDA--------------
 
         $("#submit_location").click(function () {
 
