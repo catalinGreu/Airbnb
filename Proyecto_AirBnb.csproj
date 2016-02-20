@@ -143,6 +143,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\CSS_AIRBNB.css" />
+    <Content Include="Content\estilospago.css" />
     <Content Include="Content\jquery-ui.min.css" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.js" />
@@ -225,6 +226,7 @@
     <Content Include="Views\Perfil\MisReservas.cshtml" />
     <Content Include="Views\Perfil\ChangePasswd.cshtml" />
     <Content Include="Views\Perfil\PerfilUsuario.cshtml" />
+    <Content Include="Views\Perfil\PagarReserva.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

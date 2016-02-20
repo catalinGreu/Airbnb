@@ -103,19 +103,36 @@ namespace Proyecto_AirBnb.Controllers
                     Id_Reserva = idReserva
 
                 };
+                BorrarReserva(idReserva);//solo borro reserva si el anfitrión rechaza...
             }
 
             MandarMensaje(m);
             BorraMensajeByIdMensaje(idMensaje);
-            BorrarReserva(idReserva);
+            
             return RedirectToAction("PerfilUsuario", "Perfil");
 
         }
 
 
-        public void PagarReserva(int id, int idReserva, string remitente, string destinatario)
+        public ActionResult PagarReserva(int id, int idReserva, string remitente, string destinatario)
         {
+            Usuario anfitrion = control.GetUserById(destinatario);
+            Reserva r = GetReserva(idReserva);            
+            Usuario huesped = control.GetUserById(remitente);
+            Anuncio a = getAnuncioById(r.Id_Anuncio);
 
+            ViewBag.Anfitrion = anfitrion;
+            ViewBag.Huesped = huesped;
+            ViewBag.Reserva = r;
+            ViewBag.Anuncio = a;
+
+            return View();
+
+        }
+        [HttpPost]
+        public void PagarReserva()
+        {
+            //borro reserva una vez que haya pagado el Huesped.
         }
 
         public void DescartarReserva(int id, int idReserva, string remitente, string destinatario)

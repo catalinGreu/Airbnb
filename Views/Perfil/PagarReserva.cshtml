@@ -1,0 +1,126 @@
+﻿@using Proyecto_AirBnb.Models
+@{
+    ViewBag.Title = "PagarReserva";
+    Layout = "~/Views/Shared/_LayoutNavBar.cshtml";
+}
+
+<link href="~/Content/estilospago.css" rel="stylesheet" type="text/css" />
+
+@{ Anuncio a = (Anuncio)ViewBag.Anuncio;}
+@{ Reserva r = (Reserva)ViewBag.Reserva;}
+<div class="col-xs-offset-1">
+
+
+    <div style="float:left;width:400px;padding:15px">
+        <h1>Pago Reserva</h1>
+
+        <h3>Detalles</h3>
+        <img src="~/Content/Imagenes/Anuncios/@a.Foto" style="width:350px" />
+
+
+        <h3>TOTAL: @r.Precio €</h3>
+
+        <table class="table table-striped">
+            <tr>
+                <th>Titulo</th>
+            </tr>
+            <tr>
+                <td>@a.Titulo</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+            </tr>
+            <tr>
+                <td>@a.Descripcion</td>
+            </tr>
+            <tr>
+                <th>Localidad</th>
+            </tr>
+            <tr>
+                <td>@a.Localidad</td>
+            </tr>
+            <tr>
+                <th>Capacidad</th>
+            </tr>
+            <tr>
+                <td>@a.Capacidad</td>
+            </tr>
+            <tr>
+                <th>Precio/Noche</th>
+            </tr>
+            <tr>
+                <td>@a.Precio</td>
+            </tr>
+            <tr>
+                <th>Nº Noches</th>
+            </tr>
+            <tr>
+                <td>@r.Noches</td>
+            </tr>
+
+        </table>
+
+
+    </div>
+    <div style="padding:20px">
+        <h3>Forma de pago</h3>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><img class="pull-right" src="http://i76.imgup.net/accepted_c22e0.png" /> Detalles Pago</h3>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form" id="payment-form">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <label for="cardNumber">NUMERO DE TARJETA</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="cardNumber" placeholder="Nº tarjeta valido" required autofocus data-stripe="number" maxlength="16" />
+                                                <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-7 col-md-7">
+                                        <div class="form-group">
+                                            <label for="expMonth">VALIDO HASTA</label>
+                                            <div class="col-xs-6 col-lg-6 pl-ziro">
+                                                <input type="text" class="form-control" name="expMonth" maxlength="2" placeholder="MM" required data-stripe="exp_month" />
+                                            </div>
+                                            <div class="col-xs-6 col-lg-6 pl-ziro">
+                                                <input type="text" class="form-control" name="expYear" maxlength="2" placeholder="YY" required data-stripe="exp_year" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-5 col-md-5 pull-right">
+                                        <div class="form-group">
+                                            <label for="cvCode">CODIGO CV</label>
+                                            <input type="password" class="form-control" maxlength="3" name="cvCode" placeholder="CV" required data-stripe="cvc" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <button class="btn btn-success btn-lg btn-block" type="submit">Finalizar pago</button>
+                                    </div>
+                                </div>
+                                <div class="row" style="display:none;">
+                                    <div class="col-xs-12">
+                                        <p class="payment-errors"></p>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
