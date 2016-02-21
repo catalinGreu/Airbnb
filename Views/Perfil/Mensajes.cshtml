@@ -3,7 +3,7 @@
 @if (Model.Count() == 0)
 {
     <div class="panel panel-default">
-        <h2>No tienes mensajes sin leer</h2>
+        <h2>No tienes ningun mensaje</h2>
 
     </div>
 }
@@ -36,13 +36,13 @@ else
                         if ((bool)item.Leido)
                         {
                             <td>
-                                SI
+                                Si
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Mensaje1)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Fecha)
+                                @Html.DisplayFor(modelItem => item.Fecha.Value)
                             </td>
                             <td>
                                 @Html.ActionLink("Eliminar", "EliminarMensaje", "Perfil", new { id = item.Id_Mensaje }, null)
@@ -51,7 +51,7 @@ else
                         else
                         {
                             <td>
-                                NO
+                                No
                             </td>
                             <td>
                                 <strong>@Html.DisplayFor(modelItem => item.Mensaje1)</strong>
@@ -74,7 +74,7 @@ else
                         {
 
                             <td>
-                                SI
+                                Si
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Mensaje1)
@@ -90,7 +90,7 @@ else
                         else
                         {
                             <td>
-                                NO
+                                No
                             </td>
                             <td>
                                 <strong>@Html.DisplayFor(modelItem => item.Mensaje1)</strong>
@@ -109,7 +109,7 @@ else
                     case "confirmacion": //Confirmación reserva
 
                         <td>
-                            NO
+                            No
                         </td>
                         <td>
                             <strong>@Html.DisplayFor(modelItem => item.Mensaje1)</strong>
@@ -129,7 +129,7 @@ else
                         if ((bool)item.Leido)
                         {
                             <td>
-                                SI
+                                Si
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Mensaje1)
@@ -145,7 +145,7 @@ else
                         else
                         {
                             <td>
-                                NO
+                                No
                             </td>
                             <td>
                                 <strong>@Html.DisplayFor(modelItem => item.Mensaje1)</strong>

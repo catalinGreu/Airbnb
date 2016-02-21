@@ -1,21 +1,45 @@
 ﻿@model IEnumerable<Proyecto_AirBnb.Models.Anuncio>
 
-@if (Model.Count() == 0)
+
+
+
+
+
+
+@if (@Model == null)
+{
+    <div class="col-xs-offset-2 panel panel-danger" style="width:550px;padding-bottom: 20px;position:relative">
+        <div class="panel-heading">
+            <h2>
+                ERROR EN LA BÚSQUEDA
+            </h2>
+        </div>
+
+        <div>
+
+            <h3>El número de noches no puede ser inferior o igual a 0</h3>
+
+        </div>
+    </div>
+
+
+}
+else if (Model.Count() == 0)
 {
 
-<div class="col-xs-offset-2 panel panel-danger" style="width:550px;padding-bottom: 20px;position:relative">
-    <div class="panel-heading">
-        <h2>
-            ERROR EN LA BÚSQUEDA
-        </h2>
+    <div class="col-xs-offset-2 panel panel-danger" style="width:550px;padding-bottom: 20px;position:relative">
+        <div class="panel-heading">
+            <h2>
+                ERROR EN LA BÚSQUEDA
+            </h2>
+        </div>
+
+        <div>
+
+            <h3>No se han encontrado coincidencias</h3>
+
+        </div>
     </div>
-
-    <div>
-
-        <h3>No se han encontrado coincidencias</h3>
-
-    </div>
-</div>
 }
 else if (@Model != null)
 {
@@ -65,24 +89,4 @@ else if (@Model != null)
     }
 
 }
-
-else
-{
-    <div class="col-xs-offset-2 panel panel-danger" style="width:550px;padding-bottom: 20px;position:relative">
-        <div class="panel-heading">
-            <h2>
-                ERROR EN LA BÚSQUEDA
-            </h2>
-        </div>
-
-        <div>
-
-            <h3>El número de noches no puede ser inferior a 0</h3>
-
-        </div>
-    </div>
-
-}
-
-
 

@@ -65,6 +65,20 @@ namespace Proyecto_AirBnb.Models
 
     }
 
+    public class FacutraViewModel
+    {
+         public string Foto { get; set; }
+        public string NombreAnfitrion { get; set; }
+        public string ApellidoAnfitiron { get; set; }
+        public string Total { get; set; }
+        public string Titulo { get; set; }
+        public string Descripcion { get; set; }
+        public string Localidad { get; set; }
+        public string Capacidad { get; set; }
+        public string Precio { get; set; }
+        public string Noches { get; set; }
+    }
+
     
 
 }

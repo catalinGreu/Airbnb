@@ -115,6 +115,10 @@ namespace Proyecto_AirBnb.Controllers
         public ActionResult ListarAnuncios()
         {
             List<Anuncio> lista = (List<Anuncio>)TempData["lista"];
+            if (TempData["error"] != null)
+            {
+                ViewBag.Error = TempData["error"];
+            }
             return View(lista);
         }
 

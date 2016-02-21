@@ -10,6 +10,7 @@ namespace Proyecto_AirBnb.Controllers
 {
     //[Authorize] //---> Para todos los Action del Controller---> NO me deja pasar ni estando loggeado. Falta configuracion
     [SessionExpirada]
+    [RefrescaMensajes]
     public class PerfilController : Controller
     {
         UsuarioController control = new UsuarioController();
@@ -18,7 +19,7 @@ namespace Proyecto_AirBnb.Controllers
         Reserva __r;
         Anuncio __a;
         // GET: Perfil
-        [RefrescaMensajes]
+
         public ActionResult PerfilUsuario()
         {
 
@@ -121,12 +122,12 @@ namespace Proyecto_AirBnb.Controllers
 
         public ActionResult PagarReserva(int id, int idReserva, string remitente, string destinatario)
         {
-            __anfitrion = control.GetUserById(remitente);   Session["anfitrion"] = __anfitrion;
-            __r = GetReserva(idReserva);                    Session["reserva"] = __r;
-            __huesped = control.GetUserById(destinatario);  Session["huesped"] = __huesped; //--> Session para leerlo al generar factura
-            __a = getAnuncioById(__r.Id_Anuncio);           Session["anuncio"] = __a;
+            __anfitrion = control.GetUserById(remitente);           Session["anfitrion"] = __anfitrion;
+            __r = GetReserva(idReserva);                            Session["reserva"] = __r;
+            __huesped = control.GetUserById(destinatario);          Session["huesped"] = __huesped; //--> Session para leerlo al generar factura
+            __a = getAnuncioById(__r.Id_Anuncio);                   Session["anuncio"] = __a;
 
-            ViewBag.Anfitrion = __anfitrion;
+            ViewBag.Anfitrion = __anfitrion;                // |----> No Funciona :((((
             ViewBag.Huesped = __huesped;
             ViewBag.Reserva = __r;
             ViewBag.Anuncio = __a;
@@ -135,7 +136,7 @@ namespace Proyecto_AirBnb.Controllers
             return View();
 
         }
-     
+
 
 
         [HttpPost]
@@ -159,13 +160,13 @@ namespace Proyecto_AirBnb.Controllers
             //debería generar pdf tb!!!
             GrabaPagos(pago);
             AddSaldoToHost(model.IdAnfitrion, saldo);
-            BorrarReserva( Convert.ToInt16(model.IdReserva) );
+            BorrarReserva(Convert.ToInt16(model.IdReserva));
 
             Usuario host = control.GetUserById(model.IdAnfitrion);
             Usuario huesped = control.GetUserById(model.IdHuesped);
-            string texto = host.Nombre + ", le comunicamos que " + huesped.Nombre + 
+            string texto = host.Nombre + ", le comunicamos que " + huesped.Nombre +
                 " ya ha realizado el pago de la reserva de su anuncio, por un total de " +
-                saldo + " euros. Gracias por confiar en AirBnb";
+                saldo + " euros.\nGracias por confiar en AirBnb.";
 
             Mensaje m = new Mensaje
             {
@@ -174,23 +175,66 @@ namespace Proyecto_AirBnb.Controllers
                 Fecha = DateTime.Now,
                 Leido = false,
                 Mensaje1 = texto,
-                Tipo="bienvenida" //--> por no crearme oootro tipo
+                Tipo = "bienvenida" //--> por no crearme oootro tipo
             };
             MandarMensaje(m);
             BorraMensajeByIdMensaje(model.IdMensaje);
-            EmailController.ConfirmaReserva(host, "Confirmacion pago", texto, saldo.ToString());
+
+
+            Reserva r = (Reserva)Session["reserva"];
+            Anuncio a = (Anuncio)Session["anuncio"];
+
+            string mensajeHuesped = "<h1>Le comunicamos que su pago ya ha sido realizado.</h1>\n" +
+                                    "<strong><h3>Detalles Factura</h3></strong>"+
+                                    "<table>"+ 
+                                    "<tr><th>Titulo</th>"+
+                                    "<th>Descripcion</th>" +
+                                    "<th>Localidad</th>" +
+                                    "<th>Noches</th>" +
+                                    "<th>Precio</th>" +
+                                    "<th>Total</th>" +
+                                    "<th>Anfitrion</th></tr>" +
+                                    "<tr><td>"+a.Titulo+"</td>"+
+                                    "<td>" + a.Descripcion + "</td>" +
+                                    "<td>" + a.Localidad + "</td>" +
+                                    "<td>" + r.Noches + "</td>" +
+                                    "<td>" + a.Precio + "€</td>" +
+                                    "<td>" + r.Precio + "€</td>" +
+                                    "<td>" + host.Nombre + "</td></tr>" +
+                                    "</table>";
+
+            EmailController.ConfirmaReserva(huesped, "Factura reserva", mensajeHuesped);
+            EmailController.ConfirmaReserva(host, "Confirmacion pago", texto );
             ///Y al huesped le tendria que mandar el correo con PDF;
 
         }
 
         public ActionResult GeneraPDF()
         {
-            return new ActionAsPdf("Factura");
+            Usuario huesped = (Usuario)Session["huesped"];
+            Usuario anf = (Usuario)Session["anfitrion"];
+            Reserva r = (Reserva)Session["reserva"];
+            Anuncio a = (Anuncio)Session["anuncio"];
+
+            FacutraViewModel model = new FacutraViewModel();
+            model.Foto = anf.Foto;
+            model.NombreAnfitrion = anf.Nombre;
+            model.ApellidoAnfitiron = anf.Apellido;
+            model.Total = r.Precio.ToString();
+            model.Titulo = a.Titulo;
+            model.Descripcion = a.Descripcion;
+            model.Localidad = a.Localidad;
+            model.Capacidad = a.Capacidad.ToString();
+            model.Precio = a.Precio.ToString();
+            model.Noches = r.Noches.ToString();
+
+            return new ActionAsPdf("Factura", model);//----> Pasa de mi......
         }
 
-        public ActionResult Factura()
+        
+        public ActionResult Factura(FacutraViewModel model)
         {
-            return View();
+            return View(model);
         }
 
 
@@ -210,7 +254,7 @@ namespace Proyecto_AirBnb.Controllers
                 Id_Remitente = huesped.Id,
                 Fecha = DateTime.Now,
                 Leido = false,
-                Mensaje1=texto,
+                Mensaje1 = texto,
                 Tipo = "bienvenida" //--> por no crearme oootro tipo
             };
             MandarMensaje(m);

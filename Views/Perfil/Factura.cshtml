@@ -1,61 +1,62 @@
-﻿
+﻿@model Proyecto_AirBnb.Models.FacutraViewModel
 @{
     ViewBag.Title = "Factura";
     Layout = "~/Views/Shared/_LayoutNavBar.cshtml";
 }
-@{ Anuncio a = (Anuncio)Session["anuncio"];}
-@{ Usuario huesped = (Usuario)Session["huesped"];}
-@{ Usuario anfi = (Usuario)Session["anfitrion"];}
-@{ Reserva r =(Reserva)Session["reserva"];}
+
 <center>
 
 <h2>Factura</h2>
-    <div>
-        <h1>Pdf de factura</h1>
-        <img src="~/Content/Imagenes/Anuncios/@a.Foto" style="width:350px" />
-        <p><strong> Publicado por: </strong> @anfi.Nombre @anfi.Apellido</p>
+    <div style="float:left;width:400px;padding:15px">
+        <h1>Pago Reserva</h1>
 
-        <h3>TOTAL: @r.Precio €</h3>
+        <h3>Detalles</h3>
+        <img src="~/Content/Imagenes/Anuncios/@Model.Foto" style="width:350px" />
+        <p><strong> Publicado por: </strong> @Model.NombreAnfitrion @Model.ApellidoAnfitiron</p>
 
-        <table class="table table-striped col-md-offset-3">
+        <h3>TOTAL: @Model.Total €</h3>
+
+        <table class="table table-striped">
             <tr>
                 <th>Titulo</th>
             </tr>
             <tr>
-                <td>@a.Titulo</td>
+                <td>@Model.Titulo</td>
             </tr>
             <tr>
                 <th>Descripcion</th>
             </tr>
             <tr>
-                <td>@a.Descripcion</td>
+                <td>@Model.Descripcion</td>
             </tr>
             <tr>
                 <th>Localidad</th>
             </tr>
             <tr>
-                <td>@a.Localidad</td>
+                <td>@Model.Localidad</td>
             </tr>
             <tr>
                 <th>Capacidad</th>
             </tr>
             <tr>
-                <td>@a.Capacidad</td>
+                <td>@Model.Capacidad</td>
             </tr>
             <tr>
                 <th>Precio/Noche</th>
             </tr>
             <tr>
-                <td>@a.Precio</td>
+                <td>@Model.Precio</td>
             </tr>
             <tr>
                 <th>Nº Noches</th>
             </tr>
             <tr>
-                <td>@r.Noches</td>
+                <td>@Model.Noches</td>
             </tr>
 
         </table>
+
+
     </div>
 
 </center>

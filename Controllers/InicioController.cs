@@ -39,15 +39,15 @@ namespace Proyecto_AirBnb.Controllers
             DateTime llegada = DateTime.Parse(ddL + "/" + mmL + "/" + yyL);
             DateTime salida = DateTime.Parse(ddS + "/" + mmS + "/" + yyS);
             TimeSpan resta = salida.Subtract(llegada);
-            if (resta.Days < 0)
+            if (resta.Days < 0 || resta.Days == 0)
             {
                 return PartialView("ListarAnuncios", null);
-            }
+            }            
+           
             Session["noches"] = resta.Days;
 
             List<Anuncio> lista = getAnuncios(model);
 
-            //TempData["lista"] = lista;
             return PartialView("ListarAnuncios", lista);
         }
 

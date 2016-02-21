@@ -7,13 +7,15 @@
 
 
 
-<h2>DetalleAnuncio</h2>
+<h2 class="col-md-offset-2">DetalleAnuncio</h2>
 @{ int noches = (int)Session["noches"];
+
     int precio = (int)@Model.Precio;//a veces es null.....
     int subtotal = noches * precio;
     double iva = subtotal * 0.2;
     double total = subtotal + iva;
 }
+
 <div class="col-xs-offset-2 panel panel-primary" style="width:800px;padding: 20px;position:relative">
     <div class="panel-heading">
         <h1> @Model.Titulo </h1>
