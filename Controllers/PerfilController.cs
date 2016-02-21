@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Proyecto_AirBnb.Models;
 using Proyecto_AirBnb.Filtros;
+using Rotativa;
 namespace Proyecto_AirBnb.Controllers
 {
     //[Authorize] //---> Para todos los Action del Controller---> NO me deja pasar ni estando loggeado. Falta configuracion
@@ -12,6 +13,10 @@ namespace Proyecto_AirBnb.Controllers
     public class PerfilController : Controller
     {
         UsuarioController control = new UsuarioController();
+        Usuario __anfitrion;
+        Usuario __huesped;
+        Reserva __r;
+        Anuncio __a;
         // GET: Perfil
         [RefrescaMensajes]
         public ActionResult PerfilUsuario()
@@ -116,24 +121,23 @@ namespace Proyecto_AirBnb.Controllers
 
         public ActionResult PagarReserva(int id, int idReserva, string remitente, string destinatario)
         {
-            Usuario anfitrion = control.GetUserById(remitente);
-            Reserva r = GetReserva(idReserva);
-            Usuario huesped = control.GetUserById(destinatario);
-            Anuncio a = getAnuncioById(r.Id_Anuncio);
+            __anfitrion = control.GetUserById(remitente);   Session["anfitrion"] = __anfitrion;
+            __r = GetReserva(idReserva);                    Session["reserva"] = __r;
+            __huesped = control.GetUserById(destinatario);  Session["huesped"] = __huesped; //--> Session para leerlo al generar factura
+            __a = getAnuncioById(__r.Id_Anuncio);           Session["anuncio"] = __a;
 
-            ViewBag.Anfitrion = anfitrion;
-            ViewBag.Huesped = huesped;
-            ViewBag.Reserva = r;
-            ViewBag.Anuncio = a;
+            ViewBag.Anfitrion = __anfitrion;
+            ViewBag.Huesped = __huesped;
+            ViewBag.Reserva = __r;
+            ViewBag.Anuncio = __a;
             ViewBag.IdMensaje = id;
 
             return View();
 
         }
-        public ActionResult GeneraPDF()
-        {
-            return new Rotativa.ActionAsPdf("PagarReserva");
-        }
+     
+
+
         [HttpPost]
         public void Pagar(PagoViewModel model)
         {
@@ -179,9 +183,19 @@ namespace Proyecto_AirBnb.Controllers
 
         }
 
+        public ActionResult GeneraPDF()
+        {
+            return new ActionAsPdf("Factura");
+        }
+
+        public ActionResult Factura()
+        {
+            return View();
+        }
 
 
-        public void DescartarReserva(int id, int idReserva, string remitente, string destinatario)//remitente es el Anfitrión que me ha contestado
+
+        public ActionResult DescartarReserva(int id, int idReserva, string remitente, string destinatario)//remitente es el Anfitrión que me ha contestado
         {
             Usuario host = control.GetUserById(remitente);
             Usuario huesped = control.GetUserById(destinatario);
@@ -200,6 +214,10 @@ namespace Proyecto_AirBnb.Controllers
                 Tipo = "bienvenida" //--> por no crearme oootro tipo
             };
             MandarMensaje(m);
+            BorrarReserva(idReserva);
+            BorraMensajeByIdMensaje(id);
+
+            return RedirectToAction("PerfilUsuario", "Perfil");
         }
 
         [HttpPost]

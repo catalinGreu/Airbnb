@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "Factura";
+    Layout = "~/Views/Shared/_LayoutNavBar.cshtml";
+}
+@{ Anuncio a = (Anuncio)Session["anuncio"];}
+@{ Usuario huesped = (Usuario)Session["huesped"];}
+@{ Usuario anfi = (Usuario)Session["anfitrion"];}
+@{ Reserva r =(Reserva)Session["reserva"];}
+<center>
+
+<h2>Factura</h2>
+    <div>
+        <h1>Pdf de factura</h1>
+        <img src="~/Content/Imagenes/Anuncios/@a.Foto" style="width:350px" />
+        <p><strong> Publicado por: </strong> @anfi.Nombre @anfi.Apellido</p>
+
+        <h3>TOTAL: @r.Precio €</h3>
+
+        <table class="table table-striped col-md-offset-3">
+            <tr>
+                <th>Titulo</th>
+            </tr>
+            <tr>
+                <td>@a.Titulo</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+            </tr>
+            <tr>
+                <td>@a.Descripcion</td>
+            </tr>
+            <tr>
+                <th>Localidad</th>
+            </tr>
+            <tr>
+                <td>@a.Localidad</td>
+            </tr>
+            <tr>
+                <th>Capacidad</th>
+            </tr>
+            <tr>
+                <td>@a.Capacidad</td>
+            </tr>
+            <tr>
+                <th>Precio/Noche</th>
+            </tr>
+            <tr>
+                <td>@a.Precio</td>
+            </tr>
+            <tr>
+                <th>Nº Noches</th>
+            </tr>
+            <tr>
+                <td>@r.Noches</td>
+            </tr>
+
+        </table>
+    </div>
+
+</center>
+

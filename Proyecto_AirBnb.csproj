@@ -233,6 +233,7 @@
     <Content Include="Views\Perfil\ChangePasswd.cshtml" />
     <Content Include="Views\Perfil\PerfilUsuario.cshtml" />
     <Content Include="Views\Perfil\PagarReserva.cshtml" />
+    <Content Include="Views\Perfil\Factura.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

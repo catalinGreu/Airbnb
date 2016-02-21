@@ -65,4 +65,6 @@ namespace Proyecto_AirBnb.Models
 
     }
 
+    
+
 }
