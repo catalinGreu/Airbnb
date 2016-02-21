@@ -12,7 +12,6 @@ namespace Proyecto_AirBnb.Controllers
     public class InicioController : Controller
     {
 
-
         // GET: Inicio
         [RefrescaMensajes]
         public ActionResult Index(Usuario u)
@@ -42,8 +41,8 @@ namespace Proyecto_AirBnb.Controllers
             if (resta.Days < 0 || resta.Days == 0)
             {
                 return PartialView("ListarAnuncios", null);
-            }            
-           
+            }
+
             Session["noches"] = resta.Days;
 
             List<Anuncio> lista = getAnuncios(model);
@@ -57,7 +56,15 @@ namespace Proyecto_AirBnb.Controllers
             string[] locs = Locs();
             return Json(locs);
         }
-
+        public string[] Locs()
+        {
+            using (MiDataBaseDataContext db = new MiDataBaseDataContext())
+            {
+                
+                return db.Anuncios.Select(a => a.Localidad).Distinct().ToArray();
+               
+            }
+        }
 
         public List<Anuncio> getAnuncios(BuscaAnuncioViewModel modelo)
         {
@@ -67,19 +74,6 @@ namespace Proyecto_AirBnb.Controllers
                 return db.Anuncios.Where(a => a.Localidad.Contains(modelo.Sitio) && a.Capacidad >= Convert.ToInt16(modelo.Huespedes)).ToList();
             }
 
-        }
-        public string[] Locs()
-        {
-            using (MiDataBaseDataContext db = new MiDataBaseDataContext())
-            {
-                List<Anuncio> anuncios = db.Anuncios.ToList();
-                string[] localidades = new string[anuncios.Count];
-                for (int i = 0; i < anuncios.Count; i++)
-                {
-                    localidades[i] = anuncios[i].Localidad;
-                }
-                return localidades;
-            }
         }
     }
 }

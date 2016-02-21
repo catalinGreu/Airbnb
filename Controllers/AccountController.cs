@@ -85,7 +85,7 @@ namespace Proyecto_AirBnb.Controllers
             }
             return View(model);
         }
-        public ActionResult CompletaRegistro()//el tempdata persiste entre controladores...
+        public ActionResult CompletaRegistro()//el tempdata persiste entre actions...
         {
             return View();
         }
@@ -156,10 +156,10 @@ namespace Proyecto_AirBnb.Controllers
 
                     //mando correo con pass...
                     string asunto = "Recuperación de contraseña";
-                    string texto = "Tu nueva contraseña es: " + newPass
-                                   + ".\nAhora puedes entrar a tu perfil."
+                    string texto = "<h2>Nueva contraseña</h2>\n<p>Tu nueva contraseña es: <strong>" + newPass
+                                   + "</strong>.\nAhora puedes entrar a tu perfil.\n"
                                    + " Le recomendamos cambiarla para una mayor seguridad."
-                                   + " \nPincha en el enlace para iniciar sesión."
+                                   + " \nPincha en el enlace para iniciar sesión.</p>"
                                    + "\n http://localhost:17204/Account/Login";
                     EmailController.MandarPass(model.Email, texto, asunto);
 
@@ -196,7 +196,6 @@ namespace Proyecto_AirBnb.Controllers
             var path = Server.MapPath("/Content/Imagenes/Perfil/" + u.Id + ".jpg");//--> Nombre foto = ID user
             System.IO.File.WriteAllBytes(path, String_To_Bytes2(dump));
 
-            Thread.Sleep(2000);//----> Para que le de tiempo a guardarla antes de redirigir
 
             Session["usuario"] = null;
             Usuario conFoto = controlUsu.SetNombreFoto(u.Id, u.Id + ".jpg"); //---> escribo en sesion Objeto actualizado
@@ -206,6 +205,7 @@ namespace Proyecto_AirBnb.Controllers
             {
                 return RedirectToAction("NuevoAnuncio", "Anuncios");
             }
+            Thread.Sleep(3000);//----> Para que le de tiempo a guardar la foto antes de redirigir
             return RedirectToAction("Index", "Inicio", new { usuario = conFoto });
         }
 

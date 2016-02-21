@@ -8,7 +8,6 @@ using Proyecto_AirBnb.Filtros;
 using Rotativa;
 namespace Proyecto_AirBnb.Controllers
 {
-    //[Authorize] //---> Para todos los Action del Controller---> NO me deja pasar ni estando loggeado. Falta configuracion
     [SessionExpirada]
     [RefrescaMensajes]
     public class PerfilController : Controller
@@ -45,6 +44,7 @@ namespace Proyecto_AirBnb.Controllers
                 case "mensajes":
                     List<Mensaje> lista = getMensajesUsuario(conectado);
                     return PartialView("Mensajes", lista);
+
                 case "misAnuncios":
                     List<Anuncio> list = getAnunciosSubidos(conectado);
                     return PartialView("MisAnuncios", list);
@@ -52,12 +52,15 @@ namespace Proyecto_AirBnb.Controllers
                 case "editarPerfil":
                     EditUserViewModel edit = new EditUserViewModel { Nombre = conectado.Nombre, Apellido = conectado.Apellido, Correo = conectado.Correo };
                     return PartialView("EditarPerfil", edit);
+
                 case "reservas":
                     List<Anuncio> reservas = getReservas(conectado);//en realidad cojo Anuncios, reservados por ese usuario
                     return PartialView("MisReservas", reservas);
+
                 case "password":
                     ChangePassViewModel model = new ChangePassViewModel();
                     return PartialView("ChangePasswd", model);
+
                 default:
                     break;
             }
@@ -164,6 +167,7 @@ namespace Proyecto_AirBnb.Controllers
 
             Usuario host = control.GetUserById(model.IdAnfitrion);
             Usuario huesped = control.GetUserById(model.IdHuesped);
+
             string texto = host.Nombre + ", le comunicamos que " + huesped.Nombre +
                 " ya ha realizado el pago de la reserva de su anuncio, por un total de " +
                 saldo + " euros.\nGracias por confiar en AirBnb.";
@@ -245,6 +249,7 @@ namespace Proyecto_AirBnb.Controllers
             Usuario huesped = control.GetUserById(destinatario);
             Reserva r = GetReserva(idReserva);
             Anuncio a = getAnuncioById(r.Id_Anuncio);
+
             string texto = host.Nombre + ", le comunicamos que " + huesped.Nombre +
                 " ha decidido cancelar el pago de la reserva de su anuncio en " + a.Localidad;
 
@@ -354,7 +359,7 @@ namespace Proyecto_AirBnb.Controllers
                     //le cambiamos la pass
                 }
             }
-            return ("<script>alert('Datos erróneos. Compruebe que la contraseña antigua sea la misma o la nueva coincida en ambos campos');" +
+            return ("<script>alert('Datos erróneos. Compruebe que la contraseña antigua sea la misma o la nueva coincida en ambos campos y tenga al menos 6 caracteres');" +
                        "window.location.assign('http://localhost:17204/Perfil/PerfilUsuario?op=password');" +
                    "</script>");
         }

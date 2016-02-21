@@ -188,7 +188,7 @@ namespace Proyecto_AirBnb.Controllers
 
 
 
-        #region "Accesso a datos"
+        #region "......Accesso a datos......."
         private void GrabaAnuncio(Anuncio a)
         {
             OperacionesBDController.GrabaAnuncio(a);

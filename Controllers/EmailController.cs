@@ -38,6 +38,7 @@ namespace Proyecto_AirBnb.Controllers
                 correo.To.Add(to);
                 correo.Subject = asunto;
                 correo.Body = texto;
+                correo.IsBodyHtml = true;
 
                 __cliente.Send(correo);
             }
